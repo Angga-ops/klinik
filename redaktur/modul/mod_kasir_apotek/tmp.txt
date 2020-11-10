@@ -1,0 +1,70 @@
+<?php 
+
+include "../../../config/koneksi.php";
+
+//id obat berdasarkan pembelian
+$idobat = json_decode($_GET[data],true);
+
+$unstok_f = "";
+$unstok_h = "";
+
+//dibeli penuh
+$full = "SELECT * FROM kasir_sementara WHERE id IN ($idobat[full])";
+
+
+$fu = mysql_query($full);
+while($ful = mysql_fetch_assoc($fu)){
+    //cek stok
+    $stok = mysql_query("SELECT * FROM produk WHERE kode_barang = '$ful[kode]' AND nama_p = '$ful[nama]'");
+    if(mysql_num_rows($stok) > 0){
+
+        $sisa = $tok[jumlah] - $ful[jumlah];
+        mysql_query("UPDATE produk SET jumlah = '$sisa' WHERE kode_barang = '$ful[kode]' AND nama_p = '$ful[nama]'");
+        mysql_query("INSERT INTO history_kasir (no_faktur,id_pasien,id_dr,id_kasir,tanggal,no_urut,nama,kode,harga_beli,harga,jumlah,diskon,sub_total,id_kk,jenis,status,ket,penginput,kategori,tgl_visit,half) SELECT no_faktur,id_pasien,id_dr,id_kasir,tanggal,no_urut,nama,kode,harga_beli,harga,jumlah,diskon,sub_total,id_kk,jenis,status,ket,penginput,kategori,tgl_visit,'Tidak' FROM kasir_sementara WHERE id = '$ful[id]'");
+        mysql_query("DELETE FROM kasir_sementara WHERE id = '$ful[id]'");
+
+    } else {
+        $unstok_f .= $ful[id].",";
+    }
+}
+
+//dibeli separuh
+$half = "SELECT * FROM kasir_sementara WHERE id IN ($idobat[half])";
+
+
+$ha = mysql_query($half);
+while($hal = mysql_fetch_assoc($ha)){
+    //cek stok
+    $stok = mysql_query("SELECT * FROM produk WHERE kode_barang = '$hal[kode]' AND nama_p = '$hal[nama]'");
+    if(mysql_num_rows($stok) > 0){
+
+        $sisa = $tok[jumlah] - $hal[jumlah];
+        mysql_query("UPDATE produk SET jumlah = '$sisa' WHERE kode_barang = '$hal[kode]' AND nama_p = '$hal[nama]'");
+        mysql_query("INSERT INTO history_kasir (no_faktur,id_pasien,id_dr,id_kasir,tanggal,no_urut,nama,kode,harga_beli,harga,jumlah,diskon,sub_total,id_kk,jenis,status,ket,penginput,kategori,tgl_visit,half) SELECT no_faktur,id_pasien,id_dr,id_kasir,tanggal,no_urut,nama,kode,harga_beli,harga,jumlah,diskon,sub_total,id_kk,jenis,status,ket,penginput,kategori,tgl_visit,'Ya' FROM kasir_sementara WHERE id = '$hal[id]'");
+        mysql_query("DELETE FROM kasir_sementara WHERE id = '$hal[id]'");
+
+    } else {
+        $unstok_h .= $hal[id].",";
+    }
+}
+
+$unstok_f = substr($unstok_f,0,strlen($unstok_f) - 1);
+$unstok_h = substr($unstok_h,0,strlen($unstok_h) - 1);
+
+if($unstok_f == "" && $unstok_h != ""){
+
+    echo "PRODUK OBAT $unstok_h KOSONG. SILAKAN COBA LAGI";
+
+} else if($unstok_f != "" && $unstok_h == ""){
+
+    echo "PRODUK OBAT $unstok_f KOSONG. SILAKAN COBA LAGI";
+
+} else {
+
+    echo "PRODUK OBAT $unstok_h KOSONG. SILAKAN COBA LAGI";
+
+}
+
+
+
+?>

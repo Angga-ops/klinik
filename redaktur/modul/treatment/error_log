@@ -1,0 +1,1 @@
+[09-Mar-2020 09:02:17 UTC] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/suryame2/public_html/simrs/config/koneksi.php on line 9

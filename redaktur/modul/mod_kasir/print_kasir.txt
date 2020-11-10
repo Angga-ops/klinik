@@ -1,0 +1,121 @@
+<?php
+
+session_start();
+
+include "../../../config/koneksi.php";
+include "../../../config/fungsi_rupiah.php";
+include "../../../config/fungsi_indotgl.php";
+require_once("../../dompdf/dompdf_config.inc.php");
+/*
+require '../../escpos/autoload.php';
+
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\Printer; */
+
+$id_kk     = $_SESSION['klinik'];
+$no_faktur = $_GET['nofak'];
+
+$idd = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'"));
+
+$nota=mysql_fetch_array(mysql_query("SELECT * FROM pembayaran where no_faktur='$no_faktur'"));
+
+$ky=mysql_query("SELECT * FROM pembayaran p JOIN history_kasir h ON p.no_faktur=h.no_faktur  WHERE p.no_faktur='$no_faktur'");
+
+/*
+try {
+
+	$n_printer = "".$idd['printer_kasir'].""; // Nama Printer yang di sharing
+	$connector = new WindowsPrintConnector($n_printer);
+	$printer = new Printer($connector);
+	$printer -> text("No.Faktur  : " . $no_faktur . "\n");
+	$printer -> text("No.Antrian : " . $nota['no_urut'] . "\n");
+	$printer -> text("Tanggal    : " . $nota['tanggal'] . "\n");
+	$printer -> text("#item #Qty #Harga #Sub Total\n");
+	$printer -> text("=======================================\n");
+
+
+	while ($p=mysql_fetch_array($ky)) {
+		$printer -> text("".$p['nama']."".$p['jumlah']."".$p['harga']."".$p['jumlah']*$p['harga']."\n");
+	}
+	
+
+	$printer -> text("=======================================\n");
+	$printer -> text("Total                ".$nota['total']."\n");
+	$printer -> text("Uang                  ".$nota['uang']."\n");
+	$printer -> text("Kembalian        ".$nota['kembalian']."\n");
+	$printer -> cut();
+	$printer -> close();
+
+}catch(Exception $e){
+	echo "Couldn't print to this printer: " . $e -> getMessage() . "\n";
+}
+
+
+
+//header('location:media.php?module=history_transaksi'); */
+ob_start();
+?>
+
+<style>
+	th,td {font-size: 6px;padding: 5%}
+	table {border-collapse: collapse}
+
+
+@page {
+   margin: 0.5cm;
+   size: 72mm 200mm;
+}
+</style>
+
+<table>
+<tr>
+<td>No.Faktur  </td><td>:</td><td><?php echo $no_faktur; ?></td></tr>
+<td>No. Antrian  </td><td>:</td><td><?php echo $nota['no_urut']; ?></td></tr>
+<td>Tgl  </td><td>:</td><td><?php echo $nota['tgl']; ?></td></tr>
+</table>
+
+<table style="width: 30%">
+<tr>
+<th>#item</th>
+<th style="width: 2%">#Qty</th>
+<th style="width: 2%">#Harga</th>
+<th style="width: 2%">#Sub Total</th>
+</tr>
+<tr>
+<td colspan=4>===========================================</td>
+</tr>
+<?php 
+
+while ($p=mysql_fetch_array($ky)) {
+	echo "<tr><td>".$p['nama']."</td><td>".$p['jumlah']."</td><td>".$p['harga']."</td><td>".$p['jumlah']*$p['harga']."</td></tr>";
+}
+
+?>
+<td colspan=4>===========================================</td>
+</table>
+
+<table>
+<tr>
+<td>Total  </td><td>:</td><td><?php echo $nota['total']; ?></td></tr>
+<td>Uang  </td><td>:</td><td><?php echo $nota['uang']; ?></td></tr>
+<td>Kembalian  </td><td>:</td><td><?php echo $nota['kembalian']; ?></td></tr>
+</table>
+	
+<?php 
+$html = ob_get_contents(); //Proses untuk mengambil hasil dari OB..
+ob_end_clean(); 
+
+/*
+$dompdf = new DOMPDF();
+$dompdf->load_html($html);
+$dompdf->set_paper("z1", "portrait");
+$dompdf->render();
+$dompdf->stream('struk.pdf',array('Attachment'=>0));
+
+*/
+
+echo $html;
+
+?>
+<script>window.print()</script>
