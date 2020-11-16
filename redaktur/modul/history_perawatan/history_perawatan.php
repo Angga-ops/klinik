@@ -10,12 +10,12 @@
 			<?php 
 					$tgl = $_GET['tgl'];
 					$nu = $_GET['nu'];
-					$p = mysql_query("SELECT *,history_ap.tanggal_pendaftaran AS tanggal FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE no_urut='$nu' AND history_ap.id_kk='$id_kk' AND history_ap.tanggal_pendaftaran='$tgl'");
- 					$pas = mysql_fetch_array($p);
+					$p = mysqli_query($con, "SELECT *,history_ap.tanggal_pendaftaran AS tanggal FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE no_urut='$nu' AND history_ap.id_kk='$id_kk' AND history_ap.tanggal_pendaftaran='$tgl'");
+ 					$pas = mysqli_fetch_array($p);
  					// Total
  					
- 					$kk = mysql_query("SELECT *FROM pembayaran WHERE no_faktur='$pas[no_faktur]'");
- 					$k = mysql_fetch_array($kk);
+ 					$kk = mysqli_query($con, "SELECT *FROM pembayaran WHERE no_faktur='$pas[no_faktur]'");
+ 					$k = mysqli_fetch_array($kk);
  					$no_faktur = $k['no_faktur'];
 				 ?>
 				<div class="row">
@@ -74,8 +74,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php $qhk =  mysql_query("SELECT *FROM history_kasir WHERE no_faktur='$no_faktur'"); 
-						while($hk=mysql_fetch_array($qhk)){ ?>
+						<?php $qhk =  mysqli_query($con, "SELECT *FROM history_kasir WHERE no_faktur='$no_faktur'"); 
+						while($hk=mysqli_fetch_array($qhk)){ ?>
 						<tr>
 							<td><?php echo $hk['nama']; ?></td>
 							<td><?php echo $hk['jenis']; ?></td>
@@ -134,8 +134,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $kuery =  mysql_query("SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE tanggal_pendaftaran='$date' AND history_ap.id_kk='$id_kk'");
-						while($data=mysql_fetch_array($kuery)){ ?>
+					<?php $kuery =  mysqli_query($con, "SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE tanggal_pendaftaran='$date' AND history_ap.id_kk='$id_kk'");
+						while($data=mysqli_fetch_array($kuery)){ ?>
 					<tr>
 						<td><?php echo $data['nama_pasien']; ?></td>
 						<td><?php echo $data['no_urut']; ?></td>

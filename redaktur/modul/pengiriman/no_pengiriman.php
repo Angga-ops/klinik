@@ -7,7 +7,7 @@ include "../../../config/kode_otomatis.php";
 
 $id = $_POST['id'];
 
-$kl   = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$id'"));
+$kl   = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$id'"));
 
 $ini  = "P"; 
 
@@ -18,12 +18,12 @@ $ini .= "-";
 
 $nop = array();
 
-$q = mysql_query("SELECT *FROM pengiriman WHERE cabang='$id'");
+$q = mysqli_query($con,"SELECT *FROM pengiriman WHERE cabang='$id'");
 
-$cek = mysql_num_rows($q);
+$cek = mysqli_num_rows($q);
 
 if ($cek>0) {
-	while ($p=mysql_fetch_array($q)) {
+	while ($p=mysqli_fetch_array($q)) {
 		$no_p  = $p["no_pengiriman"];
 		$nop[] = substr($no_p, 3);
 	}

@@ -9,8 +9,8 @@
 	// Hapus Kamar
 	if ($module == 'sup' AND $act == 'hapus'){
 		$id		= $_GET['id'];
-		$del	= mysql_query("Delete From suplier Where id_sup='$id'");
-		catat($_SESSION['namauser'], 'Hapus Data Suplier'.' ('.$id.')');
+		$del	= mysqli_query($con,"Delete From suplier Where id_sup='$id'");
+		catat($con, $_SESSION['namauser'], 'Hapus Data Suplier'.' ('.$id.')');
 		header('location:../../media.php?module=suplier');
 	}
 	// Input Kamar Baru
@@ -20,8 +20,8 @@
 		$tlp     			= $_POST['tlp'];
 		$email  			= $_POST['email'];
 		$penanggung_jwb     = $_POST['penanggung_jwb'];
-		$simpan		= mysql_query("Insert Into suplier(nama_sup,alamat,tlp,email,penanggung_jwb) Values('$nama_sup','$alamat','$tlp','$email','$penanggung_jwb')") or die(mysql_error());
-	 	catat($_SESSION['namauser'], 'Data Suplier Baru'.' ('.$nmrgn.')');
+		$simpan		= mysqli_query($con,"Insert Into suplier(nama_sup,alamat,tlp,email,penanggung_jwb) Values('$nama_sup','$alamat','$tlp','$email','$penanggung_jwb')") or die(mysqli_error($con));
+	 	catat($con, $_SESSION['namauser'], 'Data Suplier Baru'.' ('.$nmrgn.')');
 		if($simpan){
 			header('location:../../media.php?module=suplier');
 		} else {
@@ -36,8 +36,8 @@
 		$tlp			= $_POST['tlp'];
 		$email			= $_POST['email'];
 		$penanggung_jwb	= $_POST['penanggung_jwb'];
-		$update		    = mysql_query("Update suplier Set nama_sup='$nama_sup', alamat='$alamat', tlp='$tlp', email='$email', penanggung_jwb='$penanggung_jwb' Where id_sup='$id'");
-		catat($_SESSION['namauser'], 'Edit Data Ruangan'.' ('.$id.')');
+		$update		    = mysqli_query($con,"Update suplier Set nama_sup='$nama_sup', alamat='$alamat', tlp='$tlp', email='$email', penanggung_jwb='$penanggung_jwb' Where id_sup='$id'");
+		catat($con, $_SESSION['namauser'], 'Edit Data Ruangan'.' ('.$id.')');
 		if($update){
 			header('location:../../media.php?module=suplier');
 		} else {

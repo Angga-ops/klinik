@@ -85,8 +85,8 @@ switch ($act) {
 			<h3 class="box-title">Detail Pengiriman</h3>
 		</div>
 		<div class="box-body">
-			<?php $q2 = mysql_query("SELECT *FROM pengiriman WHERE no_pengiriman='$nop'");
-        $p = mysql_fetch_array($q2);
+			<?php $q2 = mysqli_query($con,"SELECT *FROM pengiriman WHERE no_pengiriman='$nop'");
+        $p = mysqli_fetch_array($q2);
       ?>
 
       <div class="row">
@@ -102,7 +102,7 @@ switch ($act) {
           Tujuan Cabang    
         </div>
         <div class="col-md-5">
-          :&emsp; <?php $k = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$p[cabang]'")); echo $k['nama_klinik']; ?>
+          :&emsp; <?php $k = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$p[cabang]'")); echo $k['nama_klinik']; ?>
         </div>
       </div>
       <div class="row" style="margin-top: 5px;">
@@ -114,7 +114,7 @@ switch ($act) {
         </div>
       </div>
       <?php if ($p['keterangan']=="Telah Diterima") {?>
-        <input type="hidden" id="keterangan" value="<?php echo $p[keterangan]; ?>">
+        <input type="hidden" id="keterangan" value="<?php echo $p['keterangan']; ?>">
         <div class="row" style="margin-top: 5px;">
         <div class="col-md-2">
           Keterangan 
@@ -192,18 +192,18 @@ switch ($act) {
 						</tr>
 					</thead>
 					<tbody>
-						<?php $qpb = mysql_query("SELECT *FROM pengiriman WHERE cabang='$id_kk' ORDER BY tanggal DESC"); 
-						while($pb = mysql_fetch_array($qpb)){
+						<?php $qpb = mysqli_query($con,"SELECT *FROM pengiriman WHERE cabang='$id_kk' ORDER BY tanggal DESC"); 
+						while($pb = mysqli_fetch_array($qpb)){
 							?>
 						<tr>
 							<td><?php echo $pb['no_pengiriman']; ?></td>
 							<td><?php echo $pb['tanggal']; ?></td>
 							<td><?php echo $pb['pengirim']; ?></td>
 							<td>
-								<?php $j = mysql_num_rows(mysql_query("SELECT *FROM produk_pengiriman WHERE no_pengiriman='$pb[no_pengiriman]'")); echo $j; ?>
+								<?php $j = mysqli_num_rows(mysqli_query($con,"SELECT *FROM produk_pengiriman WHERE no_pengiriman='$pb[no_pengiriman]'")); echo $j; ?>
 							</td>
 							<td>
-								<?php $tb = mysql_fetch_array(mysql_query("SELECT SUM(Jumlah) AS total FROM produk_pengiriman WHERE no_pengiriman='$pb[no_pengiriman]'"));
+								<?php $tb = mysqli_fetch_array(mysqli_query($con,"SELECT SUM(Jumlah) AS total FROM produk_pengiriman WHERE no_pengiriman='$pb[no_pengiriman]'"));
 									echo $tb['total'];
 								?>
 							</td>
@@ -211,10 +211,10 @@ switch ($act) {
                 <?php 
 
                   if ($pb['keterangan']=='Telah Diterima') { ?>
-                <a href="media.php?module=penerimaan&act=detail&nop=<?php echo $pb[no_pengiriman]; ?>" class="btn btn-xs btn-primary"><i class="fa fa-list"></i> Detail</a>
-                <a href="modul/penerimaan/cetak_penerimaan.php?nop=<?php echo $pb[no_pengiriman]; ?>" class="btn btn-xs btn-success"><i class="fa fa-print"></i> Cetak</a>
+                <a href="media.php?module=penerimaan&act=detail&nop=<?php echo $pb['no_pengiriman']; ?>" class="btn btn-xs btn-primary"><i class="fa fa-list"></i> Detail</a>
+                <a href="modul/penerimaan/cetak_penerimaan.php?nop=<?php echo $pb['no_pengiriman']; ?>" class="btn btn-xs btn-success"><i class="fa fa-print"></i> Cetak</a>
                  <?php }else{ ?>
-                <a href="media.php?module=penerimaan&act=detail&nop=<?php echo $pb[no_pengiriman]; ?>" class="btn btn-xs btn-info"><i class="fa fa-check"></i>Cek</a>
+                <a href="media.php?module=penerimaan&act=detail&nop=<?php echo $pb['no_pengiriman']; ?>" class="btn btn-xs btn-info"><i class="fa fa-check"></i>Cek</a>
                   <?php
                   }
 

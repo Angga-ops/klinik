@@ -9,8 +9,8 @@
 	// Hapus Kamar
 	if ($module == 'dt' AND $act == 'hapus'){
 		$id		= $_GET['id'];
-		$del	= mysql_query("Delete From treatment Where id='$id'");
-		catat($_SESSION['namauser'], 'Hapus Ruangan'.' ('.$id.')');
+		$del	= mysqli_query($con,"Delete From treatment Where id='$id'");
+		catat($con,$_SESSION['namauser'], 'Hapus Ruangan'.' ('.$id.')');
 		header('location:../../media.php?module=treatment');
 	}
 	// Input Kamar Baru
@@ -23,8 +23,8 @@
 		$bpjs				= $_POST['bpjs'];
 		$lain				= $_POST['lain'];
 		$jasa				= $_POST['jasa'];
-		$simpan		= mysql_query("Insert Into treatment(nama_t,manfaat,harga,bpjs,lain,jasa_dokter,modal,kategori) Values('$nama_t','$manfaat','$umum','$bpjs','$lain','$jasa','$modal','$kat')") or die(mysql_error());
-	 	catat($_SESSION['namauser'], 'Data Treatment Baru'.' ('.$nmrgn.')');
+		$simpan		= mysqli_query($con,"Insert Into treatment(nama_t,manfaat,harga,bpjs,lain,jasa_dokter,modal,kategori) Values('$nama_t','$manfaat','$umum','$bpjs','$lain','$jasa','$modal','$kat')") or die(mysqli_error($con));
+	 	catat($con, $_SESSION['namauser'], 'Data Treatment Baru'.' ('.$nmrgn.')');
 		if($simpan){
 			header('location:../../media.php?module=treatment');
 		} else {
@@ -42,8 +42,8 @@
 		$bpjs				= $_POST['bpjs'];
 		$lain				= $_POST['lain'];
 		$jasa				= $_POST['jasa'];
-		$update		= mysql_query("Update treatment Set kategori='$kat', nama_t='$nama_t', manfaat='$manfaat', harga='$umum',bpjs='$bpjs',lain='$lain',jasa_dokter='$jasa',modal='$modal' Where id='$id'");
-		catat($_SESSION['namauser'], 'Edit Data Ruangan'.' ('.$id.')');
+		$update		= mysqli_query($con,"Update treatment Set kategori='$kat', nama_t='$nama_t', manfaat='$manfaat', harga='$umum',bpjs='$bpjs',lain='$lain',jasa_dokter='$jasa',modal='$modal' Where id='$id'");
+		catat($con, $_SESSION['namauser'], 'Edit Data Ruangan'.' ('.$id.')');
 		if($update){
 			header('location:../../media.php?module=treatment');
 		} else {

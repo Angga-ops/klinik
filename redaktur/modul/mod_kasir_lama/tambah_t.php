@@ -20,16 +20,16 @@ $id_dr = ($_POST["dr_visit"] == "")? 0 : $_POST["dr_visit"];
 $tgl_visit       = ($_POST["tgl_visit"] == "")? "" : $_POST["tgl_visit"];
 $kategori = $_GET["kat"];
 
-$q1 = mysql_query("SELECT *FROM history_kasir_lama WHERE nama='$nama' AND id_kk='$id_kk' AND no_faktur='$no_faktur' ");
+$q1 = mysqli_query($con,"SELECT *FROM history_kasir_lama WHERE nama='$nama' AND id_kk='$id_kk' AND no_faktur='$no_faktur' ");
 
-$cek = mysql_num_rows($q1);
+$cek = mysqli_num_rows($q1);
 
 if ($cek>0) {
 	echo "ada";
 	exit();
 }
 
-mysql_query("INSERT INTO history_kasir_lama
+mysqli_query($con,"INSERT INTO history_kasir_lama
 	 (no_faktur,id_pasien,tanggal,no_urut,nama,harga,jumlah,id_kk,jenis,status,penginput,harga_beli,diskon,ket,sub_total,id_dr,tgl_visit,kategori) 
 	 VALUES('$no_faktur','$id','$tgl','$no','$nama','$harga','1','$id_kk','Treatment','Belum Lunas','Dokter','$modal','$diskon','$ket','$sub_total','$id_dr','$tgl_visit','$kategori')");
 

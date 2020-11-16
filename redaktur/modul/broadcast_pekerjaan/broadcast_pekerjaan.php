@@ -46,9 +46,9 @@
 
       <?php
 
-        $sel  = mysql_query("Select * From pekerjaan");
+        $sel  = mysqli_query($con, "Select * From pekerjaan");
 
-        while($data = mysql_fetch_array($sel)){
+        while($data = mysqli_fetch_array($sel)){
 
       ?>
 
@@ -188,9 +188,9 @@
 
     <?php
 
-    $tampil   = mysql_query("Select * From broadcast_pekerjaan");
+    $tampil   = mysqli_query($con, "Select * From broadcast_pekerjaan");
 
-    while($r  = mysql_fetch_array($tampil)){
+    while($r  = mysqli_fetch_array($tampil)){
 
       $no=1;
 
@@ -208,9 +208,9 @@
 
                 <td><?php echo $r["pengirim"]; ?></td>
 
-                <!--<?php $q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
+                <!--<?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
 
-                 $k = mysql_fetch_array($q1); ?>
+                 $k = mysqli_fetch_array($q1); ?>
 
                 <td><?php echo $k['nama_klinik']; ?></td>-->
 

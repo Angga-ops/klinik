@@ -28,9 +28,9 @@ header("Content-Disposition: attachment; filename=$fname");
     
     <?php 
 
-$q = mysql_query("SELECT a.nama_t, b.* FROM treatment a JOIN broadcast_treatment b ON a.id = b.treatment");
+$q = mysqli_query($con, "SELECT a.nama_t, b.* FROM treatment a JOIN broadcast_treatment b ON a.id = b.treatment");
 
-while($qs = mysql_fetch_assoc($q)){
+while($qs = mysqli_fetch_assoc($q)){
     echo "<tr>";
     echo "<td>$qs[nama_t]</td>";
     echo "<td>$qs[subjek]</td>";
@@ -56,9 +56,9 @@ while($qs = mysql_fetch_assoc($q)){
     
     <?php 
 
-$q = mysql_query("SELECT b.* FROM broadcast_pekerjaan b");
+$q = mysqli_query($con, "SELECT b.* FROM broadcast_pekerjaan b");
 
-while($qs = mysql_fetch_assoc($q)){
+while($qs = mysqli_fetch_assoc($q)){
     echo "<tr>";
     echo "<td>$qs[pekerjaan]</td>";
     echo "<td>$qs[subjek]</td>";
@@ -84,11 +84,11 @@ while($qs = mysql_fetch_assoc($q)){
     
     <?php 
 
-$q = mysql_query("SELECT b.* FROM broadcast_nominal b");
+$q = mysqli_query($con, "SELECT b.* FROM broadcast_nominal b");
 
-while($qs = mysql_fetch_assoc($q)){
+while($qs = mysqli_fetch_assoc($q)){
     echo "<tr>";
-    echo "<td>Rp ".number_format($qs[nominal],0,",",".")."</td>";
+    echo "<td>Rp ".number_format($qs['nominal'],0,",",".")."</td>";
     echo "<td>$qs[subjek]</td>";
     echo "<td>$qs[isi]</td>";
     echo "<td>$qs[tgl_kirim]</td>";
@@ -112,9 +112,9 @@ while($qs = mysql_fetch_assoc($q)){
     
     <?php 
 
-$q = mysql_query("SELECT a.keterangan, b.* FROM kategori_pelanggan a JOIN broadcast b ON a.kategori = b.klaster");
+$q = mysqli_query($con, "SELECT a.keterangan, b.* FROM kategori_pelanggan a JOIN broadcast b ON a.kategori = b.klaster");
 
-while($qs = mysql_fetch_assoc($q)){
+while($qs = mysqli_fetch_assoc($q)){
     echo "<tr>";
     echo "<td>$qs[keterangan]</td>";
     echo "<td>$qs[subjek]</td>";

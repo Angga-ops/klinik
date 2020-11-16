@@ -7,23 +7,23 @@ include "../../../config/koneksi.php";
 
 $id     = $_POST['id'];
 
-$q1     = mysql_query("SELECT *FROM history_kasir_lama WHERE id ='$id'");
+$q1     = mysqli_query($con,"SELECT *FROM history_kasir_lama WHERE id ='$id'");
 	
-$data   = mysql_fetch_array($q1);
+$data   = mysqli_fetch_array($q1);
 
 $nama   = $data['nama'];
 
 $jumlah = $data['jumlah'];
 
-$qp     = mysql_query("SELECT *FROM produk_master WHERE id_kk='$_SESSION[klinik]' AND nama_p='$nama'");
+$qp     = mysqli_query($con,"SELECT *FROM produk_master WHERE id_kk='$_SESSION[klinik]' AND nama_p='$nama'");
 	
-$p      = mysql_fetch_array($qp);
+$p      = mysqli_fetch_array($qp);
 
 $jumlah = $p['jumlah']+$jumlah;
 
-mysql_query("UPDATE produk_master SET jumlah='$jumlah' WHERE id_kk='$_SESSION[klinik]' AND nama_p='$nama'"); 
+mysqli_query($con,"UPDATE produk_master SET jumlah='$jumlah' WHERE id_kk='$_SESSION[klinik]' AND nama_p='$nama'"); 
 
-mysql_query("DELETE FROM history_kasir_lama WHERE id='$id'");
+mysqli_query($con,"DELETE FROM history_kasir_lama WHERE id='$id'");
 
 
 exit();	

@@ -20,8 +20,8 @@
    </thead>
    <tbody>
 <?php
-	$data 	= mysql_query("Select * From perawatan_pasien, pasien, jenis_pembayaran, tagihan Where perawatan_pasien.id_antrian=tagihan.id_antrian And perawatan_pasien.id_pasien=pasien.id_pasien And pasien.id_jenispem=jenis_pembayaran.id_jenispem And nama_jenispem='Jamkesmas'");
-	while($hasil= mysql_fetch_array($data)){
+	$data 	= mysqli_query($con, "Select * From perawatan_pasien, pasien, jenis_pembayaran, tagihan Where perawatan_pasien.id_antrian=tagihan.id_antrian And perawatan_pasien.id_pasien=pasien.id_pasien And pasien.id_jenispem=jenis_pembayaran.id_jenispem And nama_jenispem='Jamkesmas'");
+	while($hasil= mysqli_fetch_array($data)){
 	$tgl_datang	= tgl_indo($hasil['tgl_periksa']);
     ?>
 
@@ -32,8 +32,8 @@
 	<td>
 		<?php
 			$idt		= $hasil['id_tagihan'];
-			$sel_lunas	= mysql_query("Select * From pembayaran Where id_tagihan='$idt'");
-			$cek_lunas	= mysql_fetch_array($sel_lunas);
+			$sel_lunas	= mysqli_query($con, "Select * From pembayaran Where id_tagihan='$idt'");
+			$cek_lunas	= mysqli_fetch_array($sel_lunas);
 			$lunas		= $cek_lunas['keterangan'];
         	if($lunas == 'Lunas'){
 		?>

@@ -50,11 +50,11 @@ setlocale(LC_TIME,"id_ID");
 
 <?php 
 
-if(isset($_GET[tgl1])){
+if(isset($_GET['tgl1'])){
     $tgl = "tanggal >= '$_GET[tgl1]' AND tanggal <= '$_GET[tgl2]'";
     $tgl2 = "tgl >= '$_GET[tgl1]' AND tgl <= '$_GET[tgl2]'";
     $tgl3 = "DATE(tgl) >= '$_GET[tgl1]' AND DATE(tgl) <= '$_GET[tgl2]'";
-    $stat = "antara ".strftime("%d %B %Y",strtotime($_GET[tgl1]))." s/d ".strftime("%d %B %Y",strtotime($_GET[tgl2]));
+    $stat = "antara ".strftime("%d %B %Y",strtotime($_GET['tgl1']))." s/d ".strftime("%d %B %Y",strtotime($_GET['tgl2']));
 } else {
     $tgl = "tanggal >= '".date("Y-m-d")."'";
     $tgl2 = "tgl >= '".date("Y-m-d")."'";
@@ -105,10 +105,10 @@ if(isset($_GET[tgl1])){
         
         $no =1;
         
-        $q1 = mysql_query("SELECT history_kasir.*, SUM(sub_total) AS subtotal, SUM(jumlah) AS jml FROM history_kasir WHERE $tgl AND id_kk='$_SESSION[klinik]' GROUP BY nama");
+        $q1 = mysqli_query($con,"SELECT history_kasir.*, SUM(sub_total) AS subtotal, SUM(jumlah) AS jml FROM history_kasir WHERE $tgl AND id_kk='$_SESSION[klinik]' GROUP BY nama");
         
              
-              while ($br = mysql_fetch_array($q1)) {
+              while ($br = mysqli_fetch_array($q1)) {
               	$subtotal= $br['harga']*$br['jumlah'];
                 ?>
           <tr>
@@ -127,21 +127,21 @@ if(isset($_GET[tgl1])){
               }
            
 
-              $q2 = mysql_query("SELECT * FROM retur_jual WHERE $tgl2");
+              $q2 = mysqli_query($con,"SELECT * FROM retur_jual WHERE $tgl2");
         
              
-              while ($br2 = mysql_fetch_array($q2)) {
+              while ($br2 = mysqli_fetch_array($q2)) {
 
-                 $his = mysql_query("SELECT * FROM history_kasir WHERE id = '$br2[history]' AND id_kk = '$_SESSION[klinik]'");
-                if(mysql_num_rows($his) > 0){
+                 $his = mysqli_query($con,"SELECT * FROM history_kasir WHERE id = '$br2[history]' AND id_kk = '$_SESSION[klinik]'");
+                if(mysqli_num_rows($his) > 0){
 
-                $hist = mysql_fetch_assoc($his);
+                $hist = mysqli_fetch_assoc($his);
                
-                $prod = mysql_fetch_assoc(mysql_query("SELECT nama_p FROM produk WHERE id_kk = '$_SESSION[klinik]' AND kode_barang = '$br2[replaces]'"));
-                $prod2 = mysql_fetch_assoc(mysql_query("SELECT nama_p FROM produk WHERE id_kk = '$_SESSION[klinik]' AND kode_barang = '$hist[kode]'"));
+                $prod = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_p FROM produk WHERE id_kk = '$_SESSION[klinik]' AND kode_barang = '$br2[replaces]'"));
+                $prod2 = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_p FROM produk WHERE id_kk = '$_SESSION[klinik]' AND kode_barang = '$hist[kode]'"));
                 
                 $subt =$hist['harga'] *  $br2['jml'];
-              $produk = is_null($prod['nama_p']) || empty($prod[nama_p]) || $prod[nama_p] == ""? $prod2['nama_p'] : $prod['nama_p'];
+              $produk = is_null($prod['nama_p']) || empty($prod['nama_p']) || $prod['nama_p'] == ""? $prod2['nama_p'] : $prod['nama_p'];
                 ?>
           <tr>
               <td><?php echo $no; ?></td>
@@ -150,28 +150,28 @@ if(isset($_GET[tgl1])){
               <td><?php echo $br2['jml']; ?></td>
               <td><?php echo $hist['jenis']; ?></td>
               <td>Rp <?php echo number_format($subt,0,",","."); ?></td>
-              <td>Retur <?php $ret = mysql_fetch_assoc(mysql_query("SELECT retur FROM master_retur_jual WHERE id = '$br2[retur]'")); echo $ret["retur"];  ?> <br/> asal faktur: <?php echo $hist[no_faktur]; ?></td>
+              <td>Retur <?php $ret = mysqli_fetch_assoc(mysqli_query($con,"SELECT retur FROM master_retur_jual WHERE id = '$br2[retur]'")); echo $ret["retur"];  ?> <br/> asal faktur: <?php echo $hist['no_faktur']; ?></td>
               <td><?php echo "Reture"; ?></td>
             </tr>
                 <?php
                 $no++;
               } }
 
-              $q3 = mysql_query("SELECT * FROM bonus WHERE $tgl3 AND klinik = '$_SESSION[klinik]'");
+              $q3 = mysqli_query($con,"SELECT * FROM bonus WHERE $tgl3 AND klinik = '$_SESSION[klinik]'");
         
-              while ($br3 = mysql_fetch_array($q3)) {
-                $prod2 = mysql_fetch_assoc(mysql_query("SELECT nama_p FROM produk WHERE id_kk = '$_SESSION[klinik]' AND kode_barang = '$br3[produk]'"));
-                $pas = mysql_fetch_assoc(mysql_query("SELECT nama_pasien FROM pasien WHERE id = '$br3[pasien]'"));
+              while ($br3 = mysqli_fetch_array($q3)) {
+                $prod2 = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_p FROM produk WHERE id_kk = '$_SESSION[klinik]' AND kode_barang = '$br3[produk]'"));
+                $pas = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_pasien FROM pasien WHERE id = '$br3[pasien]'"));
                
                 ?>
           <tr>
               <td><?php echo $no; ?></td>
-              <td><?php echo $prod2[nama_p]; ?></td>
+              <td><?php echo $prod2['nama_p']; ?></td>
               <td>-</td>
               <td><?php echo $br3['jml']; ?></td>
               <td><?php echo $br3['ket']; ?></td>
               <td>-</td>
-              <td>Bonus utk pasien <?php echo $pas[nama_pasien]; ?> </td>
+              <td>Bonus utk pasien <?php echo $pas['nama_pasien']; ?> </td>
               <td><?php echo "Bonus"; ?></td>
               
             </tr>
@@ -192,7 +192,7 @@ if(isset($_GET[tgl1])){
 
 
 <style>
-.tbl {border-collpase: collapse; width: 100%}
+.tbl {border-collapse: collapse; width: 100%}
 .tbl td {padding: 1%}
 </style>
 
@@ -235,7 +235,7 @@ $(".xbtn").click(function(){
 $(".pbtn").click(function(){
     <?php 
 
-if(isset($_GET[tgl1])){
+if(isset($_GET['tgl1'])){
     $links = "modul/penjualan_h/p.php?klinik=$_SESSION[klinik]&tgl1=$_GET[tgl1]&tgl2=$_GET[tgl2]";
 } else {
     $links = "modul/penjualan_h/p.php?klinik=$_SESSION[klinik]";

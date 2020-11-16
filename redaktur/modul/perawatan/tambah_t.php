@@ -12,16 +12,16 @@ $no_faktur = $_POST['nofak'];
 $modal	   = $_POST['modal'];
 
 
-$q1 = mysql_query("SELECT *FROM history_kasir WHERE nama='$nama' AND id_kk='$id_kk' AND no_faktur='$no_faktur' ");
+$q1 = mysqli_query($con,"SELECT *FROM history_kasir WHERE nama='$nama' AND id_kk='$id_kk' AND no_faktur='$no_faktur' ");
 
-$cek = mysql_num_rows($q1);
+$cek = mysqli_num_rows($q1);
 
 if ($cek>0) {
 	echo "ada";
 	exit();
 }
 
-mysql_query("INSERT INTO history_kasir
+mysqli_query($con,"INSERT INTO history_kasir
 	 (no_faktur,id_pasien,tanggal,no_urut,nama,harga,jumlah,id_kk,jenis,status,ket,harga_beli) 
 	 VALUES('$no_faktur','$id','$tgl','$no','$nama','$harga','1','$id_kk','Treatment','Belum Lunas','Input Dokter','$modal')");
 

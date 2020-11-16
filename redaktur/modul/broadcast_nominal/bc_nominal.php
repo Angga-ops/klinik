@@ -84,8 +84,8 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From broadcast_nominal");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con, "Select * From broadcast_nominal");
+    while($r  = mysqli_fetch_array($tampil)){
       $no=1;
     ?>
       <tr class="gradeX">
@@ -94,8 +94,8 @@
                 <td><?php echo $r["isi"]; ?></td>
                 <td><?php echo $r["tgl_kirim"]; ?></td>
                 <td><?php echo $r["pengirim"]; ?></td>
-                <!--<?php $q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <!--<?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k['nama_klinik']; ?></td>-->
             <td>
                      

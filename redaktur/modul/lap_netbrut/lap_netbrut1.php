@@ -71,14 +71,14 @@
     <?php
     $bulan = $_POST['bulan'];
     $tahun = $_POST['tahun'];
-    $q1   = mysql_query("SELECT SUM(jumlah*harga) AS pendapatan FROM history_kasir WHERE month(tanggal) = '$bulan' AND year(tanggal) = '$tahun'");
-    while($r  = mysql_fetch_array($q1)){
+    $q1   = mysqli_query($con, "SELECT SUM(jumlah*harga) AS pendapatan FROM history_kasir WHERE month(tanggal) = '$bulan' AND year(tanggal) = '$tahun'");
+    while($r  = mysqli_fetch_array($q1)){
     ?>
       <tr class="gradeX">
-        <?php $q2   = mysql_query("SELECT SUM(biaya_p) AS total FROM pengeluaran where month(tanggal) = '$bulan' AND year(tanggal) = '$tahun'");
-            $k = mysql_fetch_array($q2) ?>
-            <?php $q3   = mysql_query("SELECT * FROM pengeluaran where tanggal = '$tgl'");
-            $j = mysql_fetch_array($q3) ?>
+        <?php $q2   = mysqli_query($con, "SELECT SUM(biaya_p) AS total FROM pengeluaran where month(tanggal) = '$bulan' AND year(tanggal) = '$tahun'");
+            $k = mysqli_fetch_array($q2) ?>
+            <?php $q3   = mysqli_query($con, "SELECT * FROM pengeluaran where tanggal = '$tgl'");
+            $j = mysqli_fetch_array($q3) ?>
                 <td><?php echo rupiah($r["pendapatan"]); ?></td>
                 <td><?php echo rupiah($k["total"]); ?></td>
                 <td><?php echo rupiah($r["pendapatan"]-$k["total"]); ?></td>
@@ -154,7 +154,7 @@ $(document).ready(function(){
   break;
   case "edit_kategori":
   $id   = $_GET['id'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From kategori Where id_kategori='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From kategori Where id_kategori='$id'"));
 ?>
 
 <section class="content">

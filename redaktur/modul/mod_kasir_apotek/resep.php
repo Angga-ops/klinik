@@ -27,10 +27,10 @@
 			<div style="border: 2px solid green;padding: 0px 0px 10px 10px;box-sizing: border-box;margin-bottom: 15px;">
 				<h4>Data Pasien</h4>
 				<?php 
-                $pem = mysql_fetch_array(mysql_query("SELECT *FROM antrian_pasien JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.no_faktur='$id'"));
+                $pem = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM antrian_pasien JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.no_faktur='$id'"));
            
 				$id_pasien = $pem['id_pasien'];
-				$mem = mysql_fetch_assoc(mysql_query("SELECT a.* FROM kategori_pelanggan a JOIN pasien b ON a.kategori = b.klaster WHERE b.id_pasien = '$id_pasien'"));
+				$mem = mysqli_fetch_assoc(mysqli_query($con,"SELECT a.* FROM kategori_pelanggan a JOIN pasien b ON a.kategori = b.klaster WHERE b.id_pasien = '$id_pasien'"));
 				?>
 
 
@@ -99,7 +99,7 @@
 				</div>
 			</div>
 			<br/>
-			<a href="?module=bayar_obat&faktur=<?php echo $_GET[faktur]; ?>"><button class="btn btn-success">Bayar</button></a>
+			<a href="?module=bayar_obat&faktur=<?php echo $_GET['faktur']; ?>"><button class="btn btn-success">Bayar</button></a>
 			<br/>
 			<hr>
 			<h4>Resep Obat</h4>

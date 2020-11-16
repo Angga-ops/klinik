@@ -1,6 +1,6 @@
 <?php
   session_start();
-  unlink("error_log");
+  //unlink("error_log");
   include ('../config/koneksi.php');
   include ('../config/kode_otomatis.php');
   include ('../config/fungsi_rupiah.php');
@@ -9,25 +9,29 @@
   include ('../config/fungsi_combobox.php');
   include ('../config/class_paging.php');
   $id_kk = $_SESSION['klinik'];
+
   //echo $user['id_ju'];  
   if(empty($_SESSION['jenis_u'])){ 
- $jen= mysql_fetch_assoc(mysql_query("SELECT * FROM jenis_user WHERE id_ju ='".$_SESSION["jenis_ju"]."'"));
+ $jen= mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM jenis_user WHERE id_ju ='".$_SESSION["jenis_ju"]."'"));
   }else{
-	$jen= mysql_fetch_assoc(mysql_query("SELECT * FROM jenis_user WHERE id_ju ='".$_SESSION["jenis_u"]."'"));  
+	$jen= mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM jenis_user WHERE id_ju ='".$_SESSION["jenis_u"]."'"));  
   }
 //fungsi cek akses user
 function user_akses($mod,$id){
   $link = "?module=".$mod;
-  $cek = mysql_num_rows(mysql_query("SELECT * FROM modul,users_modul WHERE modul.id_modul=users_modul.id_modul AND users_modul.id_session='$id' AND modul.link='$link'"));
+  global $con;
+  $cek = mysqli_num_rows(mysqli_query($con, "SELECT * FROM modul,users_modul WHERE modul.id_modul=users_modul.id_modul AND users_modul.id_session='$id' AND modul.link='$link'"));
   return $cek;
 }
 //fungsi cek akses menu
 function umenu_akses($link,$id){
-  $cek = mysql_num_rows(mysql_query("SELECT * FROM modul,users_modul WHERE modul.id_modul=users_modul.id_modul AND users_modul.id_session='$id' AND modul.link='$link'"));
+  global $con;
+  $cek = mysqli_num_rows(mysqli_query($con, "SELECT * FROM modul,users_modul WHERE modul.id_modul=users_modul.id_modul AND users_modul.id_session='$id' AND modul.link='$link'"));
   return $cek;
 }
 //fungsi redirect
 function akses_salah(){
+  global $url;
   $pesan = "<script>alert('Akses ilegal'); location.href = '".$url."media.php?module=home';</script>";
   return $pesan;
 }
@@ -40,12 +44,12 @@ alert("Anda belum login"); location.href = "<?php echo $url;?>/redaktur/index.ph
 <?php
   } else {
     
-    $iden = mysql_fetch_assoc(mysql_query("SELECT * FROM identitas"));
+    $iden = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM identitas"));
 	if (($_SESSION['jenis_u']=='JU-01') OR ($_SESSION['jenis_u']=='JU-02')){ 
-    $user = mysql_fetch_assoc(mysql_query("SELECT * FROM user WHERE id_user ='".$_SESSION["id_user"]."'"));
+    $user = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM user WHERE id_user ='".$_SESSION["id_user"]."'"));
 	
 	} else {
-		$user = mysql_fetch_assoc(mysql_query("SELECT * FROM karyawan WHERE id_karyawan ='".$_SESSION["id_user"]."'"));
+		$user = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM karyawan WHERE id_karyawan ='".$_SESSION["id_user"]."'"));
 	}
  
 ?>
@@ -153,15 +157,15 @@ z-index:100;
 	
 	
 	if (($_SESSION['jenis_u'] == 'JU-01') OR ($_SESSION['jenis_u'] == 'JU-02')){ 
-    $data = mysql_fetch_array(mysql_query("SELECT * From user Where id_user='$id'"));
+    $data = mysqli_fetch_array(mysqli_query($con, "SELECT * From user Where id_user='$id'"));
 	}else {
-		 $data = mysql_fetch_array(mysql_query("SELECT * From karyawan Where id_karyawan='$id'"));
+		 $data = mysqli_fetch_array(mysqli_query($con, "SELECT * From karyawan Where id_karyawan='$id'"));
 		
 	}
     $ju   = $data['id_ju'];
     
-    $menu       = mysql_query("SELECT * From sub_menu Where id_ju='$ju' And sts_sm='Aktif' Order by urutan Asc");
-      while($data_menu  = mysql_fetch_array($menu)){
+    $menu       = mysqli_query($con, "SELECT * From sub_menu Where id_ju='$ju' And sts_sm='Aktif' Order by urutan Asc");
+      while($data_menu  = mysqli_fetch_array($menu)){
       $id_sb        = $data_menu['id_sm'];
                 if($data_menu['page_sm']=='' || $data_menu['page_sm']=='#'){ ?>
 
@@ -174,8 +178,8 @@ z-index:100;
                     </a>
                     <ul class='treeview-menu'>
               <?php
-              $sub_menu   = mysql_query("Select * From menu Where id_sm='$id_sb' And sts_menu='Aktif' Order by nama_menu Asc");
-              while($data_sm  = mysql_fetch_array($sub_menu)){
+              $sub_menu   = mysqli_query($con, "SELECT * From menu Where id_sm='$id_sb' And sts_menu='Aktif' Order by nama_menu Asc");
+              while($data_sm  = mysqli_fetch_array($sub_menu)){
               $id_sm      = $data_sm['id_menu'];  ?>
                         
                          <li><a href="?module=<?php echo $data_sm['page_menu']; ?>"><i class="fa fa-circle-o"></i> <?php echo $data_sm['nama_menu']; ?></a></li>
@@ -191,11 +195,11 @@ z-index:100;
                     if($id_sb == "SM-998990"){
                         
                         //pasien utama
-                        $utama = mysql_fetch_assoc(mysql_query("SELECT COUNT(id_pasien) AS b FROM perawatan_pasien WHERE id_dr = '$_SESSION[id_user]' AND status IS NULL"));
+                        $utama = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(id_pasien) AS b FROM perawatan_pasien WHERE id_dr = '$_SESSION[id_user]' AND status IS NULL"));
                         //pasien visit
-                        $visit = mysql_fetch_assoc(mysql_query("SELECT COUNT(a.id_pasien) AS b FROM dr_visit a JOIN perawatan_pasien b ON a.no_faktur = b.no_faktur WHERE a.id_dr = '$_SESSION[id_user]' AND b.status IS NULL"));
+                        $visit = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(a.id_pasien) AS b FROM dr_visit a JOIN perawatan_pasien b ON a.no_faktur = b.no_faktur WHERE a.id_dr = '$_SESSION[id_user]' AND b.status IS NULL"));
                         
-                        $jmlpas = (int) $utama[b] + (int) $visit[b];
+                        $jmlpas = (int) $utama['b'] + (int) $visit['b'];
                     
                     ?>
                     
@@ -206,7 +210,7 @@ z-index:100;
                     <?php } else if($id_sb == "SM-669969"){ 
                       
                       
-                      $rujuk = mysql_num_rows(mysql_query("SELECT * FROM rujuk_inap"));
+                      $rujuk = mysqli_num_rows(mysqli_query($con, "SELECT * FROM rujuk_inap"));
                       
                       
                       ?>

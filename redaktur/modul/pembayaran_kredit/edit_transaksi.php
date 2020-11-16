@@ -25,7 +25,7 @@ if($tipe_file == "image/jpeg" || $tipe_file == "image/png"){ // Cek apakah tipe 
       // Jika gambar berhasil diupload, Lakukan :  
       // Proses simpan ke Database
       $query = "UPDATE beli_k SET no_fak='$no_fak' , tgl_beli='$tgl_beli', total='$total', id_sup='$id_sup', tgl_tempo='$tgl_tempo' , bukti_bayar='$nama_file' WHERE id='$id'";
-      $sql = mysql_query( $query); // Eksekusi/ Jalankan query dari variabel $query
+      $sql = mysqli_query($con, $query); // Eksekusi/ Jalankan query dari variabel $query
       
       if($sql){ // Cek jika proses simpan ke database sukses atau tidak
         // Jika Sukses, Lakukan :

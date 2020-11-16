@@ -12,9 +12,9 @@
 
 	$pass     = anti_injection(md5($_POST['password']));
 
-	$q1 = mysql_query("SELECT * FROM karyawan WHERE username='$username' AND password='$pass' AND blokir='N'");
+	$q1 = mysqli_query($con,"SELECT * FROM karyawan WHERE username='$username' AND password='$pass' AND blokir='N'");
 
-	$qq = mysql_fetch_array($q1);
+	$qq = mysqli_fetch_array($q1);
 
 
 
@@ -49,8 +49,8 @@
 
 
 	function anti_injection($data){
-
-		$filter = mysql_real_escape_string(stripslashes(strip_tags(htmlspecialchars($data,ENT_QUOTES))));
+		global $con;
+		$filter = mysqli_real_escape_string($con,stripslashes(strip_tags(htmlspecialchars($data,ENT_QUOTES))));
 
 		return $filter;
 
@@ -70,11 +70,11 @@
 
 	} else {
 
-		$login	= mysql_query("SELECT * FROM karyawan WHERE username='$username' AND password='$pass' AND blokir='N' AND id_ju='JU-10'");
+		$login	= mysqli_query($con,"SELECT * FROM karyawan WHERE username='$username' AND password='$pass' AND blokir='N' AND id_ju='JU-10'");
 
-		$ketemu	= mysql_num_rows($login);
+		$ketemu	= mysqli_num_rows($login);
 
-		$r		= mysql_fetch_array($login);
+		$r		= mysqli_fetch_array($login);
 
 		$ip 	= $_SERVER['REMOTE_ADDR'];
 
@@ -110,17 +110,17 @@
 
 
 
-		catat($_SESSION['namauser'], "Berhasil Login dengan IP $ip");
+		catat($con, $_SESSION['namauser'], "Berhasil Login dengan IP $ip");
 
 		header('location:../redaktur/media.php?module=home');
 
 	} else {
 
-		catat($username, "Gagal Login");
+		catat($con, $username, "Gagal Login");
 
 		echo "<script>
 
-alert('Username atau Password Salah!!'); location.href = '".$url."/perawat';
+alert('Username atau Password Salah!!'); location.href = 'index.php';
 
 </script>";		
 

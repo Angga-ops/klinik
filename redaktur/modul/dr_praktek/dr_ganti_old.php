@@ -33,12 +33,12 @@
         <tbody>
                    <?php 
                    
-                   $d = mysql_query("SELECT * FROM dr_pengganti ORDER BY tgl ASC");
+                   $d = mysqli_query($con, "SELECT * FROM dr_pengganti ORDER BY tgl ASC");
 
-                   while($dr = mysql_fetch_assoc($d)){
+                   while($dr = mysqli_fetch_assoc($d)){
                   
-                    $doc = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap AS nama FROM user WHERE id_user = '$dr[id_dr]'"));
-                    $poli = mysql_fetch_assoc(mysql_query("SELECT poli FROM poliklinik WHERE id_poli = '$dr[id_poli]'"));
+                    $doc = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_lengkap AS nama FROM user WHERE id_user = '$dr[id_dr]'"));
+                    $poli = mysqli_fetch_assoc(mysqli_query($con, "SELECT poli FROM poliklinik WHERE id_poli = '$dr[id_poli]'"));
 
                        echo "<tr>";
                        echo "<td>$doc[nama]</td>";

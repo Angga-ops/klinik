@@ -9,7 +9,7 @@
 	// Hapus Produk
 	if ($module == 'produk' AND $act == 'hapus'){
 		$id		= $_GET['kd_produk'];
-		$del	= mysql_query("Delete From produk_master Where kd_produk='$id'");
+		$del	= mysqli_query($con, "Delete From produk_master Where kd_produk='$id'");
 		header('location:../../media.php?module=produk');
 	}
 	// Input Produk Baru
@@ -44,10 +44,10 @@
 		    if(move_uploaded_file($tmp_file, $path)){ // Cek apakah gambar berhasil diupload atau tidak
 		      // Jika gambar berhasil diupload, Lakukan :  
 		      // Proses simpan ke Database
-		      $query = "INSERT Into produk_master(kd_produk,nama_produk,harga_beli,jual_umum,gambar,jual_bpjs,
+		      $query = "INSERT Into produk_master(kd_produk,nama_produk,harga_beli,jual_umum,gambar,id_kategori,id_satuan,jual_bpjs,
 			   jual_lain)VALUES('$kode_barang','$nama_p','$harga_beli','$harga_jual','$nama_file',
-			   '$harga_bpjs','$harga_asuransilainnya')";
-			  $sql = mysql_query( $query); // Eksekusi/ Jalankan query dari variabel $query
+			   '$kategori','$satuan','$harga_bpjs','$harga_asuransilainnya')";
+			  $sql = mysqli_query($con, $query); // Eksekusi/ Jalankan query dari variabel $query
 			  
 		      if($sql){ // Cek jika proses simpan ke database sukses atau tidak
 		        // Jika Sukses, Lakukan :
@@ -59,10 +59,10 @@
 		      }
 		    }else{
 		       // Proses simpan ke Database
-			 $query = "INSERT Into produk_master(kd_produk,nama_produk,harga_beli,jual_umum,gambar,jual_bpjs,
+			 $query = "INSERT Into produk_master(kd_produk,nama_produk,harga_beli,jual_umum,gambar,id_kategori,id_satuan,jual_bpjs,
 			   jual_lain)VALUES('$kode_barang','$nama_p','$harga_beli','$harga_jual','$nama_file',
-			   '$harga_bpjs','$harga_asuransilainnya')";
-			   $sql = mysql_query( $query); // Eksekusi/ Jalankan query dari variabel $query
+			   '$kategori','$satuan','$harga_bpjs','$harga_asuransilainnya')";
+			   $sql = mysqli_query($con, $query); // Eksekusi/ Jalankan query dari variabel $query
 			   
 			   if($sql){ // Cek jika proses simpan ke database sukses atau tidak
 				 // Jika Sukses, Lakukan :
@@ -119,7 +119,7 @@
 		      $query = "Update produk_master Set kd_produk='$kd_produk', nama_produk='$nama_produk',harga_beli='$harga_beli',jual_umum ='$harga_jual',
 			  jual_bpjs='$harga_bpjs',jual_lain='$harga_asuransilainnya',
 			  gambar='$nama_file',id_kategori='$kategori',id_satuan='$satuan' Where kd_produk='$kd_produk'";
-			  $sql = mysql_query( $query); // Eksekusi/ Jalankan query dari variabel $query
+			  $sql = mysqli_query($con, $query); // Eksekusi/ Jalankan query dari variabel $query
 			  
 			    //update produk dan produk_pusat
 			/*	mysql_query("UPDATE produk SET jual_umum='$harga_jual',jual_bpjs='$harga_bpjs',jual_lain='$harga_asuransilainnya', harga_beli='$harga_beli' WHERE kode_barang='$kd_produk'");
@@ -140,7 +140,7 @@
 		      // Proses simpan ke Database
 		      $query = "Update produk_master Set kd_produk='$kd_produk', nama_produk='$nama_produk',harga_beli='$harga_beli',jual_umum='$harga_jual',
 			  jual_bpjs='$harga_bpjs',jual_lain='$harga_asuransilainnya',id_kategori='$kategori',id_satuan='$satuan' Where kd_produk='$kd_produk'";
-			  $sql = mysql_query( $query); // Eksekusi/ Jalankan query dari variabel $query
+			  $sql = mysqli_query($con, $query); // Eksekusi/ Jalankan query dari variabel $query
 			  
 			   //update produk dan produk_pusat
 			/*	mysql_query("UPDATE produk SET jual_umum='$harga_jual',jual_bpjs='$harga_bpjs',jual_lain='$harga_asuransilainnya', harga_beli='$harga_beli' WHERE kode_barang='$kd_produk'");

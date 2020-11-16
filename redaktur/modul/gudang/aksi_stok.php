@@ -9,7 +9,7 @@
 	// Hapus data barang
 	if ($act == 'hapus'){
 		$id_pp		= $_GET['id_pp'];
-		$del	= mysql_query("Delete From produk_pusat Where id_pp='$id_pp'");
+		$del	= mysqli_query($con, "Delete From produk_pusat Where id_pp='$id_pp'");
 		header('location:../../media.php?module=gudang');
 	}
 
@@ -25,8 +25,8 @@
 		$suplier	    	= $_POST['suplier'];
 		$batas_cabang		= $_POST['batas_cabang'];
 		$batas_minim		= $_POST['batas_minim'];
-		$simpan		= mysql_query("Insert Into produk_pusat(nama_produk,harga_beli,harga_jual,jumlah,id_sat,id_supp,kode_produk,id_kategori,batas_cabang,batas_minim) Values('$nama_produk','$harga_beli','$harga_jual','$stok_produk','$satuan','$suplier','$kd_produk','$kategori_produk','$batas_cabang','$batas_minim')") or die(mysql_error());
-	 	catat($_SESSION['namauser'], 'Data Stok Barang'.' ('.$nm.')');
+		$simpan		= mysqli_query($con, "Insert Into produk_pusat(nama_produk,harga_beli,harga_jual,jumlah,id_sat,id_supp,kode_produk,id_kategori,batas_cabang,batas_minim) Values('$nama_produk','$harga_beli','$harga_jual','$stok_produk','$satuan','$suplier','$kd_produk','$kategori_produk','$batas_cabang','$batas_minim')") or die(mysqli_error($con));
+	 	catat($con, $_SESSION['namauser'], 'Data Stok Barang'.' ('.$nm.')');
 		if($simpan){
 			header('location:../../media.php?module=gudang');
 		} else {
@@ -46,8 +46,8 @@
 		$suplier	    	= $_POST['suplier'];
 		$batas_cabang		= $_POST['batas_cabang'];
 		$batas_minim		= $_POST['batas_minim'];
-		$update		= mysql_query("Update produk_pusat Set nama_produk='$nama_produk', harga_beli='$harga_beli', harga_jual='$harga_jual', jumlah='$stok_produk', id_sat='$satuan', id_supp='$suplier', kode_produk='$kd_produk', id_kategori='$kategori_produk', batas_cabang='$batas_cabang', batas_minim='$batas_minim' Where id_pp='$id_pp'");
-		catat($_SESSION['namauser'], 'Edit Data Stok Barang'.' ('.$id.')');
+		$update		= mysqli_query($con, "Update produk_pusat Set nama_produk='$nama_produk', harga_beli='$harga_beli', harga_jual='$harga_jual', jumlah='$stok_produk', id_sat='$satuan', id_supp='$suplier', kode_produk='$kd_produk', id_kategori='$kategori_produk', batas_cabang='$batas_cabang', batas_minim='$batas_minim' Where id_pp='$id_pp'");
+		catat($con, $_SESSION['namauser'], 'Edit Data Stok Barang'.' ('.$id.')');
 		if($update){
 			header('location:../../media.php?module=gudang');
 		} else {

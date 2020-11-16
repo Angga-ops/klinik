@@ -33,11 +33,11 @@
 
 <?php 
 
-$k1 = mysql_query("SELECT * FROM perawatan_pasien WHERE id_dr = '$_SESSION[id_dr]' AND status IS NULL ORDER BY tanggal_pendaftaran DESC");
+$k1 = mysqli_query($con,"SELECT * FROM perawatan_pasien WHERE id_dr = '$_SESSION[id_dr]' AND status IS NULL ORDER BY tanggal_pendaftaran DESC");
 $no = 1;
-while($ki1 = mysql_fetch_assoc($k1)){
-    $pas = mysql_fetch_assoc(mysql_query("SELECT * FROM pasien WHERE id_pasien = '$ki1[id_pasien]'"));
-    if($ki1[id_dr] == $_SESSION[id_dr]){
+while($ki1 = mysqli_fetch_assoc($k1)){
+    $pas = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM pasien WHERE id_pasien = '$ki1[id_pasien]'"));
+    if($ki1['id_dr'] == $_SESSION['id_dr']){
         //pasien dari dokter yg sdg login
         echo "<tr>";
     echo "<td><button id='$ki1[id]' class='btn btn-sm btn-info' data-toggle='modal' data-target='#modal-default3' onclick='leave(this.id)' data-faktur='$ki1[no_faktur]' data-pasien='$ki1[id_pasien]'>Pulangkan</button></td>";
@@ -54,10 +54,10 @@ while($ki1 = mysql_fetch_assoc($k1)){
 }
 
 
-$k2 = mysql_query("SELECT b.* FROM dr_visit a JOIN perawatan_pasien b ON a.no_faktur = b.no_faktur WHERE a.id_dr = '$_SESSION[id_dr]' AND b.status IS NULL");
+$k2 = mysqli_query($con,"SELECT b.* FROM dr_visit a JOIN perawatan_pasien b ON a.no_faktur = b.no_faktur WHERE a.id_dr = '$_SESSION[id_dr]' AND b.status IS NULL");
 
-while($ki2 = mysql_fetch_assoc($k2)){
-    $pas = mysql_fetch_assoc(mysql_query("SELECT * FROM pasien WHERE id_pasien = '$ki2[id_pasien]'"));
+while($ki2 = mysqli_fetch_assoc($k2)){
+    $pas = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM pasien WHERE id_pasien = '$ki2[id_pasien]'"));
    
         //dokter visit
         echo "<tr>";
@@ -184,8 +184,8 @@ while($ki2 = mysql_fetch_assoc($k2)){
 <option value="">--silakan pilih--</option>
 <?php 
 
-$u = mysql_query("SELECT * FROM user WHERE id_ju = 'JU-02' AND id_user != '$_SESSION[id_dr]'");
-while($ux = mysql_fetch_assoc($u)){
+$u = mysqli_query($con,"SELECT * FROM user WHERE id_ju = 'JU-02' AND id_user != '$_SESSION[id_dr]'");
+while($ux = mysqli_fetch_assoc($u)){
     echo "<option value='$ux[id_user]'>$ux[nama_lengkap] </option>";
 }
 ?>

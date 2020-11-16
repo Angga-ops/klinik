@@ -21,8 +21,8 @@
                 <select name="klinik" class="form-control" autocomplete="off" style="float: left;text-align: center;">
                   <option value="NULL">Pilih Klinik</option>
                   <?php
-                  $q = mysql_query("SELECT * FROM daftar_klinik");
-                  while ($data = mysql_fetch_array($q)) {?>
+                  $q = mysqli_query($con, "SELECT * FROM daftar_klinik");
+                  while ($data = mysqli_fetch_array($q)) {?>
                     <option value="<?php echo $data['id_kk']?>"><?php echo $data['nama_klinik']?></option>
                   <?php }?>
                 </select>
@@ -81,10 +81,10 @@
 
             
             if ($id_kk != 0) {
-              $p = mysql_query("SELECT *FROM pasien where id_kk='$_POST[klinik]'"); 
-              while($dat=mysql_fetch_array($p)){
-                $q1 = mysql_query("SELECT * FROM daftar_klinik where id_kk='$dat[id_kk]'");
-                      $k = mysql_fetch_array($q1);
+              $p = mysqli_query($con, "SELECT *FROM pasien where id_kk='$_POST[klinik]'"); 
+              while($dat=mysqli_fetch_array($p)){
+                $q1 = mysqli_query($con, "SELECT * FROM daftar_klinik where id_kk='$dat[id_kk]'");
+                      $k = mysqli_fetch_array($q1);
                 echo '
                     <tr>
                       <td>'.$k['nama_klinik'].'</td>
@@ -100,10 +100,10 @@
               }
             }elseif($id_kk == 0){
               $klinik = $_POST['klinik'];
-              $p = mysql_query("SELECT * FROM pasien WHERE id_kk='$klinik'"); 
-              while($dat=mysql_fetch_array($p)){
-                $q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$dat[id_kk]'");
-                      $k = mysql_fetch_array($q1);
+              $p = mysqli_query($con, "SELECT * FROM pasien WHERE id_kk='$klinik'"); 
+              while($dat=mysqli_fetch_array($p)){
+                $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$dat[id_kk]'");
+                      $k = mysqli_fetch_array($q1);
                 echo '
                     <tr>
                       <td>'.$k['nama_klinik'].'</td>
@@ -125,8 +125,8 @@
           <tr>
             <td></td>';
                 $jumlahkan = "SELECT SUM(sub_tot) AS total FROM history_beli_t where tgl_beli='$tgl'"; //perintah untuk menjumlahkan
-                $total =@mysql_query($jumlahkan) or die (mysql_error());//melakukan query dengan varibel $jumlahkan
-                $t = mysql_fetch_array($total); //menyimpan hasil query ke variabel $t
+                $total =@mysqli_query($con, $jumlahkan) or die (mysqli_error($con));//melakukan query dengan varibel $jumlahkan
+                $t = mysqli_fetch_array($total); //menyimpan hasil query ke variabel $t
                 echo '
             <td></td>
           </tr>

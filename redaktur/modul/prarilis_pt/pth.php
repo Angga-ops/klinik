@@ -27,28 +27,28 @@ setlocale(LC_TIME,"id_ID");
 						</tr>
 					</thead>
 					<tbody>
-					<?php $k = mysql_query("SELECT * FROM pasca_treatment WHERE id_pasien = '$_GET[pasien]' ORDER BY tanggal DESC");
-					while($ki = mysql_fetch_assoc($k)){
+					<?php $k = mysqli_query($con,"SELECT * FROM pasca_treatment WHERE id_pasien = '$_GET[pasien]' ORDER BY tanggal DESC");
+					while($ki = mysqli_fetch_assoc($k)){
 
-$pas = mysql_fetch_assoc(mysql_query("SELECT nama_pasien FROM pasien WHERE id_pasien = '$ki[id_pasien]'"));
-$dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = '$ki[id_dr]'"));
+$pas = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_pasien FROM pasien WHERE id_pasien = '$ki[id_pasien]'"));
+$dr = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_lengkap FROM user WHERE id_user = '$ki[id_dr]'"));
 
-						 $q1 = mysql_query("SELECT *FROM history_kasir WHERE no_faktur='$ki[no_faktur]' AND jenis='Produk'"); 
-								$cekp = mysql_num_rows($q1);
+						 $q1 = mysqli_query($con,"SELECT *FROM history_kasir WHERE no_faktur='$ki[no_faktur]' AND jenis='Produk'"); 
+								$cekp = mysqli_num_rows($q1);
 								if ($cekp>0) {
 									$prod = "| ";
-									while ($p=mysql_fetch_array($q1)) {
+									while ($p=mysqli_fetch_array($q1)) {
 										$prod .= $p['nama'];
 										$prod .= " | ";
 									}
 								}else{
 									$prod = "Tidak Ada Produk ";
 								}
-								 $q2 = mysql_query("SELECT *FROM history_kasir WHERE no_faktur='$ki[no_faktur]' AND jenis='Treatment'"); 
-								$cekt = mysql_num_rows($q2);
+								 $q2 = mysqli_query($con,"SELECT *FROM history_kasir WHERE no_faktur='$ki[no_faktur]' AND jenis='Treatment'"); 
+								$cekt = mysqli_num_rows($q2);
 								if ($cekt>0) {
 									$treat = "| ";
-									while ($t=mysql_fetch_array($q2)) {
+									while ($t=mysqli_fetch_array($q2)) {
 										$treat .= $t['nama'];
 										$treat .= " | ";
 									}
@@ -58,7 +58,7 @@ $dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user
 									
 
 						echo "<tr>";
-						echo "<td>".strftime("%d %B %Y",strtotime($ki[tanggal]))."</td>";
+						echo "<td>".strftime("%d %B %Y",strtotime($ki['tanggal']))."</td>";
 						echo "<td>$pas[nama_pasien]</td>";
 						echo "<td>$ki[subjek]</td>";
 						echo "<td>$ki[objek]</td>";

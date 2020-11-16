@@ -148,8 +148,8 @@ $id_kk = $_SESSION['klinik']; ?>
 										<select class="form-control" id="poli" name="poli" style="width: 93%;" onchange="changedoc()">
 											<option value="belum">Silahkan pilih poliklinik ..</option>
 											<?php 
-											$q1 = mysql_query("SELECT *FROM poliklinik");
-											while ($dok = mysql_fetch_array($q1)) { ?>
+											$q1 = mysqli_query($con, "SELECT *FROM poliklinik");
+											while ($dok = mysqli_fetch_array($q1)) { ?>
 												<option value="<?php echo $dok['id_poli']; ?>"><?php echo $dok['poli'] ?></option>
 											<?php } ?>
 										</select>
@@ -188,8 +188,8 @@ $id_kk = $_SESSION['klinik']; ?>
 											<option value="">--abaikan--</option>
 											<?php 
 											
-											$asur = mysql_query("SELECT * FROM asuransi");
-											while($asuri = mysql_fetch_assoc($asur)){
+											$asur = mysqli_query($con, "SELECT * FROM asuransi");
+											while($asuri = mysqli_fetch_assoc($asur)){
 												echo "<option value='$asuri[id]'>$asuri[nama]</option>";
 											}
 											
@@ -302,8 +302,8 @@ function changedoc(){
 										<select class="form-control" id="poli" name="poli" style="width: 93%;" onchange="changedoc()">
 											<option value="belum">Silahkan pilih poliklinik ..</option>
 											<?php 
-											$q1 = mysql_query("SELECT *FROM poliklinik");
-											while ($dok = mysql_fetch_array($q1)) { ?>
+											$q1 = mysqli_query($con, "SELECT *FROM poliklinik");
+											while ($dok = mysqli_fetch_array($q1)) { ?>
 												<option value="<?php echo $dok['id_poli']; ?>"><?php echo $dok['poli'] ?></option>
 											<?php } ?>
 										</select>
@@ -342,8 +342,8 @@ function changedoc(){
 											<option value="">--abaikan--</option>
 											<?php 
 											
-											$asur = mysql_query("SELECT * FROM asuransi");
-											while($asuri = mysql_fetch_assoc($asur)){
+											$asur = mysqli_query($con, "SELECT * FROM asuransi");
+											while($asuri = mysqli_fetch_assoc($asur)){
 												echo "<option value='$asuri[id]'>$asuri[nama]</option>";
 											}
 											

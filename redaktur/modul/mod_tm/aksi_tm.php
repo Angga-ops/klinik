@@ -10,8 +10,8 @@
 	// Hapus Tag
 	if ($module == 'tm' AND $act == 'hapus'){
 		$noidk		= $_GET['id'];
-		$del		= mysql_query("Delete From medis Where no_idk='$noidk'");
-		catat($_SESSION['namauser'], 'Hapus Data Tenaga Medis'.' ('.$noidk.')');
+		$del		= mysqli_query($con,"Delete From medis Where no_idk='$noidk'");
+		catat($con, $_SESSION['namauser'], 'Hapus Data Tenaga Medis'.' ('.$noidk.')');
 		?>
 		<script type="text/javascript">
 		window.location.href="../../media.php?module=tenaga_medis";        
@@ -26,8 +26,8 @@
 		$almt		= $_POST['alamat'];
 		$kntk		= $_POST['kontak'];
 		$biaya		= $_POST['biaya'];
-		$simpan		= mysql_query("Insert Into medis(id_goltm,no_idk,nama_tm,alamat,kontak,biaya_praktik) Values('$goltm','$noidk','$nm','$almt','$kntk','$biaya')");
-		catat($_SESSION['namauser'], 'Data Tenaga Medis Baru'.' ('.$noidk.')');
+		$simpan		= mysqli_query($con,"Insert Into medis(id_goltm,no_idk,nama_tm,alamat,kontak,biaya_praktik) Values('$goltm','$noidk','$nm','$almt','$kntk','$biaya')");
+		catat($con, $_SESSION['namauser'], 'Data Tenaga Medis Baru'.' ('.$noidk.')');
 			if($simpan){
 			?>
 				<script type="text/javascript">
@@ -51,8 +51,8 @@
 		$almt		= $_POST['alamat'];
 		$kntk		= $_POST['kontak'];
 		$biaya		= $_POST['biaya'];
-		$edit		= mysql_query("Update medis Set id_goltm='$goltm', nama_tm='$nm', alamat='$almt', kontak='$kntk', biaya_praktik='$biaya' Where no_idk='$noidk'");
-		catat($_SESSION['namauser'], 'Edit Data Tenaga Medis'.' ('.$noidk.')');
+		$edit		= mysqli_query($con,"Update medis Set id_goltm='$goltm', nama_tm='$nm', alamat='$almt', kontak='$kntk', biaya_praktik='$biaya' Where no_idk='$noidk'");
+		catat($con, $_SESSION['namauser'], 'Edit Data Tenaga Medis'.' ('.$noidk.')');
 			if($edit){
 			?>
 				<script type="text/javascript">

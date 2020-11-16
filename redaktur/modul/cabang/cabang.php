@@ -39,8 +39,8 @@
         </thead>
     	<tbody>
 		<?php
-            $tampil		= mysql_query("Select * From daftar_klinik");
-            while($data	= mysql_fetch_array($tampil)){
+            $tampil		= mysqli_query($con, "Select * From daftar_klinik");
+            while($data	= mysqli_fetch_array($tampil)){
         ?>
 			<tr class="gradeX">
                  
@@ -134,7 +134,7 @@ $(document).ready(function(){
 	break;
     case "edit_ca":
 	$id		= $_GET["id"];
-    $edit 	=  mysql_fetch_array(mysql_query("Select * From daftar_klinik Where id_kk='$id'"));
+    $edit 	=  mysqli_fetch_array(mysqli_query($con, "Select * From daftar_klinik Where id_kk='$id'"));
 ?>
 
 <section class="content">

@@ -8,8 +8,8 @@
 	// Hapus User
 	if ($module == 'setuser_cabang' AND $act == 'hapus'){
 		$id		= $_GET['id'];
-		$gambar	= mysql_fetch_array(mysql_query("Select * From user Where id_user='$id'"));		
-		$delete = mysql_query("Delete From user Where id_user='$id'");
+		$gambar	= mysqli_fetch_array(mysqli_query($con,"Select * From user Where id_user='$id'"));		
+		$delete = mysqli_query($con,"Delete From user Where id_user='$id'");
 		$folder	= "../../../foto_user/".$gambar["foto"];
 		unlink($folder);
 		header('location:../../media.php?module=setuser_cabang');
@@ -30,7 +30,7 @@
 		$nama_file      = $_FILES['fupload']['name'];
 		$acak           = rand(1,99);
 		$nama_file_unik = $acak.$nama_file; 
-		$sel_unm		= mysql_num_rows(mysql_query("Select * From user Where username='$unm'"));
+		$sel_unm		= mysqli_num_rows(mysqli_query($con,"Select * From user Where username='$unm'"));
 		if($sel_unm >= 1){
 		?>
         	<script>
@@ -41,7 +41,7 @@
 		} else {		
 			UploadUser($nama_file_unik);
 			//
-			$simpan	= mysql_query("INSERT Into user(id_ju,id_kk,username,password,nama_lengkap,email,no_telp,foto,blokir) 
+			$simpan	= mysqli_query($con,"INSERT Into user(id_ju,id_kk,username,password,nama_lengkap,email,no_telp,foto,blokir) 
 									Values('$ju','$id_kk','$unm','$pass','$nm','$eml','$kntk','$nama_file_unik','$sts')");
 			if($simpan){
 				header('location:../../media.php?module=setuser_cabang');
@@ -68,23 +68,23 @@
 		$acak           = rand(1,99);
 		$nama_file_unik = $acak.$nama_file; 
 		UploadUser($nama_file_unik);
-		$gambar	= mysql_fetch_array(mysql_query("Select * From user Where id_user='$id'"));
+		$gambar	= mysqli_fetch_array(mysqli_query($con,"Select * From user Where id_user='$id'"));
 		if(empty($_POST['password'])){
 			if(empty($lokasi_file)){
-			$update	= mysql_query("Update user Set id_ju='$ju',id_kk='$id_kk', username='$unm', nama_lengkap='$nm', email='$eml', no_telp='$kntk', blokir='$sts' Where id_user='$id'");			
+			$update	= mysqli_query($con,"Update user Set id_ju='$ju',id_kk='$id_kk', username='$unm', nama_lengkap='$nm', email='$eml', no_telp='$kntk', blokir='$sts' Where id_user='$id'");			
 			header('location:../../media.php?module=setuser_cabang');					
 			} else {
-				$update	= mysql_query("Update user Set id_ju='$ju',id_kk='$id_kk', username='$unm', nama_lengkap='$nm', email='$eml', no_telp='$kntk', foto='$nama_file_unik', blokir='$sts' Where id_user='$id'");			
+				$update	= mysqli_query($con,"Update user Set id_ju='$ju',id_kk='$id_kk', username='$unm', nama_lengkap='$nm', email='$eml', no_telp='$kntk', foto='$nama_file_unik', blokir='$sts' Where id_user='$id'");			
 				$folder	= "../../../foto_user/".$gambar["foto"];
 				unlink($folder);
 				header('location:../../media.php?module=setuser_cabang');
 			}
 		}else{
 			if(empty($lokasi_file)){
-			$update	= mysql_query("Update user Set id_ju='$ju',id_kk='$id_kk', username='$unm', password='$pass', nama_lengkap='$nm', email='$eml', no_telp='$kntk', blokir='$sts' Where id_user='$id'");			
+			$update	= mysqli_query($con,"Update user Set id_ju='$ju',id_kk='$id_kk', username='$unm', password='$pass', nama_lengkap='$nm', email='$eml', no_telp='$kntk', blokir='$sts' Where id_user='$id'");			
 			header('location:../../media.php?module=setuser_cabang');					
 			} else {
-				$update	= mysql_query("Update user Set id_ju='$ju',id_kk='$id_kk', username='$unm', password='$pass', nama_lengkap='$nm', email='$eml', no_telp='$kntk', foto='$nama_file_unik', blokir='$sts' Where id_user='$id'");			
+				$update	= mysqli_query($con,"Update user Set id_ju='$ju',id_kk='$id_kk', username='$unm', password='$pass', nama_lengkap='$nm', email='$eml', no_telp='$kntk', foto='$nama_file_unik', blokir='$sts' Where id_user='$id'");			
 				$folder	= "../../../foto_user/".$gambar["foto"];
 				unlink($folder);
 				header('location:../../media.php?module=setuser_cabang');

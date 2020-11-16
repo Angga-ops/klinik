@@ -40,11 +40,11 @@
         </thead>
     	<tbody>
 		<?php
-		$tampil		= mysql_query("SELECT * From ruangan");
-		while($r	= mysql_fetch_array($tampil)){
+		$tampil		= mysqli_query($con, "SELECT * From ruangan");
+		while($r	= mysqli_fetch_array($tampil)){
     ?>
 			<tr class="gradeX">
-            <td><?php $k = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'")); echo $k['nama_klinik']; ?></td>
+            <td><?php $k = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'")); echo $k['nama_klinik']; ?></td>
             <td><?php echo $r["nama_ruangan"]; ?></td>
             <td><?php echo $r["status"] ?></td>
             <td><?php echo $r["kapasitas"]; ?></td>
@@ -115,9 +115,9 @@ $(document).ready(function(){
               <label>Klinik</label>
               <select name="cabang" class="form-control">
                 <option value="">Pillih Klinik</option>
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik"); 
-                      while($dat = mysql_fetch_array($q1)){ ?>
-                        <option value="<?php echo $dat[id_kk]; ?>"><?php echo $dat[nama_klinik]; ?></option>
+                <?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik"); 
+                      while($dat = mysqli_fetch_array($q1)){ ?>
+                        <option value="<?php echo $dat['id_kk']; ?>"><?php echo $dat['nama_klinik']; ?></option>
                         <?php
                       }
                 ?> 
@@ -145,7 +145,7 @@ $(document).ready(function(){
 	break;
 	case "edit_dr":
 	$id		= $_GET['id'];
-	$edit 	= mysql_fetch_array(mysql_query("Select * From ruangan Where id='$id'"));
+	$edit 	= mysqli_fetch_array(mysqli_query($con, "Select * From ruangan Where id='$id'"));
 ?>
 
 <section class="content">
@@ -179,13 +179,13 @@ $(document).ready(function(){
             <div class="form-group">
               <label>Klinik</label>
               <select name="cabang" class="form-control">
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik"); 
-                      while($dat = mysql_fetch_array($q1)){ 
+                <?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik"); 
+                      while($dat = mysqli_fetch_array($q1)){ 
                         if($edit['id_kk']==$dat['id_kk']){ ?>
-                          <option selected value="<?php echo $dat[id_kk]; ?>"><?php echo $dat[nama_klinik]; ?></option>
+                          <option selected value="<?php echo $dat['id_kk']; ?>"><?php echo $dat['nama_klinik']; ?></option>
                           <?php
                         }else{ ?>
-                          <option value="<?php echo $dat[id_kk]; ?>"><?php echo $dat[nama_klinik]; ?></option>
+                          <option value="<?php echo $dat['id_kk']; ?>"><?php echo $dat['nama_klinik']; ?></option>
                         <?php
                         }
                       }
@@ -221,13 +221,13 @@ $(document).ready(function(){
             <label for="field4">Kamar</label>
             <select name="kamar">
 				<?php
-                    $jr	= mysql_query("Select * From kamar");
+                    $jr	= mysqli_query($con, "Select * From kamar");
                     if ($edit['id_kamar'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Jenis --</option>
                 <?php
                 }
-                    while ($edit_jr 		= mysql_fetch_array($jr)) {
+                    while ($edit_jr 		= mysqli_fetch_array($jr)) {
                     if ($edit['id_kamar']	== $edit_jr['id_kamar']) {
                     ?>
                         <option value="<?php echo $edit_jr['id_kamar']; ?>" selected><?php echo $edit_jr['nama_kamar']; ?></option>

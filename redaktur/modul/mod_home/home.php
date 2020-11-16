@@ -34,21 +34,21 @@ $id_kk = $_SESSION['klinik'];
     
 <div class="col-md-12">
   <div class="callout callout-success">
-    <?php $k =  mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'");
-     $kk =  mysql_fetch_array($k); ?>
+    <?php $k =  mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'");
+     $kk =  mysqli_fetch_array($k); ?>
      <h4 style="text-transform: uppercase;">SELAMAT DATANG DI KLINIK <?php echo $kk['nama_klinik']; ?></h4>
     </div>
   </div>
 </div>
 <?php 
 $date_now = date("Y-m-d");
-$q1  = mysql_query("SELECT * FROM antrian_pasien WHERE tanggal_pendaftaran='$date_now' AND jenis_layanan IN ('igd','poliklinik') AND rujuk_inap IS NULL");
-$mp  = mysql_num_rows($q1);
-$q2  = mysql_query("SELECT *FROM history_ap WHERE tanggal_pendaftaran='$date_now'");
-$mp2 = mysql_num_rows($q2);
+$q1  = mysqli_query($con, "SELECT * FROM antrian_pasien WHERE tanggal_pendaftaran='$date_now' AND jenis_layanan IN ('igd','poliklinik') AND rujuk_inap IS NULL");
+$mp  = mysqli_num_rows($q1);
+$q2  = mysqli_query($con, "SELECT *FROM history_ap WHERE tanggal_pendaftaran='$date_now'");
+$mp2 = mysqli_num_rows($q2);
 $tot = $mp+$mp2;
-$q3  = mysql_query("SELECT *FROM history_ap WHERE tanggal_pendaftaran='$date_now' AND pembayaran='Belum Lunas'");
-$mp3 = mysql_num_rows($q3);
+$q3  = mysqli_query($con, "SELECT *FROM history_ap WHERE tanggal_pendaftaran='$date_now' AND pembayaran='Belum Lunas'");
+$mp3 = mysqli_num_rows($q3);
 ?>
 
   <?php if ($_SESSION['jenis_u']=="JU-06") { ?>
@@ -175,15 +175,15 @@ $mp3 = mysql_num_rows($q3);
           <tbody>
             <?php 
             $now = date("Y-m-d");
-            $q4 =  mysql_query("SELECT id_pasien,(SELECT nama_pasien FROM pasien WHERE id_pasien = noticelab.id_pasien) pasien,no_faktur,(SELECT nama_lengkap FROM user WHERE id_user = noticelab.id_dr) dr, status FROM noticelab WHERE tgl = '$now'"); 
-              while ($s = mysql_fetch_array($q4)) { 
+            $q4 =  mysqli_query($con, "SELECT id_pasien,(SELECT nama_pasien FROM pasien WHERE id_pasien = noticelab.id_pasien) pasien,no_faktur,(SELECT nama_lengkap FROM user WHERE id_user = noticelab.id_dr) dr, status FROM noticelab WHERE tgl = '$now'"); 
+              while ($s = mysqli_fetch_array($q4)) { 
 
-                $jalan = mysql_fetch_assoc(mysql_query("SELECT id FROM antrian_pasien WHERE no_faktur = '$s[no_faktur]' AND rujuk_inap IS NULL"));
-                $bang = mysql_fetch_assoc(mysql_query("SELECT nama_ruangan AS sal FROM ruangan a JOIN perawatan_pasien b ON a.id = b.id_ruang WHERE b.no_faktur = '$s[no_faktur]'"));
+                $jalan = mysqli_fetch_assoc(mysqli_query($con, "SELECT id FROM antrian_pasien WHERE no_faktur = '$s[no_faktur]' AND rujuk_inap IS NULL"));
+                $bang = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_ruangan AS sal FROM ruangan a JOIN perawatan_pasien b ON a.id = b.id_ruang WHERE b.no_faktur = '$s[no_faktur]'"));
 
-                if(is_null($jalan[id])){
+                if(is_null($jalan['id'])){
                   $rawat = "Rawat Inap";
-                  $ruang = $bang[sal];
+                  $ruang = $bang['sal'];
                 } else {
                   $rawat = "Rawat Jalan";
                 }
@@ -199,7 +199,7 @@ $mp3 = mysql_num_rows($q3);
                 <?php
                   if($s['status']=='T'){
                 ?>
-                      <a href="modul/mod_home/antrian.php?nofak=<?php echo $s[no_faktur]; ?>&id=<?php echo $s[id_pasien]; ?>" class="btn btn-xs btn-primary">Antri</a>
+                      <a href="modul/mod_home/antrian.php?nofak=<?php echo $s['no_faktur']; ?>&id=<?php echo $s['id_pasien']; ?>" class="btn btn-xs btn-primary">Antri</a>
                     </td>
                   <?php }
                   else{
@@ -235,16 +235,16 @@ $mp3 = mysql_num_rows($q3);
           <tbody>
             <?php 
             $now = date("Y-m-d");
-            $q5 =  mysql_query("SELECT no_faktur,(SELECT nama_pasien FROM pasien WHERE id_pasien = antrian_pasien.id_pasien) pasien, no_urut FROM antrian_pasien WHERE tanggal_pendaftaran = '$now' AND jenis_layanan='lab' AND status is NULL ORDER BY no_urut DESC"); 
+            $q5 =  mysqli_query($con, "SELECT no_faktur,(SELECT nama_pasien FROM pasien WHERE id_pasien = antrian_pasien.id_pasien) pasien, no_urut FROM antrian_pasien WHERE tanggal_pendaftaran = '$now' AND jenis_layanan='lab' AND status is NULL ORDER BY no_urut DESC"); 
             $no=1;
-              while ($s1 = mysql_fetch_array($q5)) {
+              while ($s1 = mysqli_fetch_array($q5)) {
                 ?>
             <tr>
               <td><?php echo $s1["no_faktur"]; ?></td>
               <td><?php echo $s1["pasien"]; ?></td>
               <td><?php echo $s1["no_urut"]; ?></td>
               <td> 
-                <a href="media.php?module=lab_treatment&nofak=<?php echo $s1[no_faktur]; ?>&id=<?php echo $s1[id_pasien]; ?>" class="btn btn-xs btn-primary">Panggil</a>
+                <a href="media.php?module=lab_treatment&nofak=<?php echo $s1['no_faktur']; ?>&id=<?php echo $s1['id_pasien']; ?>" class="btn btn-xs btn-primary">Panggil</a>
               </td>
             </tr>
             <?php
@@ -269,7 +269,7 @@ $mp3 = mysql_num_rows($q3);
                     <div class="box-header">
                       <h3 class="box-title">Pasien Yang Sedang mengantri <?php
                       
-                      $doc = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = $_SESSION[id_dr]"));
+                      $doc = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_lengkap FROM user WHERE id_user = $_SESSION[id_dr]"));
 
                      if(is_null($doc["nama_lengkap"])){ } else {
                       echo "untuk Dokter ".$doc["nama_lengkap"];
@@ -282,7 +282,7 @@ $mp3 = mysql_num_rows($q3);
                       <div class="callout callout-success">
                         <?php
                         
-                        $docs = isset($_SESSION[id_dr])? "AND id_dr = $_SESSION[id_dr]" : "";
+                        $docs = isset($_SESSION['id_dr'])? "AND id_dr = $_SESSION[id_dr]" : "";
                         if($_SESSION['jenis_u']=="JU-10"){
 
                           //cari range expired
@@ -299,23 +299,23 @@ $mp3 = mysql_num_rows($q3);
                     $hari = date("N",strtotime($date_now));
                     
                   //cari id_dr
-                  $nrs = mysql_fetch_assoc(mysql_query("SELECT id_dr FROM dr_praktek a JOIN nurse b ON a.id_drpraktek = b.drpraktek
+                  $nrs = mysqli_fetch_assoc(mysqli_query($con, "SELECT id_dr FROM dr_praktek a JOIN nurse b ON a.id_drpraktek = b.drpraktek
                   WHERE b.perawat = '$_SESSION[id_user]'  AND a.hari = '$hari' AND a.expired >= '$last' AND a.expired <= '$now'"));
-                  $id_dr = $nrs[id_dr];
+                  $id_dr = $nrs['id_dr'];
 
-                          $tot = mysql_num_rows(mysql_query("SELECT *FROM antrian_pasien 
+                          $tot = mysqli_num_rows(mysqli_query($con, "SELECT *FROM antrian_pasien 
                       JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.status IS NULL AND id_dr='$id_dr' AND antrian_pasien.tanggal_pendaftaran = '$date_now' AND antrian_pasien.rujuk_inap IS NULL"));
                         }
                         else{
-                          $tot = mysql_num_rows(mysql_query("SELECT * FROM antrian_pasien WHERE tanggal_pendaftaran='$date_now' $docs AND jenis_layanan IN ('igd','poliklinik') AND rujuk_inap IS NULL")); 
+                          $tot = mysqli_num_rows(mysqli_query($con, "SELECT * FROM antrian_pasien WHERE tanggal_pendaftaran='$date_now' $docs AND jenis_layanan IN ('igd','poliklinik') AND rujuk_inap IS NULL")); 
                         }
                         ?>
                         <p>Jumlah Total Antrian Pasien <?php echo $tot; ?></p>
                         <?php
                           if($_SESSION['jenis_u']=="JU-06"){
-                            $query1 = mysql_query("SELECT * FROM poliklinik");
-                            while($f1 = mysql_fetch_assoc($query1)){
-                              $query2 = mysql_num_rows(mysql_query("SELECT * FROM antrian_pasien WHERE status IS NULL AND tanggal_pendaftaran = '$date_now' AND rujuk_inap IS NULL AND poliklinik='$f1[id_poli]'"));
+                            $query1 = mysqli_query($con, "SELECT * FROM poliklinik");
+                            while($f1 = mysqli_fetch_assoc($query1)){
+                              $query2 = mysqli_num_rows(mysqli_query($con, "SELECT * FROM antrian_pasien WHERE status IS NULL AND tanggal_pendaftaran = '$date_now' AND rujuk_inap IS NULL AND poliklinik='$f1[id_poli]'"));
                             ?>
                             <p>Jumlah Antrian Pasien <?php echo $f1['poli']." ".$query2; ?></p>
                           <?php
@@ -340,18 +340,18 @@ $mp3 = mysql_num_rows($q3);
                 switch ($_SESSION['jenis_u']) {
                   case "JU-02":
                     $id_dr = $_SESSION['id_dr'];
-                    $ap = mysql_query("SELECT *FROM antrian_pasien 
+                    $ap = mysqli_query($con, "SELECT *FROM antrian_pasien 
                       JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.status IS NULL AND id_dr='$id_dr' AND antrian_pasien.tanggal_pendaftaran = '$date_now' AND antrian_pasien.rujuk_inap IS NULL ORDER BY antrian_pasien.no_urut ASC");
                     break;
 
                     case "JU-07":
-                    $ap = mysql_query("SELECT  history_ap.*,pasien.*,history_ap.id AS antri_id FROM history_ap 
+                    $ap = mysqli_query($con, "SELECT  history_ap.*,pasien.*,history_ap.id AS antri_id FROM history_ap 
                     JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE jenis_layanan IN ('poliklinik','igd')  AND history_ap.tanggal_pendaftaran = '$date_now' ORDER BY history_ap.no_urut ASC");
 
                     break;
 
                     case "JU-08":
-                    $ap = mysql_query("SELECT  antrian_pasien.*,pasien.*,antrian_pasien.id AS antri_id FROM antrian_pasien 
+                    $ap = mysqli_query($con, "SELECT  antrian_pasien.*,pasien.*,antrian_pasien.id AS antri_id FROM antrian_pasien 
                     JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.status IS NULL AND jenis_layanan = 'lab'  AND antrian_pasien.tanggal_pendaftaran = '$date_now' ORDER BY antrian_pasien.no_urut ASC");
                     break;
 
@@ -371,17 +371,17 @@ $mp3 = mysql_num_rows($q3);
                     $hari = date("N",strtotime($date_now));
                     
                   //cari id_dr
-                  $nrs = mysql_fetch_assoc(mysql_query("SELECT id_dr FROM dr_praktek a JOIN nurse b ON a.id_drpraktek = b.drpraktek
+                  $nrs = mysqli_fetch_assoc(mysqli_query($con, "SELECT id_dr FROM dr_praktek a JOIN nurse b ON a.id_drpraktek = b.drpraktek
                   WHERE b.perawat = '$_SESSION[id_user]'  AND a.hari = '$hari' AND a.expired >= '$last' AND a.expired <= '$now'"));
-                  $id_dr = $nrs[id_dr];
+                  $id_dr = $nrs['id_dr'];
 
-                    $ap = mysql_query("SELECT *FROM antrian_pasien 
+                    $ap = mysqli_query($con, "SELECT *FROM antrian_pasien 
                       JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.status IS NULL AND id_dr='$id_dr' AND antrian_pasien.tanggal_pendaftaran = '$date_now' AND antrian_pasien.rujuk_inap IS NULL ORDER BY antrian_pasien.no_urut ASC");
 
                     break;
                   
                   default:
-                    $ap = mysql_query("SELECT  antrian_pasien.*,pasien.*,antrian_pasien.id AS antri_id FROM antrian_pasien 
+                    $ap = mysqli_query($con, "SELECT  antrian_pasien.*,pasien.*,antrian_pasien.id AS antri_id FROM antrian_pasien 
                       JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.status IS NULL AND jenis_layanan IN ('igd','poliklinik') AND antrian_pasien.tanggal_pendaftaran = '$date_now' AND antrian_pasien.rujuk_inap IS NULL ORDER BY antrian_pasien.no_urut ASC");
 
 
@@ -389,38 +389,38 @@ $mp3 = mysql_num_rows($q3);
                 }
 
                $no = 1;
-                while($i = mysql_fetch_array($ap)){ ?>
+                while($i = mysqli_fetch_array($ap)){ ?>
                 <tr>
                 <td><?php echo $i['no_faktur']; ?></td>
                   <td><?php echo $i['nama_pasien']; ?></td>
                   <td><?php echo strtoupper($i['jenis_layanan']); ?></td>
                   <td><?php echo $i['no_urut']; ?></td>
-                  <td><?php if(is_null($i[online])){ echo "Tidak"; } else { echo "Ya"; } ?></td>
+                  <td><?php if(is_null($i['online'])){ echo "Tidak"; } else { echo "Ya"; } ?></td>
                   <?php if ($_SESSION['jenis_u']=="JU-02") { ?>
                     <td>
-                      <a href="media.php?module=pasca_treatment&nofak=<?php echo $i[no_faktur]; ?>&id=<?php echo $i[id_pasien]; ?>" class="btn btn-xs btn-primary">Panggil</a> &nbsp; <a href="#" data-toggle="modal" data-target="#modal-default-notice" class="btn btn-xs btn-warning" onclick="nl(this.id)" id="nl<?php echo $no; ?>" data-faktur="<?php echo $i[no_faktur]; ?>" data-pasien="<?php echo $i[id_pasien]; ?>" data-dr="<?php echo $_SESSION['id_dr']; ?>" data-layanan="jalan" data-jamin="<?php echo $i[jenis_pasien]; ?>">Notice Lab</a>
+                      <a href="media.php?module=pasca_treatment&nofak=<?php echo $i['no_faktur']; ?>&id=<?php echo $i['id_pasien']; ?>" class="btn btn-xs btn-primary">Panggil</a> &nbsp; <a href="#" data-toggle="modal" data-target="#modal-default-notice" class="btn btn-xs btn-warning" onclick="nl(this.id)" id="nl<?php echo $no; ?>" data-faktur="<?php echo $i['no_faktur']; ?>" data-pasien="<?php echo $i['id_pasien']; ?>" data-dr="<?php echo $_SESSION['id_dr']; ?>" data-layanan="jalan" data-jamin="<?php echo $i['jenis_pasien']; ?>">Notice Lab</a>
                     </td>
-                    <?php } else if ($_SESSION['jenis_u']=="JU-07"){ $cek = mysql_num_rows(mysql_query("SELECT no_faktur FROM kasir_sementara WHERE no_faktur = '$i[no_faktur]' AND jenis = 'Produk'")); if($cek > 0){ ?>
+                    <?php } else if ($_SESSION['jenis_u']=="JU-07"){ $cek = mysqli_num_rows(mysqli_query($con, "SELECT no_faktur FROM kasir_sementara WHERE no_faktur = '$i[no_faktur]' AND jenis = 'Produk'")); if($cek > 0){ ?>
                   <td> 
-                      <a href="media.php?module=resep_jalan&faktur=<?php echo $i[no_faktur]; ?>&id=<?php echo $i[id_pasien]; ?>" class="btn btn-xs btn-primary">Panggil</a>
+                      <a href="media.php?module=resep_jalan&faktur=<?php echo $i['no_faktur']; ?>&id=<?php echo $i['id_pasien']; ?>" class="btn btn-xs btn-primary">Panggil</a>
                     </td>
                   <?php } else { echo "<td><span class='badge bg-green'><i class='fa fa-check'></i></span></td>"; } } else if ($_SESSION['jenis_u']=="JU-08"){ ?>
                   <td> 
-                      <a href="media.php?module=lab_treatment&nofak=<?php echo $i[no_faktur]; ?>&id=<?php echo $i[id_pasien]; ?>" class="btn btn-xs btn-primary">Panggil</a>
+                      <a href="media.php?module=lab_treatment&nofak=<?php echo $i['no_faktur']; ?>&id=<?php echo $i['id_pasien']; ?>" class="btn btn-xs btn-primary">Panggil</a>
                     </td>
                   <?php } else if ($_SESSION['jenis_u']=="JU-10"){ ?>
                   <td> 
-                  <button data-toggle="modal" data-faktur="<?php echo $i[no_faktur]; ?>" data-pasien="<?php echo $i[nama_pasien]; ?>" data-tb="<?php echo $i[tb]; ?>" data-bb="<?php echo $i[bb]; ?>" data-tensi="<?php echo $i[tensi]; ?>" data-respirasi="<?php echo $i[respirasi]; ?>" data-nadi="<?php echo $i[nadi]; ?>" data-suhu="<?php echo $i[suhu]; ?>" data-keluhan="<?php echo $i[keluhan]; ?>" data-target="#modal-default" class="btn btn-xs btn-warning" onclick="editonline(this.id)" id="<?php echo rand(1,200); ?>">Cek Pasien</button>
+                  <button data-toggle="modal" data-faktur="<?php echo $i['no_faktur']; ?>" data-pasien="<?php echo $i['nama_pasien']; ?>" data-tb="<?php echo $i['tb']; ?>" data-bb="<?php echo $i['bb']; ?>" data-tensi="<?php echo $i['tensi']; ?>" data-respirasi="<?php echo $i['respirasi']; ?>" data-nadi="<?php echo $i['nadi']; ?>" data-suhu="<?php echo $i['suhu']; ?>" data-keluhan="<?php echo $i['keluhan']; ?>" data-target="#modal-default" class="btn btn-xs btn-warning" onclick="editonline(this.id)" id="<?php echo rand(1,200); ?>">Cek Pasien</button>
                     </td>
                   <?php } else {
-                    $check = mysql_query("SELECT * FROM rujuk_inap WHERE antrian_pasien='$i[antri_id]'");
-                    if(mysql_num_rows($check) > 0){
+                    $check = mysqli_query($con, "SELECT * FROM rujuk_inap WHERE antrian_pasien='$i[antri_id]'");
+                    if(mysqli_num_rows($check) > 0){
                       ?>
                       <td> <a href="?module=rujuk_inap" class="btn btn-xs btn-warning">Sedang menunggu kamar</a></td>
                     <?php }
                     else {
                     ?>
-                      <td> <a href="modul/mod_home/delete.php?id=<?php echo $i[antri_id]; ?>" class="btn btn-xs btn-danger" onclick="return confirm('apakah akan membatalkan?')">Batalkan</a></td>
+                      <td> <a href="modul/mod_home/delete.php?id=<?php echo $i['antri_id']; ?>" class="btn btn-xs btn-danger" onclick="return confirm('apakah akan membatalkan?')">Batalkan</a></td>
                  <?php }
                   } ?>
                 </tr>
@@ -533,8 +533,8 @@ function editonline(id){
             </thead>
             <tbody>
               <?php 
-              $appp = mysql_query("SELECT nama_pasien,no_urut,history_ap.id_kk,history_ap.tanggal_pendaftaran,no_faktur FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE pembayaran IN ('Belum Lunas') AND history_ap.tanggal_pendaftaran='$daten' AND history_ap.id_kk='$id_kk' ORDER BY history_ap.no_urut ASC");
-              while($iii = mysql_fetch_array($appp)){ ?>
+              $appp = mysqli_query($con, "SELECT nama_pasien,no_urut,history_ap.id_kk,history_ap.tanggal_pendaftaran,no_faktur FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE pembayaran IN ('Belum Lunas') AND history_ap.tanggal_pendaftaran='$daten' AND history_ap.id_kk='$id_kk' ORDER BY history_ap.no_urut ASC");
+              while($iii = mysqli_fetch_array($appp)){ ?>
               <tr>
                 <td><?php echo $iii['nama_pasien']; ?></td>
                 <td><?php echo $iii['no_urut']; ?></td>
@@ -569,7 +569,7 @@ function editonline(id){
     <div class="col-md-4">
       <div class="small-box bg-yellow">
           <div class="inner">
-            <?php $tp = mysql_fetch_array(mysql_query("SELECT SUM(jumlah) AS jumlah_total FROM history_kasir WHERE tanggal='$tgl' AND jenis='Produk' ")); ?>
+            <?php $tp = mysqli_fetch_array(mysqli_query($con, "SELECT SUM(jumlah) AS jumlah_total FROM history_kasir WHERE tanggal='$tgl' AND jenis='Produk' ")); ?>
             <h3><?php if(empty($tp['jumlah_total'])){ echo "0"; }else{  echo $tp['jumlah_total']; }   ?></h3>
 
             <p>Total Pendaftaran Pasien<br>hari ini</p>
@@ -583,7 +583,7 @@ function editonline(id){
     <div class="col-md-4">
       <div class="small-box bg-red">
           <div class="inner">
-            <?php $tt = mysql_fetch_array(mysql_query("SELECT SUM(jumlah) AS jumlah_total FROM history_kasir WHERE tanggal='$tgl' AND jenis='Treatment' ")); ?>
+            <?php $tt = mysqli_fetch_array(mysqli_query($con, "SELECT SUM(jumlah) AS jumlah_total FROM history_kasir WHERE tanggal='$tgl' AND jenis='Treatment' ")); ?>
             <h3><?php if(empty($tt['jumlah_total'])){ echo "0"; }else{ echo $tt['jumlah_total']; } ?></h3>
 
             <p>Total <br>Pasien Rawat Inap hari ini</p>
@@ -597,7 +597,7 @@ function editonline(id){
     <div class="col-md-4">
       <div class="small-box bg-green">
           <div class="inner">
-            <?php $tp = mysql_fetch_array(mysql_query("SELECT SUM(total) AS jumlah FROM pembayaran WHERE tgl='$tgl'")); ?>
+            <?php $tp = mysqli_fetch_array(mysqli_query($con, "SELECT SUM(total) AS jumlah FROM pembayaran WHERE tgl='$tgl'")); ?>
             <h3><?php echo rupiah($tp['jumlah']); ?></h3>
 
             <p>Total pendapatan<br> hari ini</p>
@@ -627,11 +627,11 @@ function editonline(id){
             </thead>
             <tbody>
               <?php 
-                $q2 = mysql_query("SELECT *FROM daftar_klinik");
-                while($data2 = mysql_fetch_array($q2)){ ?>
+                $q2 = mysqli_query($con, "SELECT *FROM daftar_klinik");
+                while($data2 = mysqli_fetch_array($q2)){ ?>
                   <tr>
                     <td><?php echo $data2['nama_klinik']; ?></td>
-                    <td><?php $pem = mysql_fetch_array(mysql_query("SELECT SUM(total) AS jumlah FROM pembayaran WHERE id_kk='$data2[id_kk]' AND tgl='$tgl'")); if(empty($pem['jumlah'])){ echo rupiah("0"); }else{ echo rupiah($pem['jumlah']); } ?></td>
+                    <td><?php $pem = mysqli_fetch_array(mysqli_query($con, "SELECT SUM(total) AS jumlah FROM pembayaran WHERE id_kk='$data2[id_kk]' AND tgl='$tgl'")); if(empty($pem['jumlah'])){ echo rupiah("0"); }else{ echo rupiah($pem['jumlah']); } ?></td>
                   </tr>
                 <?php }
                ?>
@@ -656,11 +656,11 @@ function editonline(id){
             </thead>
             <tbody>
               <?php 
-              $q1 = mysql_query("SELECT *FROM daftar_klinik");
-              while($data = mysql_fetch_array($q1)){  ?>
+              $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik");
+              while($data = mysqli_fetch_array($q1)){  ?>
                 <tr>
                   <td><?php echo $data['nama_klinik']; ?></td>
-                  <td><?php $kk = mysql_fetch_array(mysql_query("SELECT SUM(jumlah) AS jumlah_total FROM history_kasir WHERE id_kk='$data[id_kk]' AND tanggal='$tgl' AND jenis='Produk' ")); if(empty($kk['jumlah_total'])){ echo "0"; }else{ echo $kk['jumlah_total']; } ?></td>
+                  <td><?php $kk = mysqli_fetch_array(mysqli_query($con, "SELECT SUM(jumlah) AS jumlah_total FROM history_kasir WHERE id_kk='$data[id_kk]' AND tanggal='$tgl' AND jenis='Produk' ")); if(empty($kk['jumlah_total'])){ echo "0"; }else{ echo $kk['jumlah_total']; } ?></td>
                 </tr>
               <?php 
               }
@@ -689,8 +689,8 @@ function editonline(id){
             </thead>
             <tbody>
               <?php 
-              $q1 = mysql_query("SELECT *FROM produk limit 15");
-              while($data = mysql_fetch_array($q1)){  
+              $q1 = mysqli_query($con, "SELECT *FROM produk limit 15");
+              while($data = mysqli_fetch_array($q1)){  
                 if ($data['jumlah']>$data['batas_minim']) {
                   continue;
                 }
@@ -723,11 +723,11 @@ function editonline(id){
             </thead>
             <tbody>
               <?php 
-              $q1 = mysql_query("SELECT *FROM daftar_klinik");
-              while($data = mysql_fetch_array($q1)){  ?>
+              $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik");
+              while($data = mysqli_fetch_array($q1)){  ?>
                 <tr>
                   <td><?php echo $data['nama_klinik']; ?></td>
-                  <td><?php $kk = mysql_fetch_array(mysql_query("SELECT SUM(jumlah) AS jumlah_total FROM history_kasir WHERE id_kk='$data[id_kk]' AND tanggal='$tgl' AND jenis='Treatment' ")); if(empty($kk['jumlah_total'])){ echo "0"; }else{ echo $kk['jumlah_total']; } ?></td>
+                  <td><?php $kk = mysqli_fetch_array(mysqli_query($con, "SELECT SUM(jumlah) AS jumlah_total FROM history_kasir WHERE id_kk='$data[id_kk]' AND tanggal='$tgl' AND jenis='Treatment' ")); if(empty($kk['jumlah_total'])){ echo "0"; }else{ echo $kk['jumlah_total']; } ?></td>
                 </tr>
               <?php 
               }
@@ -762,8 +762,8 @@ function editonline(id){
                   
                   <?php
                         $sql = 'SELECT * from daftar_klinik';
-                        $query  = mysql_query($sql);
-                    while ($row = mysql_fetch_array($query)) {
+                        $query  = mysqli_query($con, $sql);
+                    while ($row = mysqli_fetch_array($query)) {
                     ?>
                     <option value="<?php echo $row['id_kk']; ?>"><?php echo $row['nama_klinik']; ?></option>
                   <?php }?>
@@ -790,8 +790,8 @@ function editonline(id){
                     data: {
                       labels: [
                       <?php
-                      $klinik = mysql_query("SELECT tanggal, SUM(harga*jumlah) as total FROM history_kasir WHERE id_kk='$_POST[jenis_klinik]' group by tanggal");
-                      while ($t=mysql_fetch_array($klinik)) { ?>
+                      $klinik = mysqli_query($con, "SELECT tanggal, SUM(harga*jumlah) as total FROM history_kasir WHERE id_kk='$_POST[jenis_klinik]' group by tanggal");
+                      while ($t=mysqli_fetch_array($klinik)) { ?>
                       "<?php echo $t['tanggal']; ?>",
                       <?php  } ?>
                       ],
@@ -799,8 +799,8 @@ function editonline(id){
                         label: '',
                         data: [
                          <?php
-                        $klinik = mysql_query("SELECT tanggal, SUM(harga*jumlah) as total FROM history_kasir WHERE id_kk='$_POST[jenis_klinik]' group by tanggal");
-                        while ($t=mysql_fetch_array($klinik)) { ?>
+                        $klinik = mysqli_query($con, "SELECT tanggal, SUM(harga*jumlah) as total FROM history_kasir WHERE id_kk='$_POST[jenis_klinik]' group by tanggal");
+                        while ($t=mysqli_fetch_array($klinik)) { ?>
                         "<?php echo $t['total']; ?>",
                         <?php  } ?>
                         ],

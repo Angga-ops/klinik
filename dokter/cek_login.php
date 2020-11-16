@@ -12,9 +12,9 @@
 
 	$pass     = anti_injection(md5($_POST['password']));
 
-	$q1 = mysql_query("SELECT * FROM user WHERE username='$username' AND password='$pass' AND blokir='N'");
+	$q1 = mysqli_query($con,"SELECT * FROM user WHERE username='$username' AND password='$pass' AND blokir='N'");
 
-	$qq = mysql_fetch_array($q1);
+	$qq = mysqli_fetch_array($q1);
 
 
 
@@ -49,8 +49,8 @@
 
 
 	function anti_injection($data){
-
-		$filter = mysql_real_escape_string(stripslashes(strip_tags(htmlspecialchars($data,ENT_QUOTES))));
+		global $con;
+		$filter = mysqli_real_escape_string($con,stripslashes(strip_tags(htmlspecialchars($data,ENT_QUOTES))));
 
 		return $filter;
 
@@ -70,11 +70,11 @@
 
 	} else {
 
-		$login	= mysql_query("SELECT * FROM user WHERE username='$username' AND password='$pass' AND blokir='N' AND id_ju='JU-02'");
+		$login	= mysqli_query($con,"SELECT * FROM user WHERE username='$username' AND password='$pass' AND blokir='N' AND id_ju='JU-02'");
 
-		$ketemu	= mysql_num_rows($login);
+		$ketemu	= mysqli_num_rows($login);
 
-		$r		= mysql_fetch_array($login);
+		$r		= mysqli_fetch_array($login);
 
 		$ip 	= $_SERVER['REMOTE_ADDR'];
 
@@ -104,11 +104,11 @@
 
 			$jam = date("H:i:s");
 
-			$cek = mysql_num_rows(mysql_query("SELECT *FROM kehadiran_dr WHERE id_dr='$r[id_user]' AND tanggal='$tgl' AND id_kk='$klinik'"));
+			$cek = mysqli_num_rows(mysqli_query($con,"SELECT *FROM kehadiran_dr WHERE id_dr='$r[id_user]' AND tanggal='$tgl' AND id_kk='$klinik'"));
 
 			if($cek==0){
 
-				mysql_query("INSERT INTO kehadiran_dr (id_dr,id_kk,tanggal,jam) VALUES ('$r[id_user]','$klinik','$tgl','$jam')");
+				mysqli_query($con,"INSERT INTO kehadiran_dr (id_dr,id_kk,tanggal,jam) VALUES ('$r[id_user]','$klinik','$tgl','$jam')");
 
 			}
 
@@ -116,28 +116,28 @@
 
 
 
-		$sql = mysql_query("select id_pasien, COUNT(id_pasien) as jumlah from history_kasir where jenis='Treatment' group by id_pasien order by jumlah");
-		while ($data = mysql_fetch_array($sql)) {
+		$sql = mysqli_query($con,"select id_pasien, COUNT(id_pasien) as jumlah from history_kasir where jenis='Treatment' group by id_pasien order by jumlah");
+		while ($data = mysqli_fetch_array($sql)) {
 			/*echo $data['id_pasien'];
 			echo $data['jumlah'];
 			*/
 			if ($data['jumlah'] >= 7) {
-				$sql2 = mysql_query("UPDATE pasien set klaster='M' where id_pasien='$data[id_pasien]'");
+				$sql2 = mysqli_query($con,"UPDATE pasien set klaster='M' where id_pasien='$data[id_pasien]'");
 			}	
 		 }
 
 
-		catat($_SESSION['namauser'], "Berhasil Login dengan IP $ip");
+		catat($con,$_SESSION['namauser'], "Berhasil Login dengan IP $ip");
 
 		header('location:../redaktur/media.php?module=home');
 
 	} else {
 
-		catat($username, "Gagal Login");
+		catat($con,$username, "Gagal Login");
 
 		echo "<script>
 
-alert('Username atau Password Salah!!'); location.href = '".$url."/dokter/index.php';
+alert('Username atau Password Salah!!'); location.href = 'index.php';
 
 </script>";		
 

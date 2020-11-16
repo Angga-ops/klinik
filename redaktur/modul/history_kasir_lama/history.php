@@ -35,13 +35,13 @@
 				</thead>
 				<tbody>
                         <?php
-                        $tgl = isset($_GET[tgl1])? "WHERE tanggal_pendaftaran >= '$_GET[tgl1]' AND tanggal_pendaftaran <= '$_GET[tgl2]'" : "";
-						$k = mysql_query("SELECT * FROM antrian_pasien_lama $tgl ORDER BY tanggal_pendaftaran DESC");
+                        $tgl = isset($_GET['tgl1'])? "WHERE tanggal_pendaftaran >= '$_GET[tgl1]' AND tanggal_pendaftaran <= '$_GET[tgl2]'" : "";
+						$k = mysqli_query($con, "SELECT * FROM antrian_pasien_lama $tgl ORDER BY tanggal_pendaftaran DESC");
 				
 
-                        while($ku = mysql_fetch_assoc($k)){
-                            $pas = mysql_fetch_assoc(mysql_query("SELECT * FROM pasien WHERE id_pasien = '$ku[id_pasien]'"));
-							$poli = mysql_fetch_assoc(mysql_query("SELECT * FROM poliklinik WHERE id_poli = '$ku[poliklinik]'"));
+                        while($ku = mysqli_fetch_assoc($k)){
+                            $pas = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM pasien WHERE id_pasien = '$ku[id_pasien]'"));
+							$poli = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM poliklinik WHERE id_poli = '$ku[poliklinik]'"));
 							echo "<tr>";
 							echo "<td>$ku[no_faktur]</td>";
 							echo "<td>$ku[id_pasien]</td>";

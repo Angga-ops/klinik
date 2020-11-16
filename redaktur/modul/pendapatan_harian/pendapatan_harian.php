@@ -39,8 +39,8 @@
 					</tr>	
 				</thead>
 				<tbody>';
-						$p = mysql_query("SELECT *FROM history_kasir WHERE tanggal='$harian' AND jenis='Produk'"); 
-						while($dat=mysql_fetch_array($p)){
+						$p = mysqli_query($con,"SELECT *FROM history_kasir WHERE tanggal='$harian' AND jenis='Produk'"); 
+						while($dat=mysqli_fetch_array($p)){
 							echo '
 									<tr>
 										<td>'.$dat['nama'].'</td>
@@ -56,8 +56,8 @@
 					<tr>
 						<td><b>TOTAL</b></td>';
 			           $jumlahkan = "SELECT SUM(harga) AS total FROM history_kasir where tanggal='$harian' AND jenis='Produk'"; //perintah untuk menjumlahkan
-			          $total =@mysql_query($jumlahkan) or die (mysql_error());//melakukan query dengan varibel $jumlahkan
-			          $t = mysql_fetch_array($total); //menyimpan hasil query ke variabel $t
+			          $total =@mysqli_query($con,$jumlahkan) or die (mysqli_error($con));//melakukan query dengan varibel $jumlahkan
+			          $t = mysqli_fetch_array($total); //menyimpan hasil query ke variabel $t
 			          echo '
 						<td><b>'.rupiah($t['total']).'<b></td>
 					</tr>
@@ -79,8 +79,8 @@
 					</tr>	
 				</thead>
 				<tbody>';
-						$p = mysql_query("SELECT *FROM history_kasir WHERE tanggal='$tgl' AND jenis='Produk'"); 
-						while($dat=mysql_fetch_array($p)){
+						$p = mysqli_query($con,"SELECT *FROM history_kasir WHERE tanggal='$tgl' AND jenis='Produk'"); 
+						while($dat=mysqli_fetch_array($p)){
 							echo '
 									<tr>
 										<td>'.$dat['nama'].'</td>
@@ -95,8 +95,8 @@
 					<tr>
 						<td><b>TOTAL</b></td>';
 			          $jumlahkan = "SELECT SUM(harga) AS total FROM history_kasir where tanggal='$tgl' AND jenis='Produk'"; //perintah untuk menjumlahkan
-			          $total =@mysql_query($jumlahkan) or die (mysql_error());//melakukan query dengan varibel $jumlahkan
-			          $t = mysql_fetch_array($total); //menyimpan hasil query ke variabel $t
+			          $total =@mysqli_query($con,$jumlahkan) or die (mysqli_error($con));//melakukan query dengan varibel $jumlahkan
+			          $t = mysqli_fetch_array($total); //menyimpan hasil query ke variabel $t
 			          echo '
 						<td><b>'.rupiah($t['total']).'<b></td>
 					</tr>

@@ -12,7 +12,7 @@ if ($tgl_p<$tgl_exp) {
 }
 
 
-mysql_query("UPDATE pasien SET km_exp='$tgl_p' WHERE id_pasien='$id'");
+mysqli_query($con, "UPDATE pasien SET km_exp='$tgl_p' WHERE id_pasien='$id'");
 
 
 exit();

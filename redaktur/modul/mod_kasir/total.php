@@ -9,9 +9,9 @@ include "../../../config/koneksi.php";
 
 include ('../../../config/fungsi_rupiah.php');
 
-$q = mysql_query("SELECT *FROM kasir_sementara WHERE id_kk='$id_kk' AND status='sementara'");
+$q = mysqli_query($con,"SELECT *FROM kasir_sementara WHERE id_kk='$id_kk' AND status='sementara'");
 $total =0;
-while ($ks=mysql_fetch_array($q)) {
+while ($ks=mysqli_fetch_array($q)) {
 	$total += $ks['sub_total'];
 }
 $ongkir = $_POST['ongkir'];

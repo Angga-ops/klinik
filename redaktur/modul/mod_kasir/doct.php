@@ -20,11 +20,11 @@ include "../../../config/koneksi.php";
 
 $jam_1 = date("H",strtotime("-4 hour")).":00:00";
 $jam_2 = date("H",strtotime("+4 hour")).":00:00";
-$c = mysql_query("SELECT * FROM dr_pengganti WHERE id_poli = $_GET[poli] AND hari = $_GET[hari] AND jam > '$jam_1' AND jam < '$jam_2'");
-$k = mysql_query("SELECT * FROM dr_praktek WHERE id_poli = $_GET[poli] AND hari = $_GET[hari] AND jam > '$jam_1' AND jam < '$jam_2' AND expired >= '$last' AND expired <= '$now'");
+$c = mysqli_query($con, "SELECT * FROM dr_pengganti WHERE id_poli = $_GET[poli] AND hari = $_GET[hari] AND jam > '$jam_1' AND jam < '$jam_2'");
+$k = mysqli_query($con, "SELECT * FROM dr_praktek WHERE id_poli = $_GET[poli] AND hari = $_GET[hari] AND jam > '$jam_1' AND jam < '$jam_2' AND expired >= '$last' AND expired <= '$now'");
 
-$cd = mysql_num_rows($c);
-$kd = mysql_num_rows($k);
+$cd = mysqli_num_rows($c);
+$kd = mysqli_num_rows($k);
 
 /*
 
@@ -47,17 +47,17 @@ if($kd > 0){
 		
 		<?php
 
-		while($kdd = mysql_fetch_assoc($k)){
+		while($kdd = mysqli_fetch_assoc($k)){
 
-			$dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = $kdd[id_dr]"));
+			$dr = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_lengkap FROM user WHERE id_user = $kdd[id_dr]"));
 
 			echo "<option value='$kdd[id_dr]'>$dr[nama_lengkap]</option>";	
 			
 		}
 
-		while($cdd = mysql_fetch_assoc($c)){
+		while($cdd = mysqli_fetch_assoc($c)){
 
-			$dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = $cdd[id_dr]"));
+			$dr = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_lengkap FROM user WHERE id_user = $cdd[id_dr]"));
 
 			echo "<option value='$cdd[id_dr]'>$dr[nama_lengkap] (pengganti)</option>";	
 
@@ -76,9 +76,9 @@ if($kd > 0){
 		
 		<?php
 
-		while($kdd = mysql_fetch_assoc($k)){
+		while($kdd = mysqli_fetch_assoc($k)){
 
-			$dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = $kdd[id_dr]"));
+			$dr = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_lengkap FROM user WHERE id_user = $kdd[id_dr]"));
 
 			echo "<option value='$kdd[id_dr]'>$dr[nama_lengkap]</option>";	
 			
@@ -99,9 +99,9 @@ if($kd > 0){
 		
 		<?php
 
-		while($cdd = mysql_fetch_assoc($c)){
+		while($cdd = mysqli_fetch_assoc($c)){
 
-			$dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = $cdd[id_dr]"));
+			$dr = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_lengkap FROM user WHERE id_user = $cdd[id_dr]"));
 
 			echo "<option value='$cdd[id_dr]'>$dr[nama_lengkap]  (pengganti)</option>";	
 

@@ -7,12 +7,12 @@
     
 <?php 
     
-$bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
+$bc = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
     
     ?> 
 
     <h1>
-        <?php echo $bc[crumb]; ?>
+        <?php echo $bc['crumb']; ?>
       </h1>
     </section>
 
@@ -54,13 +54,13 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From produk_pusat");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con, "Select * From produk_pusat");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
                  
-                   <?php $q1 = mysql_query("SELECT *FROM produk_master WHERE nama_produk='$r[nama_produk]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                   <?php $q1 = mysqli_query($con, "SELECT *FROM produk_master WHERE nama_produk='$r[nama_produk]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                  <td><?php
                         if ( $k['gambar'] == '') {
                             echo "Belum Ada Gambar";
@@ -70,8 +70,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
                  
                 <td><?php echo $r["kode_produk"]; ?></td>
                 <td><?php echo $r["nama_produk"]; ?></td>
-                <?php $q1 = mysql_query("SELECT *FROM kategori WHERE id_kategori='$r[id_kategori]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <?php $q1 = mysqli_query($con, "SELECT *FROM kategori WHERE id_kategori='$r[id_kategori]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k['kategori']; ?></td>
                 <td><?php echo $r["jumlah"]; ?></td>
                 <td><?php echo rupiah($r["harga_beli"]); ?></td>
@@ -117,16 +117,16 @@ $(document).ready(function(){
   break;
   case "tambah_stok":
 
-  $cx = mysql_query("SELECT * FROM produk_master WHERE id_kategori != 0");
+  $cx = mysqli_query($con, "SELECT * FROM produk_master WHERE id_kategori != 0");
   $dx = '[';
-  while($cux = mysql_fetch_assoc($cx)){
+  while($cux = mysqli_fetch_assoc($cx)){
 
-    $kat = mysql_fetch_assoc(mysql_query("SELECT kategori AS egori FROM kategori WHERE id_kategori = $cux[id_kategori]"));
+    $kat = mysqli_fetch_assoc(mysqli_query($con, "SELECT kategori AS egori FROM kategori WHERE id_kategori = $cux[id_kategori]"));
 
-    $sat = mysql_fetch_assoc(mysql_query("SELECT satuan AS uan FROM data_satuan WHERE id_s = $cux[id_satuan]"));
+    $sat = mysqli_fetch_assoc(mysqli_query($con, "SELECT satuan AS uan FROM data_satuan WHERE id_s = $cux[id_satuan]"));
 
 
-      $dtx .= '{"nama":"'.$cux[nama_produk].'","prod":"('.$cux[kd_produk].') '.$cux[nama_produk].'","kd":"'.$cux[kd_produk].'","kat_kd":"'.$cux[id_kategori].'","sat_kd":"'.$cux[id_satuan].'","kat":"'.$kat[egori].'","satuan":"'.$sat[uan].'","beli":"'.$cux[harga_beli].'","jual":"'.$cux[harga_jual].'"},';
+      $dtx .= '{"nama":"'.$cux['nama_produk'].'","prod":"('.$cux['kd_produk'].') '.$cux['nama_produk'].'","kd":"'.$cux['kd_produk'].'","kat_kd":"'.$cux['id_kategori'].'","sat_kd":"'.$cux['id_satuan'].'","kat":"'.$kat['egori'].'","satuan":"'.$sat['uan'].'","beli":"'.$cux['harga_beli'].'","jual":"'.$cux['harga_jual'].'"},';
   }
   $dtx = substr($dtx,0,strlen($dtx) - 1);
   $dx .= $dtx.']';
@@ -259,8 +259,8 @@ $(document).ready(function(){
                   <select name="suplier" class="form-control" required>
                 <option >Pilih Suplier</option>
                 <?php 
-                  $data = mysql_query("Select * From suplier");            
-                  while($hasil  = mysql_fetch_array($data)){
+                  $data = mysqli_query($con, "Select * From suplier");            
+                  while($hasil  = mysqli_fetch_array($data)){
                 ?>
                 <option value="<?php echo $hasil['id_sup']; ?>"><?php echo $hasil['nama_sup']; ?></option>
               <?php } ?>
@@ -370,7 +370,7 @@ $("#beli").val(suggestion.beli);
   break;
   case "edit_brg":
   $id   = $_GET['id_pp'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From produk_pusat Where id_pp='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From produk_pusat Where id_pp='$id'"));
 ?>
 
 <section class="content">
@@ -411,8 +411,8 @@ $("#beli").val(suggestion.beli);
                 <select name="kategori_produk" class="form-control" required>
                   <option value="<?php echo $edit['id_kategori']; ?>">
                 <?php
-                  $data = mysql_query("Select * From kategori");            
-                  while($hasil  = mysql_fetch_array($data)){
+                  $data = mysqli_query($con, "Select * From kategori");            
+                  while($hasil  = mysqli_fetch_array($data)){
                 ?>
                 <?php echo $hasil['kategori']; ?></option>
                 <option value="<?php echo $hasil['id_kategori']; ?>"><?php echo $hasil['kategori']; ?></option>
@@ -437,8 +437,8 @@ $("#beli").val(suggestion.beli);
                   <label>Satuan</label>
                   <select name="satuan" class="form-control" required>
                 <?php
-                  $data = mysql_query("Select * From data_satuan where id_s='$edit[id_sat]'");            
-                  while($hasil  = mysql_fetch_array($data)){
+                  $data = mysqli_query($con, "Select * From data_satuan where id_s='$edit[id_sat]'");            
+                  while($hasil  = mysqli_fetch_array($data)){
                 ?>
                 <option value="<?php echo $hasil['id_s']; ?>"><?php echo $hasil['satuan']; ?></option>
               <?php }?>
@@ -483,8 +483,8 @@ $("#beli").val(suggestion.beli);
                   <select name="suplier" class="form-control">
                 <option value="<?php echo $edit['id_sup']?>">
                 <?php
-                  $data = mysql_query("Select * From suplier ");            
-                  while($hasil  = mysql_fetch_array($data)){
+                  $data = mysqli_query($con, "Select * From suplier ");            
+                  while($hasil  = mysqli_fetch_array($data)){
                 ?>
                 <?php echo $hasil['nama_sup'];?></option>
                 <option value="<?php echo $hasil['id_sup']; ?>"><?php echo $hasil['nama_sup']; ?></option>

@@ -94,27 +94,27 @@ setlocale(LC_TIME,"id_ID"); ?>
 
 //loop semua nama produk di prarilis
 $uf = array();
-$e = mysql_query("SELECT nama_produk FROM prarilis WHERE klinik = '$_SESSION[klinik]'");
-while($er = mysql_fetch_assoc($e)){
- array_push($uf,"'".$er[nama_produk]."'");
+$e = mysqli_query($con,"SELECT nama_produk FROM prarilis WHERE klinik = '$_SESSION[klinik]'");
+while($er = mysqli_fetch_assoc($e)){
+ array_push($uf,"'".$er['nama_produk']."'");
 }
 
 //cari nama_p yg ada di gudang cabang
 foreach($uf as $k => $v){
 
-  $car = mysql_query("SELECT id_p,id_s,id_kategori,kode_barang,nama_p,jumlah FROM produk WHERE id_kk = '$_SESSION[klinik]' AND nama_p = $v");
+  $car = mysqli_query($con,"SELECT id_p,id_s,id_kategori,kode_barang,nama_p,jumlah FROM produk WHERE id_kk = '$_SESSION[klinik]' AND nama_p = $v");
   
   
   echo "<!-- SELECT id_p,id_s,id_kategori,kode_barang,nama_p,jumlah FROM produk WHERE id_kk = '$_SESSION[klinik]' AND nama_p = $v -->";
 
-  if(mysql_num_rows($car) > 0){
+  if(mysqli_num_rows($car) > 0){
 
 
-    $f = mysql_fetch_assoc($car);
+    $f = mysqli_fetch_assoc($car);
 
-    $sat = mysql_fetch_assoc(mysql_query("SELECT satuan AS uan FROM data_satuan WHERE id_s = $f[id_s]"));
+    $sat = mysqli_fetch_assoc(mysqli_query($con,"SELECT satuan AS uan FROM data_satuan WHERE id_s = $f[id_s]"));
       
-    $kat = mysql_fetch_assoc(mysql_query("SELECT kategori AS egori FROM kategori WHERE id_kategori = $f[id_kategori]"));
+    $kat = mysqli_fetch_assoc(mysqli_query($con,"SELECT kategori AS egori FROM kategori WHERE id_kategori = $f[id_kategori]"));
     
         echo "<tr>";
         echo "<td>
@@ -146,7 +146,7 @@ foreach($uf as $k => $v){
 
 
 <style>
-.tbl {border-collpase: collapse; width: 100%}
+.tbl {border-collapse: collapse; width: 100%}
 .tbl td {padding: 1%}
 </style>
 
@@ -157,7 +157,7 @@ foreach($uf as $k => $v){
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
+                  <span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">Data Produk Pra Rilis</h4>
                 <span id="msg"></span>
               </div>
@@ -172,9 +172,9 @@ foreach($uf as $k => $v){
     <select class="form-control" name="prd" id="prd2">
     <?php 
 
-$sel = mysql_query("SELECT nama_produk FROM produk_master ORDER BY nama_produk ASC");
-while($sels = mysql_fetch_assoc($sel)){
-  echo "<option value='".strtoupper($sels[nama_produk])."'>".strtoupper($sels[nama_produk])."</option>";
+$sel = mysqli_query($con,"SELECT nama_produk FROM produk_master ORDER BY nama_produk ASC");
+while($sels = mysqli_fetch_assoc($sel)){
+  echo "<option value='".strtoupper($sels['nama_produk'])."'>".strtoupper($sels['nama_produk'])."</option>";
 }
 
 ?>
@@ -199,8 +199,8 @@ while($sels = mysql_fetch_assoc($sel)){
     <option value="">--silakan pilih--</option>
     <?php 
     
-    $kat = mysql_query("SELECT * FROM kategori");
-    while($kate = mysql_fetch_assoc($kat)){
+    $kat = mysqli_query($con,"SELECT * FROM kategori");
+    while($kate = mysqli_fetch_assoc($kat)){
         echo "<option value='$kate[id_kategori]'>$kate[kategori]</option>";
     }
     
@@ -216,8 +216,8 @@ while($sels = mysql_fetch_assoc($sel)){
     <option value="">--silakan pilih--</option>
     <?php 
     
-    $kat = mysql_query("SELECT * FROM data_satuan");
-    while($kate = mysql_fetch_assoc($kat)){
+    $kat = mysqli_query($con,"SELECT * FROM data_satuan");
+    while($kate = mysqli_fetch_assoc($kat)){
         echo "<option value='$kate[id_s]'>$kate[satuan]</option>";
     }
     
@@ -234,8 +234,8 @@ while($sels = mysql_fetch_assoc($sel)){
     <option value="">--silakan pilih--</option>
     <?php 
     
-    $kat = mysql_query("SELECT * FROM suplier");
-    while($kate = mysql_fetch_assoc($kat)){
+    $kat = mysqli_query($con,"SELECT * FROM suplier");
+    while($kate = mysqli_fetch_assoc($kat)){
         echo "<option value='$kate[id_sup]'>$kate[nama_sup]</option>";
     }
     
@@ -260,7 +260,7 @@ while($sels = mysql_fetch_assoc($sel)){
     <td><input type="text" id="tgl" name="tgl" class="form-control picker" value="<?php echo date("Y-m-d"); ?>" /></td>
     </tr> -->
 
-    <input type="hidden" name="klinik" value="<?php echo $_SESSION[klinik]; ?>" />
+    <input type="hidden" name="klinik" value="<?php echo $_SESSION['klinik']; ?>" />
     <input type="hidden" name="id" id="id_pr" />
     </table>
 

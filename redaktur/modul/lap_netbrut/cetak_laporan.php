@@ -58,8 +58,8 @@ $bulan = $_GET['bulan'];
 $tahun = $_GET['tahun'];
 $id_kk = $_GET['id_kk'];
 
-$q = mysql_query("SELECT * from daftar_klinik where id_kk='$_GET[id_kk]'");
-$data = mysql_fetch_array($q);
+$q = mysqli_query($con, "SELECT * from daftar_klinik where id_kk='$_GET[id_kk]'");
+$data = mysqli_fetch_array($q);
 ?>
 <div align="center">
 	<h3>Laporan Netto - Bruto <?php echo $data['nama_klinik'] ?></h3>
@@ -81,11 +81,11 @@ $data = mysql_fetch_array($q);
    $klinik = isset($_GET['id_kk'])? $_GET['id_kk'] : 0;
 
     if ($id_kk == 0) {
-      $q1   = mysql_query("SELECT tanggal, SUM(sub_total) as subt FROM history_kasir WHERE month(tanggal) = '$bulan' AND year(tanggal) = '$tahun'  group by tanggal");
+      $q1   = mysqli_query($con, "SELECT tanggal, SUM(sub_total) as subt FROM history_kasir WHERE month(tanggal) = '$bulan' AND year(tanggal) = '$tahun'  group by tanggal");
 
-      while($r  = mysql_fetch_array($q1)){
+      while($r  = mysqli_fetch_array($q1)){
   
-        $ong = mysql_fetch_assoc(mysql_query("SELECT SUM(uang_ongkir) AS kir FROM pembayaran WHERE tgl = '$r[tanggal]'"));
+        $ong = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(uang_ongkir) AS kir FROM pembayaran WHERE tgl = '$r[tanggal]'"));
   
   
   
@@ -95,8 +95,8 @@ $data = mysql_fetch_array($q);
         <tr class="gradeX">
                   <td><?php echo $r["tanggal"]; ?></td>
                   <td><?php echo rupiah($total);?></td>
-          <?php $q2   = mysql_query("SELECT SUM(biaya_p) as luar FROM pengeluaran where tanggal='$r[tanggal]' order by tanggal");
-              $k = mysql_fetch_array($q2) ?>
+          <?php $q2   = mysqli_query($con, "SELECT SUM(biaya_p) as luar FROM pengeluaran where tanggal='$r[tanggal]' order by tanggal");
+              $k = mysqli_fetch_array($q2) ?>
                   <td><?php echo rupiah($k["luar"]); ?></td>
                   <td><?php echo rupiah(($total)-$k["luar"]); ?></td>
                  
@@ -104,12 +104,12 @@ $data = mysql_fetch_array($q);
       <?php
               } ?>
     <?php }else{
-       $q1   = mysql_query("SELECT tanggal, SUM(sub_total) as subt FROM history_kasir WHERE month(tanggal) = '$bulan' AND year(tanggal) = '$tahun' AND id_kk='$klinik' group by tanggal");
+       $q1   = mysqli_query($con, "SELECT tanggal, SUM(sub_total) as subt FROM history_kasir WHERE month(tanggal) = '$bulan' AND year(tanggal) = '$tahun' AND id_kk='$klinik' group by tanggal");
 
-       while($r  = mysql_fetch_array($q1)){
+       while($r  = mysqli_fetch_array($q1)){
    
-         $ong = mysql_fetch_assoc(mysql_query("SELECT SUM(uang_ongkir) AS kir FROM pembayaran WHERE tgl = '$r[tanggal]'"));
-         $ret = mysql_fetch_assoc(mysql_query("SELECT SUM(a.harga*b.jml) ur FROM history_kasir a JOIN retur_jual b ON a.id = b.history WHERE b.retur = 3 AND b.tgl = '$r[tanggal]' AND a.id_kk = '$klinik'"));
+         $ong = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(uang_ongkir) AS kir FROM pembayaran WHERE tgl = '$r[tanggal]'"));
+         $ret = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(a.harga*b.jml) ur FROM history_kasir a JOIN retur_jual b ON a.id = b.history WHERE b.retur = 3 AND b.tgl = '$r[tanggal]' AND a.id_kk = '$klinik'"));
 
 
          $total = ($r["subt"] + $ong["kir"]) - $ret["ur"];
@@ -118,8 +118,8 @@ $data = mysql_fetch_array($q);
          <tr class="gradeX">
                    <td><?php echo $r["tanggal"]; ?></td>
                    <td><?php echo rupiah($total);?></td>
-           <?php $q2   = mysql_query("SELECT SUM(biaya_p) as luar FROM pengeluaran where tanggal='$r[tanggal]' AND id_kk='$klinik' order by tanggal");
-               $k = mysql_fetch_array($q2) ?>
+           <?php $q2   = mysqli_query($con, "SELECT SUM(biaya_p) as luar FROM pengeluaran where tanggal='$r[tanggal]' AND id_kk='$klinik' order by tanggal");
+               $k = mysqli_fetch_array($q2) ?>
                    <td><?php echo rupiah($k["luar"]); ?></td>
                    <td><?php echo rupiah(($total)-$k["luar"]); ?></td>
                   

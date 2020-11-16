@@ -12,8 +12,8 @@ switch ($act) {
 		<div class="box-body">
 			<?php 
 			
-			$q = mysql_query("SELECT *FROM pasien WHERE nama_pasien='$nama'"); 
-			$p = mysql_fetch_array($q);
+			$q = mysqli_query($con, "SELECT *FROM pasien WHERE nama_pasien='$nama'"); 
+			$p = mysqli_fetch_array($q);
 
 			?>
 			<div style="border: 2px solid green;padding: 0px 0px 10px 10px;box-sizing: border-box;margin-bottom: 15px;">
@@ -53,9 +53,9 @@ switch ($act) {
 								<?php 
 								$id_kk = $_SESSION['klinik'];
 								if ($_SESSION['jenis_u']=="JU-06") {
-									$tt = mysql_num_rows(mysql_query("SELECT *FROM pembayaran WHERE id_pasien='$p[id_pasien]' AND id_kk='$id_kk' ")); 
+									$tt = mysqli_num_rows(mysqli_query($con, "SELECT *FROM pembayaran WHERE id_pasien='$p[id_pasien]' AND id_kk='$id_kk' ")); 
 								}else{
-									$tt = mysql_num_rows(mysql_query("SELECT *FROM pembayaran WHERE id_pasien='$p[id_pasien]'")); 
+									$tt = mysqli_num_rows(mysqli_query($con, "SELECT *FROM pembayaran WHERE id_pasien='$p[id_pasien]'")); 
 								}
 								
 								echo $tt; 
@@ -93,7 +93,7 @@ switch ($act) {
 			</div>
 			<hr>
 			<h4 class="pull-left">Daftar Transaksi</h4><br>
-			<a  href="modul/lap_transaksi/cetak_lap.php?id=<?php echo $p[id_pasien]; ?>" class="btn btn-sm btn-success pull-right"><i class="fa fa-print"></i> Cetak Laporan</a>
+			<a  href="modul/lap_transaksi/cetak_lap.php?id=<?php echo $p['id_pasien']; ?>" class="btn btn-sm btn-success pull-right"><i class="fa fa-print"></i> Cetak Laporan</a>
 			<br><br>
 			<div class="table-responsive">
 				<table class="table table-bordered table-striped datatable2" width="100%">
@@ -110,18 +110,18 @@ switch ($act) {
 						<?php 
 						$id_kk = $_SESSION['klinik'];
 								if ($_SESSION['jenis_u']=="JU-06") {
-									$qt = mysql_query("SELECT *FROM pembayaran WHERE id_pasien='$p[id_pasien]' AND id_kk='$id_kk'"); 
+									$qt = mysqli_query($con, "SELECT *FROM pembayaran WHERE id_pasien='$p[id_pasien]' AND id_kk='$id_kk'"); 
 								}else{
-									$qt = mysql_query("SELECT *FROM pembayaran WHERE id_pasien='$p[id_pasien]'"); 
+									$qt = mysqli_query($con, "SELECT *FROM pembayaran WHERE id_pasien='$p[id_pasien]'"); 
 								}
 						
 
-						while($t = mysql_fetch_array($qt)){ ?>
+						while($t = mysqli_fetch_array($qt)){ ?>
 						<tr>
 							<td><?php echo $t['no_faktur']; ?></td>
 							<td>
 							<?php 
-								$qp = mysql_fetch_array(mysql_query("SELECT SUM(jumlah) AS produk FROM history_kasir WHERE no_faktur='$t[no_faktur]' AND jenis='Produk'"));
+								$qp = mysqli_fetch_array(mysqli_query($con, "SELECT SUM(jumlah) AS produk FROM history_kasir WHERE no_faktur='$t[no_faktur]' AND jenis='Produk'"));
 								if($qp['produk']==null){
 									echo "-";
 								}else{
@@ -131,7 +131,7 @@ switch ($act) {
 							</td>
 							<td>
 								<?php
-								$qq = mysql_fetch_array(mysql_query("SELECT SUM(jumlah) AS treatment FROM history_kasir WHERE jenis='Treatment' AND no_faktur='$t[no_faktur]'"));
+								$qq = mysqli_fetch_array(mysqli_query($con, "SELECT SUM(jumlah) AS treatment FROM history_kasir WHERE jenis='Treatment' AND no_faktur='$t[no_faktur]'"));
 								if($qq['treatment']==null){
 									echo "-";
 								}else{

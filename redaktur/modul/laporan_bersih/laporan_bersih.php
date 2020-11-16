@@ -69,12 +69,12 @@
     <?php
     $bulan = $_POST['bulan'];
     $tahun = $_POST['tahun'];
-    $q1   = mysql_query("SELECT *  FROM history_kasir WHERE month(tanggal) = '$bulan' AND year(tanggal) = '$tahun'");
-    while($r  = mysql_fetch_array($q1)){
+    $q1   = mysqli_query($con, "SELECT *  FROM history_kasir WHERE month(tanggal) = '$bulan' AND year(tanggal) = '$tahun'");
+    while($r  = mysqli_fetch_array($q1)){
     ?>
       <tr class="gradeX">
-       <?php $q2 = mysql_query("SELECT * FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
-                 $k = mysql_fetch_array($q2) ?>
+       <?php $q2 = mysqli_query($con, "SELECT * FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
+                 $k = mysqli_fetch_array($q2) ?>
                 <td><?php echo $k["nama_klinik"]; ?></td>
                 <td><?php echo $r["tanggal"]; ?></td>
                 <td><?php echo rupiah($r["harga"]*$r["jumlah"]); ?></td>
@@ -156,7 +156,7 @@ $(document).ready(function(){
   break;
   case "edit_kategori":
   $id   = $_GET['id'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From kategori Where id_kategori='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From kategori Where id_kategori='$id'"));
 ?>
 
 <section class="content">

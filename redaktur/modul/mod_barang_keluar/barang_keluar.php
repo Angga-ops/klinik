@@ -7,16 +7,16 @@
     
 <?php 
     
-$bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
+$bc = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
     
     ?> 
 
     <h1>
-        <?php echo $bc[crumb]; ?>
+        <?php echo $bc['crumb']; ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="?module=home"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"> <?php echo $bc[crumb]; ?></li>
+        <li class="active"> <?php echo $bc['crumb']; ?></li>
       </ol>
     </section>
 
@@ -57,10 +57,10 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
     $p      = new Paging;
     $batas  = 15;
     $posisi = $p->cariPosisi($batas);
-    $data       = mysql_query("SELECT no_fbk, nama_brg, jumlah, harga, total,jam_bk, tgl_bk From gudang, barang_keluar Where gudang.id_gudang=barang_keluar.id_gudang Group by no_fbk");
+    $data       = mysqli_query($con, "SELECT no_fbk, nama_brg, jumlah, harga, total,jam_bk, tgl_bk From gudang, barang_keluar Where gudang.id_gudang=barang_keluar.id_gudang Group by no_fbk");
     $no       = $posisi+1;
-    $tampil   = mysql_query("Select * From barang_keluar");
-    while($hasil  = mysql_fetch_array($data)){
+    $tampil   = mysqli_query($con, "Select * From barang_keluar");
+    while($hasil  = mysqli_fetch_array($data)){
     $tgl    = tgl_indo($hasil['tgl_bk']);  
       $lebar      = strlen($no);
       switch($lebar){
@@ -99,9 +99,9 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
   </div>
   </div>
 <?php
-  $jmldata  = mysql_num_rows(mysql_query("Select * From barang_keluar"));
+  $jmldata  = mysqli_num_rows(mysqli_query($con, "Select * From barang_keluar"));
   $jmlhalaman  = $p->jumlahHalaman($jmldata, $batas);
-  $linkHalaman = $p->navHalaman($_GET[halaman], $jmlhalaman);
+  $linkHalaman = $p->navHalaman($_GET['halaman'], $jmlhalaman);
   break;
 
 
@@ -121,8 +121,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
   
   <?php
         $now      = date('Y-m-d');
-    $selectidmax  = mysql_query("SELECT max(no_fbk) as nofex From barang_keluar Where tgl_bk='$now'");
-    $hsilidmax    = mysql_fetch_array($selectidmax);
+    $selectidmax  = mysqli_query($con, "SELECT max(no_fbk) as nofex From barang_keluar Where tgl_bk='$now'");
+    $hsilidmax    = mysqli_fetch_array($selectidmax);
     $idmax      = $hsilidmax['nofex'];
     $nourut     = (int) substr($idmax, 10,3);
     $nourut++;
@@ -162,8 +162,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
                   <select name="id_brg" class="form-control" required>
                     <option value="">-- Pilih Barang --</option>
                     <?php 
-                    $sel_sp   = mysql_query("Select * From gudang");
-                    while ($sp  = mysql_fetch_array($sel_sp)){
+                    $sel_sp   = mysqli_query($con, "Select * From gudang");
+                    while ($sp  = mysqli_fetch_array($sel_sp)){
                     ?>
                     <option value="<?php echo $sp['id_brg']; ?>"><?php echo $sp['nama_brg']; ?></option>
                     <?php
@@ -232,7 +232,7 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
   <form id="data" method="post" action="" enctype="multipart/form-data">
   <?php
     $id = $_GET['id'];
-    $ok = mysql_fetch_array(mysql_query("Select no_fbk, nama_brg, jumlah, tgl_bk From gudang, barang_keluar Where gudang.id_gudang=barang_keluar.id_gudang And no_bk='$id'"));
+    $ok = mysqli_fetch_array(mysqli_query($con, "Select no_fbk, nama_brg, jumlah, tgl_bk From gudang, barang_keluar Where gudang.id_gudang=barang_keluar.id_gudang And no_bk='$id'"));
   ?>
         <p class="inline-small-label">
         <label for="field4">No. Faktur</label>
@@ -280,7 +280,7 @@ $('#tambah').click(function() {
 
     var i = $('input').size() + 1,
   input = '<div id="box' + i + '"><a href="#" id="hapus" color="red"><button>Hapus</button></a>';
-  input += '<p class="inline-small-label"><label for="fieldd4">Nama Barang</label><select name="gudang[]" id="gudang-0" required><option value="">-- Pilih Barang --</option><?php $sel_brg   = mysql_query("Select * From gudang"); while ($ob   = mysql_fetch_array($sel_ob)){?><option value="<?php echo $ob['id_brg']; ?>"><?php echo $brg['nama_brg']; ?></option><?php } ?></select></p>';
+  input += '<p class="inline-small-label"><label for="fieldd4">Nama Barang</label><select name="gudang[]" id="gudang-0" required><option value="">-- Pilih Barang --</option><?php $sel_brg   = mysqli_query($con, "Select * From gudang"); while ($ob   = mysqli_fetch_array($sel_ob)){?><option value="<?php echo $ob['id_brg']; ?>"><?php echo $brg['nama_brg']; ?></option><?php } ?></select></p>';
   input += '<p class="inline-small-label"><label for="fieldd4">Jumlah</label><input name="jumlah[]" type="text" size="25" id="jumlah-' + i + '" class="hitung" required/></p>';
     input += '</div>';
 

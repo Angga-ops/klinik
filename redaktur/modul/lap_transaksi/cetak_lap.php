@@ -61,8 +61,8 @@ window.print();
 </div>
 <?php 
 $id = $_GET['id'];
-$q = mysql_query("SELECT *FROM pasien WHERE id_pasien='$_GET[id]'"); 
-$p = mysql_fetch_array($q);
+$q = mysqli_query($con, "SELECT *FROM pasien WHERE id_pasien='$_GET[id]'"); 
+$p = mysqli_fetch_array($q);
 ?>
 <div class="row">
         <div class="col-md-2">
@@ -92,19 +92,19 @@ $p = mysql_fetch_array($q);
 	    	$jenis = $_SESSION['jenis_u'];
 
 	    	if ($jenis=="JU-06") {
-	    		$q = mysql_query("SELECT *FROM pembayaran p JOIN daftar_klinik d ON p.id_kk=d.id_kk WHERE p.id_pasien='$id' AND p.id_kk='$id_kk'"); 
+	    		$q = mysqli_query($con, "SELECT *FROM pembayaran p JOIN daftar_klinik d ON p.id_kk=d.id_kk WHERE p.id_pasien='$id' AND p.id_kk='$id_kk'"); 
 	    	}else{
-	    		$q = mysql_query("SELECT *FROM pembayaran p JOIN daftar_klinik d ON p.id_kk=d.id_kk WHERE p.id_pasien='$id'"); 
+	    		$q = mysqli_query($con, "SELECT *FROM pembayaran p JOIN daftar_klinik d ON p.id_kk=d.id_kk WHERE p.id_pasien='$id'"); 
 	    	}
 	    	
 
-	    		while($d= mysql_fetch_array($q)){ 
-	    			$q2 = mysql_query("SELECT *FROM history_kasir h JOIN user u ON h.id_kasir=u.id_user WHERE h.no_faktur='$d[no_faktur]'");
-	    			$cek = mysql_num_rows($q2);
+	    		while($d= mysqli_fetch_array($q)){ 
+	    			$q2 = mysqli_query($con, "SELECT *FROM history_kasir h JOIN user u ON h.id_kasir=u.id_user WHERE h.no_faktur='$d[no_faktur]'");
+	    			$cek = mysqli_num_rows($q2);
 	    			if ($cek==0) {
 	    				continue;
 	    			}
-	    			while ($p=mysql_fetch_array($q2)) { ?>
+	    			while ($p=mysqli_fetch_array($q2)) { ?>
 	    	<tr>
 	    		<td><?php echo $p['nama_lengkap']; ?></td>
 	    		<td><?php echo $p['nama']; ?></td>

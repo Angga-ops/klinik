@@ -8,8 +8,8 @@ $nop      = $_POST["nop"];
 $id_kk    = $_SESSION['klinik'];
 $penerima = $_SESSION['namalengkap'];
 
-$qc = mysql_query("SELECT *FROM produk_pengiriman WHERE no_pengiriman='$nop'");
-while($cek_cek = mysql_fetch_array($qc)){
+$qc = mysqli_query($con,"SELECT *FROM produk_pengiriman WHERE no_pengiriman='$nop'");
+while($cek_cek = mysqli_fetch_array($qc)){
 	/*
 	if ($cek_cek['ket']==Null) {
 		echo "belum semua";
@@ -25,22 +25,22 @@ while($cek_cek = mysql_fetch_array($qc)){
 }
 
 $missing = "No";
-$q = mysql_query("SELECT *FROM produk_pengiriman WHERE no_pengiriman='$nop'");
+$q = mysqli_query($con,"SELECT *FROM produk_pengiriman WHERE no_pengiriman='$nop'");
 
-while ($cek = mysql_fetch_array($q)) {
+while ($cek = mysqli_fetch_array($q)) {
 
 	if ($cek['ket']=="Tidak Sesuai") {
 		$missing = "Yes";
 	}
 
-	$q2 = mysql_query("SELECT *FROM produk WHERE nama_p='$cek[nama_produk]' AND id_kk='$id_kk'");
-	$jum = mysql_num_rows($q2);
+	$q2 = mysqli_query($con,"SELECT *FROM produk WHERE nama_p='$cek[nama_produk]' AND id_kk='$id_kk'");
+	$jum = mysqli_num_rows($q2);
 
 	if($jum>0){
 
-		$p = mysql_fetch_array($q2);
+		$p = mysqli_fetch_array($q2);
 		$jumlah = $p['jumlah']+$cek['jumlah_diterima'];
-		mysql_query("UPDATE produk SET jumlah='$jumlah' WHERE nama_p='$cek[nama_produk]' AND id_kk='$id_kk'");
+		mysqli_query($con,"UPDATE produk SET jumlah='$jumlah' WHERE nama_p='$cek[nama_produk]' AND id_kk='$id_kk'");
 
 	}else{
 
@@ -54,7 +54,7 @@ while ($cek = mysql_fetch_array($q)) {
 		$min	= $cek['cabang_min'];
 		$hb		= $cek['harga_b'];
 		 
-		mysql_query("INSERT INTO produk (kode_barang,nama_p,harga_jual,id_s,id_kategori,id_kk,jumlah,harga_beli,batas_minim,batas_maks) VALUES ('$kb','$np','$hj','$id_s','$id_k','$id_kk','$jumlah','$hb','$min','$maks')");
+		mysqli_query($con,"INSERT INTO produk (kode_barang,nama_p,harga_jual,id_s,id_kategori,id_kk,jumlah,harga_beli,batas_minim,batas_maks) VALUES ('$kb','$np','$hj','$id_s','$id_k','$id_kk','$jumlah','$hb','$min','$maks')");
 	}
 }
 $status = "Aman";
@@ -62,7 +62,7 @@ if ($missing=="Yes") {
 	$status = "Lapor";
 }
 
-mysql_query("UPDATE pengiriman SET penerima='$penerima',keterangan='Telah Diterima',status='$status' WHERE no_pengiriman='$nop'");
+mysqli_query($con,"UPDATE pengiriman SET penerima='$penerima',keterangan='Telah Diterima',status='$status' WHERE no_pengiriman='$nop'");
 
 exit();
 

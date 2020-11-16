@@ -13,7 +13,7 @@
 				<div style="border: 2px solid green;padding: 0px 0px 10px 10px;box-sizing: border-box;margin-bottom: 15px;">
 				<h4>Data Pasien</h4>
 				<?php 
-				$pem = mysql_fetch_array(mysql_query("SELECT *FROM pembayaran JOIN pasien ON pembayaran.id_pasien=pasien.id_pasien WHERE pembayaran.no_faktur='$no_faktur'"));
+				$pem = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM pembayaran JOIN pasien ON pembayaran.id_pasien=pasien.id_pasien WHERE pembayaran.no_faktur='$no_faktur'"));
 
 				?>
 				<div class="row">
@@ -74,7 +74,7 @@
 			<div style="border: 2px solid green;padding: 0px 0px 10px 10px;box-sizing: border-box;margin-bottom: 15px;">
 				<h4>Data Pasca Treatment</h4>
 				<?php 
-				$pc = mysql_fetch_array(mysql_query("SELECT *FROM pasca_treatment JOIN pasien ON pasca_treatment.id_pasien=pasien.id_pasien WHERE pasca_treatment.no_faktur='$no_faktur'"));
+				$pc = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM pasca_treatment JOIN pasien ON pasca_treatment.id_pasien=pasien.id_pasien WHERE pasca_treatment.no_faktur='$no_faktur'"));
 
 				?>
 				<div class="row">
@@ -84,7 +84,7 @@
 								Nama Dokter
 							</div>
 							<div class="col-md-6" id="data_n">
-								<?php $d = mysql_fetch_array(mysql_query("SELECT *FROM user WHERE id_user='$pc[id_dr]'")); ?>
+								<?php $d = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM user WHERE id_user='$pc[id_dr]'")); ?>
 								:&emsp;<?php echo $d['nama_lengkap']; ?>
 							</div>
 						</div>
@@ -173,8 +173,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php $qhk =  mysql_query("SELECT *FROM history_kasir WHERE no_faktur='$no_faktur'"); 
-						while($hk=mysql_fetch_array($qhk)){ ?>
+						<?php $qhk =  mysqli_query($con, "SELECT *FROM history_kasir WHERE no_faktur='$no_faktur'"); 
+						while($hk=mysqli_fetch_array($qhk)){ ?>
 						<tr>
 							<td><?php echo $hk['nama']; ?></td>
 							<td><?php echo $hk['jenis']; ?></td>
@@ -235,13 +235,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $kuery =  mysql_query("SELECT *FROM pasca_treatment JOIN pasien ON pasca_treatment.id_pasien=pasien.id_pasien WHERE tanggal='$date' AND pasca_treatment.id_kk='$_SESSION[klinik]'");
-						while($data=mysql_fetch_array($kuery)){ ?>
+					<?php $kuery =  mysqli_query($con, "SELECT *FROM pasca_treatment JOIN pasien ON pasca_treatment.id_pasien=pasien.id_pasien WHERE tanggal='$date' AND pasca_treatment.id_kk='$_SESSION[klinik]'");
+						while($data=mysqli_fetch_array($kuery)){ ?>
 					<tr>
 						<td><?php echo $data['nama_pasien']; ?></td>
 						<td>
 							<?php 
-							$d = mysql_fetch_array(mysql_query("SELECT *FROM user WHERE id_user='$data[id_dr]'"));
+							$d = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM user WHERE id_user='$data[id_dr]'"));
 							echo $d['nama_lengkap'];
 							?>
 						</td>

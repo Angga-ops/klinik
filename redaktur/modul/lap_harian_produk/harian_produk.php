@@ -38,8 +38,8 @@ if(empty($_GET["tgl"])){
 		 		<div class="col-md-4" style="margin-right: 0;">
 		 			<label>Klinik</label>
 		 			<select class="form-control" id="klinik">
-		 				<?php $qk = mysql_query("SELECT *FROM daftar_klinik"); 
-		 					while($k=mysql_fetch_array($qk)){ ?>
+		 				<?php $qk = mysqli_query($con, "SELECT *FROM daftar_klinik"); 
+		 					while($k=mysqli_fetch_array($qk)){ ?>
 		 						<option <?php if ($k['id_kk']==$klinik): ?>
 		 							selected
 		 						<?php endif ?> value="<?php echo $k['id_kk'];?>"><?php echo $k['nama_klinik'];?></option>
@@ -51,7 +51,7 @@ if(empty($_GET["tgl"])){
 		 		</div>
 		 	</div>
 		 	<h4 style="margin-top: 0;">Laporan Harian Produk Klinik 
-		 		<?php $kk=mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$klinik'")); 
+		 		<?php $kk=mysqli_fetch_array(mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$klinik'")); 
 		 		echo $kk['nama_klinik'] ?>
 		 	</h4>
 			<?php } ?> 
@@ -69,15 +69,15 @@ if(empty($_GET["tgl"])){
 		 			</thead>
 		 			<tbody>
 		 				<?php 
-		 				$qp = mysql_query("SELECT *FROM produk WHERE id_kk='$klinik'"); 
-		 				while($p = mysql_fetch_array($qp)){
-		 					$qhk = mysql_query("SELECT SUM(jumlah) AS total_p FROM history_kasir WHERE nama='$p[nama_p]' AND tanggal='$tgl' AND jenis='Produk'");
-		 					$qpp = mysql_query("SELECT *FROM pengiriman p 
+		 				$qp = mysqli_query($con, "SELECT *FROM produk WHERE id_kk='$klinik'"); 
+		 				while($p = mysqli_fetch_array($qp)){
+		 					$qhk = mysqli_query($con, "SELECT SUM(jumlah) AS total_p FROM history_kasir WHERE nama='$p[nama_p]' AND tanggal='$tgl' AND jenis='Produk'");
+		 					$qpp = mysqli_query($con, "SELECT *FROM pengiriman p 
 		 						JOIN produk_pengiriman pp ON  p.no_pengiriman=pp.no_pengiriman
 		 						WHERE p.tanggal='$tgl' AND pp.kode_produk='$p[kode_produk]'");
 
-		 					$hk = mysql_fetch_array($qhk);
-		 					$pp  = mysql_fetch_array($qpp);
+		 					$hk = mysqli_fetch_array($qhk);
+		 					$pp  = mysqli_fetch_array($qpp);
 		 					?>
 		 				<tr>
 		 					<td><?php echo $tgl;?></td>

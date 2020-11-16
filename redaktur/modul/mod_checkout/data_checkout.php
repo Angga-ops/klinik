@@ -25,13 +25,13 @@
     </thead>
     <tbody>
 <?php
-	$data 			= mysql_query("Select * From checkout");
-	while($hasil	= mysql_fetch_array($data)){
+	$data 			= mysqli_query($con, "Select * From checkout");
+	while($hasil	= mysqli_fetch_array($data)){
 	$tgl_cko		= tgl_indo($hasil['tgl_checkout']);
 	$ida			= $hasil['id_antrian'];
-	$atr			= mysql_fetch_array(mysql_query("Select * From perawatan_pasien Where id_antrian='$ida'"));
+	$atr			= mysqli_fetch_array(mysqli_query($con, "Select * From perawatan_pasien Where id_antrian='$ida'"));
 	$idp			= $atr['id_pasien'];
-	$pas			= mysql_fetch_array(mysql_query("Select * From pasien Where id_pasien='$idp'"));
+	$pas			= mysqli_fetch_array(mysqli_query($con, "Select * From pasien Where id_pasien='$idp'"));
 ?>
 
   <tr class="gradeX">
@@ -55,8 +55,8 @@
 	break;
 	case"input_checkout":
 	$ida		= $_GET['id'];
-	$sel_tag	= mysql_query("Select * From tagihan Where id_antrian='$ida'");
-	$data_tag	= mysql_fetch_array($sel_tag);
+	$sel_tag	= mysqli_query($con, "Select * From tagihan Where id_antrian='$ida'");
+	$data_tag	= mysqli_fetch_array($sel_tag);
 	$idt		= $data_tag['id_tagihan'];
 	$tagihan	= $data_tag['total'];
 ?>
@@ -72,12 +72,12 @@
 	<?php
 		/*Id Tagihan*/
 		$ida			= $_GET['id'];
-		$sel_tag		= mysql_query("Select * From tagihan Where id_antrian='$ida'");
-		$cek_tag		= mysql_fetch_array($sel_tag);
+		$sel_tag		= mysqli_query($con, "Select * From tagihan Where id_antrian='$ida'");
+		$cek_tag		= mysqli_fetch_array($sel_tag);
 		$tag			= $cek_tag['id_tagihan'];
 		$now 			= date('Y-m-d');
-		$selectidmax 	= mysql_query("SELECT max(id_checkout) as id_cko, tgl_checkout FROM checkout WHERE tgl_checkout='$now'");
-		$hsilidmax 		= mysql_fetch_array($selectidmax);
+		$selectidmax 	= mysqli_query($con, "SELECT max(id_checkout) as id_cko, tgl_checkout FROM checkout WHERE tgl_checkout='$now'");
+		$hsilidmax 		= mysqli_fetch_array($selectidmax);
 		$idmax 			= $hsilidmax['id_cko'];
 		$nourut 		= (int) substr($idmax, 10,3);
 		$nourut++;

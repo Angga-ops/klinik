@@ -2,14 +2,14 @@
 
 include "../../../config/koneksi.php";
 
-    $nofak = $_GET[faktur];
+    $nofak = $_GET['faktur'];
 
     //cek rawat inap atau rawat jalan atau dftr lgs
 
-    $ap = mysql_fetch_assoc(mysql_query("SELECT * FROM antrian_pasien WHERE no_faktur = '$nofak' AND rujuk_inap IS NULL"));
-    $pp = mysql_fetch_assoc(mysql_query("SELECT * FROM perawatan_pasien WHERE no_faktur = '$nofak'"));
+    $ap = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM antrian_pasien WHERE no_faktur = '$nofak' AND rujuk_inap IS NULL"));
+    $pp = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM perawatan_pasien WHERE no_faktur = '$nofak'"));
 
-    if(is_null($ap[jenis_layanan])){
+    if(is_null($ap['jenis_layanan'])){
 
         //rawat inap
         //mysql_query("DELETE FROM antrian_pasien WHERE no_faktur='$nofak' and jenis_layanan='lab'");

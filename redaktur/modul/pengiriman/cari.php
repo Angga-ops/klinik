@@ -11,10 +11,10 @@ if(isset($_POST['search'])){
 
  $query = "SELECT * FROM produk_pusat WHERE nama_produk like'%".$search."%'";
  
- $result = mysql_query($query);
+ $result = mysqli_query($con,$query);
 
  $response = array();
- while($row = mysql_fetch_array($result) ){
+ while($row = mysqli_fetch_array($result) ){
    $response[] = array(
    	"harga"=>$row['harga_jual'],
       "harga_b"=>$row['harga_beli'],
@@ -40,10 +40,10 @@ if(isset($_POST['search'])){
 
  $query = "SELECT * FROM produk_pusat WHERE kode_produk like'%".$search."%'";
  
- $result = mysql_query($query);
+ $result = mysqli_query($con,$query);
 
  $response = array();
- while($row = mysql_fetch_array($result) ){
+ while($row = mysqli_fetch_array($result) ){
    $response[] = array(
    	"harga"=>$row['harga_jual'],
       "harga_b"=>$row['harga_beli'],

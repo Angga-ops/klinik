@@ -8,10 +8,10 @@ include "../../../config/koneksi.php";
 $id     = $_POST['id'];
 
 //khusus utk treatment cari data di history_kasir
-$r = mysql_fetch_assoc(mysql_query("SELECT * FROM history_kasir WHERE id = '$id'"));
+$r = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM history_kasir WHERE id = '$id'"));
 
 
-    mysql_query("DELETE FROM history_kasir WHERE id='$id'");
+    mysqli_query($con, "DELETE FROM history_kasir WHERE id='$id'");
 
 
 

@@ -10,9 +10,9 @@
 		$klaster		= $_POST['klaster'];
 		$isi			= $_POST['isi'];
 		//Broadcast pesanenter
-		$nomor1 = mysql_query("SELECT * from pasien where klaster='$klaster'");
+		$nomor1 = mysqli_query($con, "SELECT * from pasien where klaster='$klaster'");
 		$message = $isi;
-		while ($nomor2 = mysql_fetch_array($nomor1)) 
+		while ($nomor2 = mysqli_fetch_array($nomor1)) 
 		 $nomor[] = $nomor2;
        foreach($nomor as $nomor2){ 
 		$phone_no = $nomor2['no_telp'];
@@ -42,8 +42,8 @@
 		
 
 		
-		$simpan = mysql_query("Insert Into broadcast(klaster,subjek,isi) Values('$klaster','$subjek','$isi')") or die(mysql_error());
-	 	catat($_SESSION['namauser'], 'Data Kategori Baru'.' ('.$nmrgn.')');
+		$simpan = mysqli_query($con, "Insert Into broadcast(klaster,subjek,isi) Values('$klaster','$subjek','$isi')") or die(mysqli_error($con));
+	 	catat($con, $_SESSION['namauser'], 'Data Kategori Baru'.' ('.$nmrgn.')');
 		if($simpan){
 			header('location:../../media.php?module=broadcast');
 		} else {

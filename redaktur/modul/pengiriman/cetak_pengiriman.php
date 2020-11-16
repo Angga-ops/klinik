@@ -51,7 +51,7 @@ window.print();
 
 </style>
 <?php
-	$p = mysql_fetch_array(mysql_query("SELECT *FROM pengiriman WHERE no_pengiriman='$_GET[nop]'"));
+	$p = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM pengiriman WHERE no_pengiriman='$_GET[nop]'"));
 ?>
 <div align="center">
 	<h2>Pengiriman Produk</h2>
@@ -69,7 +69,7 @@ window.print();
           Tujuan Cabang    
     </div>
     <div class="col-md-5">
-          :&emsp; <?php $k = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$p[cabang]'")); echo $k['nama_klinik']; ?>
+          :&emsp; <?php $k = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$p[cabang]'")); echo $k['nama_klinik']; ?>
     </div>
 </div>
 <div class="row" style="margin-top: 5px;">
@@ -94,17 +94,17 @@ window.print();
 	        </tr>
 	    </thead>
 	    <tbody>
-		<?php $q1 = mysql_query("SELECT *FROM produk_pengiriman WHERE no_pengiriman='$_GET[nop]'"); 
+		<?php $q1 = mysqli_query($con,"SELECT *FROM produk_pengiriman WHERE no_pengiriman='$_GET[nop]'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {
+              while ($br = mysqli_fetch_array($q1)) {
                 ?>
             <tr>
               <td><?php echo $no; ?></td>
               <td><?php echo $br['kode_produk']; ?></td>
               <td><?php echo $br['nama_produk']; ?></td>
-              <td><?php $sat = mysql_fetch_array(mysql_query("SELECT *FROM kategori WHERE id_kategori='$br[id_kat]'")); 
+              <td><?php $sat = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM kategori WHERE id_kategori='$br[id_kat]'")); 
               echo $sat['kategori']; ?></td>
-              <td><?php $kat = mysql_fetch_array(mysql_query("SELECT *FROM data_satuan WHERE id_s='$br[id_sat]'")); 
+              <td><?php $kat = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM data_satuan WHERE id_s='$br[id_sat]'")); 
               echo $kat['satuan']; ?></td>
               <td><?php echo $br['jumlah']; ?></td>
             </tr>

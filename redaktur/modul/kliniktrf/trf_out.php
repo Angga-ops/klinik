@@ -4,10 +4,10 @@
 setlocale(LC_TIME,"IND");
 setlocale(LC_TIME,"id_ID");
 
-$cx = mysql_query("SELECT kode_barang,nama_p,jumlah FROM produk WHERE id_kk = '$_SESSION[klinik]'");
+$cx = mysqli_query($con, "SELECT kode_barang,nama_p,jumlah FROM produk WHERE id_kk = '$_SESSION[klinik]'");
 $dx = '[';
-while($cux = mysql_fetch_assoc($cx)){
-    $dtx .= '{"nama":"'.$cux[nama_p].'","id":"'.$cux[kode_barang].'","jml":"'.$cux[jumlah].'"},';
+while($cux = mysqli_fetch_assoc($cx)){
+    $dtx .= '{"nama":"'.$cux['nama_p'].'","id":"'.$cux['kode_barang'].'","jml":"'.$cux['jumlah'].'"},';
 }
 $dtx = substr($dtx,0,strlen($dtx) - 1);
 $dx .= $dtx.']';
@@ -79,13 +79,13 @@ file_put_contents("../redaktur/modul/kliniktrf/prod.json",$dx);
 
 <?php 
 
-$data = mysql_query("SELECT * FROM kliniktrf WHERE asal = '$_SESSION[klinik]' GROUP BY kd_trf");
-while($datax = mysql_fetch_assoc($data)){
-  $loc = mysql_fetch_assoc(mysql_query("SELECT nama_klinik FROM daftar_klinik WHERE id_kk = '$datax[tujuan]'"));
+$data = mysqli_query($con, "SELECT * FROM kliniktrf WHERE asal = '$_SESSION[klinik]' GROUP BY kd_trf");
+while($datax = mysqli_fetch_assoc($data)){
+  $loc = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_klinik FROM daftar_klinik WHERE id_kk = '$datax[tujuan]'"));
   echo "<tr>";
   echo "<td><button type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#modal-default2' onclick='details(this.id)' id='$datax[kd_trf]'>Detail</button></td>";
   echo "<td>$datax[kd_trf]</td>";
-  echo "<td>".strftime("%d %B %Y",strtotime($datax[tgl]))."</td>";
+  echo "<td>".strftime("%d %B %Y",strtotime($datax['tgl']))."</td>";
   echo "<td>$loc[nama_klinik]</td>";
   echo "<td>$datax[username]</td>";
   echo "</tr>";
@@ -99,7 +99,7 @@ while($datax = mysql_fetch_assoc($data)){
 
 
 <style>
-.tbl {border-collpase: collapse; width: 100%}
+.tbl {border-collapse: collapse; width: 100%}
 .tbl td {padding: 1%}
 </style>
 
@@ -132,8 +132,8 @@ while($datax = mysql_fetch_assoc($data)){
 <option value="">--silakan pilih--</option>
 <?php
 
-$ux = mysql_query("SELECT * FROM daftar_klinik WHERE id_kk != '$_SESSION[klinik]'");
-while($uxi = mysql_fetch_assoc($ux)){
+$ux = mysqli_query($con, "SELECT * FROM daftar_klinik WHERE id_kk != '$_SESSION[klinik]'");
+while($uxi = mysqli_fetch_assoc($ux)){
   echo "<option value='$uxi[id_kk]'>$uxi[nama_klinik]</option>";
 }
 
@@ -164,8 +164,8 @@ while($uxi = mysql_fetch_assoc($ux)){
 </tr>
 
 <input type="hidden" id="tgl" value="<?php echo date("Y-m-d"); ?>" />
-<input type="hidden" id="asal" value="<?php echo $_SESSION[klinik]; ?>" />
-<input type="hidden" id="username" value="<?php echo $_SESSION[namauser]; ?>"  />
+<input type="hidden" id="asal" value="<?php echo $_SESSION['klinik']; ?>" />
+<input type="hidden" id="username" value="<?php echo $_SESSION['namauser']; ?>"  />
 </table>
 
 <style>

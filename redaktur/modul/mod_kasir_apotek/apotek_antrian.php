@@ -31,16 +31,16 @@
       <tbody>
         <?php 
         $today = DATE('Y-m-d');
-        $j = mysql_query("SELECT * FROM antrian_pasien WHERE jenis_layanan = 'apotek' ORDER BY tanggal_pendaftaran ASC");
-        while($ji = mysql_fetch_assoc($j)){
-            $pas = mysql_fetch_assoc(mysql_query("SELECT nama_pasien FROM pasien WHERE id_pasien = '$ji[id_pasien]'"));
+        $j = mysqli_query($con,"SELECT * FROM antrian_pasien WHERE jenis_layanan = 'apotek' ORDER BY tanggal_pendaftaran ASC");
+        while($ji = mysqli_fetch_assoc($j)){
+            $pas = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_pasien FROM pasien WHERE id_pasien = '$ji[id_pasien]'"));
 
 
-            $aksi = is_null($ji[status])? "<a href='?module=resep&faktur=$ji[no_faktur]'><button class='btn btn-sm btn-info'>Tambah Obat</button></a>" : "<span class='label label-success'> Lunas</span>";
+            $aksi = is_null($ji['status'])? "<a href='?module=resep&faktur=$ji[no_faktur]'><button class='btn btn-sm btn-info'>Tambah Obat</button></a>" : "<span class='label label-success'> Lunas</span>";
 
 
             echo "<tr>";
-            echo "<td>".strftime("%d %B %Y",strtotime($ji[tanggal_pendaftaran]))."</td>";
+            echo "<td>".strftime("%d %B %Y",strtotime($ji['tanggal_pendaftaran']))."</td>";
             echo "<td>$ji[no_faktur]</td>";
             echo "<td>$pas[nama_pasien]</td>";
             echo "<td>$aksi</td>";

@@ -9,8 +9,8 @@
 	// Hapus Produk
 	if ($module == 'rekening' AND $act == 'hapus'){
 		$id		= $_GET['id_rekening'];
-		$del	= mysql_query("Delete From rekening Where id_rekening='$id'");
-		catat($_SESSION['namauser'], 'Hapus Kategori Produk'.' ('.$id.')');
+		$del	= mysqli_query($con,"Delete From rekening Where id_rekening='$id'");
+		catat($con,$_SESSION['namauser'], 'Hapus Kategori Produk'.' ('.$id.')');
 		header('location:../../media.php?module=rekening');
 	}
 	// Input Produk Baru
@@ -19,8 +19,8 @@
 		$nama_bank 		= $_POST['nama_bank'];
 		$no_rek 		= $_POST['no_rek'];
 		$atas_nama 		= $_POST['atas_nama'];
-		$simpan = mysql_query("Insert Into rekening(id_kk,nama_bank,no_rek,atas_nama) Values('$klinik','$nama_bank','$no_rek','$atas_nama')") or die(mysql_error());
-	 	catat($_SESSION['namauser'], 'Data Rekening Baru'.' ('.$nmrgn.')');
+		$simpan = mysqli_query($con,"Insert Into rekening(id_kk,nama_bank,no_rek,atas_nama) Values('$klinik','$nama_bank','$no_rek','$atas_nama')") or die(mysqli_error($con));
+	 	catat($con,$_SESSION['namauser'], 'Data Rekening Baru'.' ('.$nmrgn.')');
 		if($simpan){
 			header('location:../../media.php?module=rekening');
 		} else {
@@ -35,8 +35,8 @@
 		$no_rek 		= $_POST['no_rek'];
 		$atas_nama 		= $_POST['atas_nama'];
 		
-		$update		= mysql_query("Update rekening Set id_kk='$klinik', nama_bank='$nama_bank', no_rek='$no_rek', atas_nama='$atas_nama' Where id_rekening='$id'");
-		catat($_SESSION['namauser'], 'Edit KategoriKa Produk'.' ('.$id.')');
+		$update		= mysqli_query($con,"Update rekening Set id_kk='$klinik', nama_bank='$nama_bank', no_rek='$no_rek', atas_nama='$atas_nama' Where id_rekening='$id'");
+		catat($con, $_SESSION['namauser'], 'Edit KategoriKa Produk'.' ('.$id.')');
 		if($update){
 			header('location:../../media.php?module=rekening');
 		} else {

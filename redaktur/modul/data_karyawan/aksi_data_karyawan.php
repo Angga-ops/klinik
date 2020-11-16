@@ -9,8 +9,8 @@
 	// Hapus Data Dokter
 	if ($module == 'data_karyawan' AND $act == 'hapus'){
 		$id		= $_GET['id_karyawan'];
-		$del	= mysql_query("Delete From karyawan Where id_karyawan='$id'");
-		catat($_SESSION['namauser'], 'Hapus Data Karyawan'.' ('.$id.')');
+		$del	= mysqli_query($con, "Delete From karyawan Where id_karyawan='$id'");
+		catat($con, $_SESSION['namauser'], 'Hapus Data Karyawan'.' ('.$id.')');
 		header('location:../../media.php?module=data_karyawan');
 	}
 	// Input Data Karyawan Baru
@@ -53,7 +53,7 @@
 		      $query = "Insert Into karyawan(id_kk,nama_karyawan,jk,tgl_lahir,no_telp,id_ju,status,foto,tgl_masuk,alamat,lulusan,username,password,blokir)
 			  Values('$klinik','$nama_karyawan','$jk','$tgl_lahir','$no_telp','$bagian','$status','$nama_file',
 			  '$tgl_masuk','$alamat','$lulusan','$username','$password','$blokir')";
-		      $sql = mysql_query( $query); // Eksekusi/ Jalankan query dari variabel $query
+		      $sql = mysqli_query($con, $query); // Eksekusi/ Jalankan query dari variabel $query
 		      
 		      if($sql){ // Cek jika proses simpan ke database sukses atau tidak
 		        // Jika Sukses, Lakukan :
@@ -82,7 +82,7 @@
 			$query = "Insert Into karyawan(id_kk,nama_karyawan,jk,tgl_lahir,no_telp,id_ju,status,tgl_masuk,alamat,lulusan,username,password,blokir)
 			  Values('$klinik','$nama_karyawan','$jk','$tgl_lahir','$no_telp','$bagian','$status',
 			  '$tgl_masuk','$alamat','$lulusan','$username','$password','$blokir')";
-		      $sql = mysql_query( $query); // Eksekusi/ Jalankan query dari variabel $query
+		      $sql = mysqli_query($con, $query); // Eksekusi/ Jalankan query dari variabel $query
 		      
 		      if($sql){ // Cek jika proses simpan ke database sukses atau tidak
 		        // Jika Sukses, Lakukan :
@@ -139,7 +139,7 @@
 			  status='$status', foto='$nama_file',tgl_masuk='$tgl_masuk',alamat='$alamat',
 			  lulusan='$lulusan',username='$username',
 			  password='$password' Where id_karyawan='$id_karyawan'";
-		      $sql = mysql_query( $query); // Eksekusi/ Jalankan query dari variabel $query
+		      $sql = mysqli_query($con, $query); // Eksekusi/ Jalankan query dari variabel $query
 		      
 		      if($sql){ // Cek jika proses simpan ke database sukses atau tidak
 		        // Jika Sukses, Lakukan :

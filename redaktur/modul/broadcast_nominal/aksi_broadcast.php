@@ -13,8 +13,8 @@
 		$pengirim		= $_POST['pengirim'];
 		//Broadcast pesanenter
 		$layer2 = array();
-		$nomor1 = mysql_query("SELECT * from pembayaran where total>='$nominal' group by id_pasien");
-		while($layer = mysql_fetch_array($nomor1)){
+		$nomor1 = mysqli_query($con, "SELECT * from pembayaran where total>='$nominal' group by id_pasien");
+		while($layer = mysqli_fetch_array($nomor1)){
 			$layer2[] = $layer['id_pasien']; 
 		}
 
@@ -22,8 +22,8 @@
 		$c=0;
 		while ($c<$limit) {
 			$id   = $layer2[$c];
-			$layer3 = mysql_query("SELECT * FROM pasien where id_pasien='$id'");
-			while ($nomor2 = mysql_fetch_array($layer3)){
+			$layer3 = mysqli_query($con, "SELECT * FROM pasien where id_pasien='$id'");
+			while ($nomor2 = mysqli_fetch_array($layer3)){
 				$nomor[] = $nomor2['no_telp'];
 			}
 			$c++;
@@ -56,8 +56,8 @@
 		
 
 		
-		$simpan = mysql_query("Insert Into broadcast_nominal(nominal,subjek,isi,tgl_kirim, pengirim) Values('$nominal','$subjek','$isi','$tgl_kirim','$pengirim')") or die(mysql_error());
-	 	catat($_SESSION['namauser'], 'Data Kategori Baru'.' ('.$nmrgn.')');
+		$simpan = mysqli_query($con, "Insert Into broadcast_nominal(nominal,subjek,isi,tgl_kirim, pengirim) Values('$nominal','$subjek','$isi','$tgl_kirim','$pengirim')") or die(mysqli_error($con));
+	 	catat($con, $_SESSION['namauser'], 'Data Kategori Baru'.' ('.$nmrgn.')');
 		if($simpan){
 			header('location:../../media.php?module=bc_nominal');
 		} else {

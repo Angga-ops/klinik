@@ -61,17 +61,17 @@
       $offset = ($pageno-1) * $no_of_records_per_page;
 
       $cari = $_POST['cari'];
-      $total_pages_sql  = mysql_query("SELECT * FROM treatment WHERE nama_t LIKE '%$cari%'");
+      $total_pages_sql  = mysqli_query($con,"SELECT * FROM treatment WHERE nama_t LIKE '%$cari%'");
 
       //$result = mysql_query($total_pages_sql);
-      $total_rows = mysql_num_rows($total_pages_sql);
+      $total_rows = mysqli_num_rows($total_pages_sql);
       $total_pages = ceil($total_rows / $no_of_records_per_page);
 
-        $data  = mysql_query("SELECT * FROM treatment WHERE nama_t LIKE '%$cari%' ORDER BY nama_t ASC LIMIT $offset, $no_of_records_per_page");
+        $data  = mysqli_query($con,"SELECT * FROM treatment WHERE nama_t LIKE '%$cari%' ORDER BY nama_t ASC LIMIT $offset, $no_of_records_per_page");
 
-        if(mysql_num_rows($data) > 0){
-		while($r	= mysql_fetch_array($data)){
-      $kat = mysql_fetch_assoc(mysql_query("SELECT kategori FROM kategori_biaya WHERE id = '$r[kategori]'"));
+        if(mysqli_num_rows($data) > 0){
+		while($r	= mysqli_fetch_array($data)){
+      $kat = mysqli_fetch_assoc(mysqli_query($con,"SELECT kategori FROM kategori_biaya WHERE id = '$r[kategori]'"));
     ?>
 			<tr class="gradeX">
       <td><?php echo $kat["kategori"]; ?></td>     
@@ -183,8 +183,8 @@ $(document).ready(function(){
                <option value="">--silakan pilih--</option>
                <?php 
                
-               $j = mysql_query("SELECT * FROM kategori_biaya");
-               while($jo = mysql_fetch_assoc($j)){
+               $j = mysqli_query($con,"SELECT * FROM kategori_biaya");
+               while($jo = mysqli_fetch_assoc($j)){
                  echo "<option value='$jo[id]'>$jo[kategori]</option>";
                }
                
@@ -269,7 +269,7 @@ $(document).ready(function(){
 	break;
 	case "edit_dt":
 	$id		= $_GET['id'];
-	$edit 	= mysql_fetch_array(mysql_query("Select * From treatment Where id='$id'"));
+	$edit 	= mysqli_fetch_array(mysqli_query($con,"Select * From treatment Where id='$id'"));
 ?>
 
 <section class="content">
@@ -292,9 +292,9 @@ $(document).ready(function(){
                <option value="">--silakan pilih--</option>
                <?php 
                
-               $j = mysql_query("SELECT * FROM kategori_biaya");
-               while($jo = mysql_fetch_assoc($j)){
-                 $sel = ($edit['kategori'] == $jo[id])? "selected" : "";
+               $j = mysqli_query($con,"SELECT * FROM kategori_biaya");
+               while($jo = mysqli_fetch_assoc($j)){
+                 $sel = ($edit['kategori'] == $jo['id'])? "selected" : "";
                  echo "<option value='$jo[id]' $sel>$jo[kategori]</option>";
                }
                
@@ -388,13 +388,13 @@ $(document).ready(function(){
             <label for="field4">Kamar</label>
             <select name="kamar">
 				<?php
-                    $jr	= mysql_query("Select * From kamar");
+                    $jr	= mysqli_query($con,"Select * From kamar");
                     if ($edit['id_kamar'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Jenis --</option>
                 <?php
                 }
-                    while ($edit_jr 		= mysql_fetch_array($jr)) {
+                    while ($edit_jr 		= mysqli_fetch_array($jr)) {
                     if ($edit['id_kamar']	== $edit_jr['id_kamar']) {
                     ?>
                         <option value="<?php echo $edit_jr['id_kamar']; ?>" selected><?php echo $edit_jr['nama_kamar']; ?></option>

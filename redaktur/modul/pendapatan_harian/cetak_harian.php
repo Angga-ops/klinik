@@ -52,7 +52,7 @@ window.print();
 </style>
 <?php
 $harian = date('Y-m-d');
-	$p = mysql_fetch_array(mysql_query("SELECT *FROM history_kasir WHERE tanggal='$harian' AND jenis='Produk'"));
+	$p = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM history_kasir WHERE tanggal='$harian' AND jenis='Produk'"));
 ?>
 <div align="center">
 	<h3>Pendapatan pada tanggal : <?php echo $harian; ?></h3>
@@ -71,9 +71,9 @@ $harian = date('Y-m-d');
 	        </tr>
 	    </thead>
 	    <tbody>
-		<?php $q1 = mysql_query("SELECT *FROM history_kasir WHERE tanggal='$harian' AND jenis='Produk'"); 
+		<?php $q1 = mysqli_query($con,"SELECT *FROM history_kasir WHERE tanggal='$harian' AND jenis='Produk'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {
+              while ($br = mysqli_fetch_array($q1)) {
                 ?>
             <tr>
               <td><?php echo $no; ?></td>
@@ -93,8 +93,8 @@ $harian = date('Y-m-d');
 						<td><b>TOTAL</b></td>
 						<?php
 			           $jumlahkan = "SELECT SUM(harga) AS total FROM history_kasir where tanggal='$harian' AND jenis='Produk'"; //perintah untuk menjumlahkan
-			          $total =@mysql_query($jumlahkan) or die (mysql_error());//melakukan query dengan varibel $jumlahkan
-			          $t = mysql_fetch_array($total); //menyimpan hasil query ke variabel $t
+			          $total =@mysqli_query($con,$jumlahkan) or die (mysqli_error($con));//melakukan query dengan varibel $jumlahkan
+			          $t = mysqli_fetch_array($total); //menyimpan hasil query ke variabel $t
 			          echo '<td>-</td>
 			          <td>-</td>
 			          <td>-</td>

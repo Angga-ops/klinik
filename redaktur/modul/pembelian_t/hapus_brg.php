@@ -5,7 +5,7 @@ include "../../../config/koneksi.php";
 
 $id = $_POST['id_t'];
 
-$hapus=mysql_query("DELETE FROM pembelian_t WHERE id_t ='$id' ");
+$hapus=mysqli_query($con,"DELETE FROM pembelian_t WHERE id_t ='$id' ");
 
 
 if(isset($hapus)){

@@ -121,10 +121,10 @@ window.print();
 	    <tbody>
 	    	<?php 
 
-	    	$qk = mysql_query("SELECT *FROM kategori"); 
-	    	while($k  = mysql_fetch_array($qk)){ 
-	    	$qp = mysql_query("SELECT *FROM produk WHERE id_kategori='$k[id_kategori]' AND id_kk='$klinik'");
-	    	$cek = mysql_num_rows($qp);
+	    	$qk = mysqli_query($con, "SELECT *FROM kategori"); 
+	    	while($k  = mysqli_fetch_array($qk)){ 
+	    	$qp = mysqli_query($con, "SELECT *FROM produk WHERE id_kategori='$k[id_kategori]' AND id_kk='$klinik'");
+	    	$cek = mysqli_num_rows($qp);
 	    	if ($cek==0) {
 	    		continue;
 	    	}
@@ -148,7 +148,7 @@ window.print();
 	    		<td></td>
 	    		<td></td>
 	    	</tr>
-	    	<?php while($p =mysql_fetch_array($qp)){ 
+	    	<?php while($p =mysqli_fetch_array($qp)){ 
 	    		$no=1;
 	    		$c     = 0;
 	    		$limit = 5;
@@ -159,13 +159,13 @@ window.print();
 
 	    			$tgl = $hari[$c];
 
-	    			$pp = mysql_fetch_array(mysql_query("SELECT *FROM pengiriman p 
+	    			$pp = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM pengiriman p 
 		 						JOIN produk_pengiriman pp ON  p.no_pengiriman=pp.no_pengiriman
 		 						WHERE p.tanggal='$tgl' AND pp.kode_produk='$p[kode_produk]' AND p.cabang='$klinik'"));
 
 	    			$plus[] = $pp['jumlah_diterima'];
 
-	    			$hk = mysql_fetch_array(mysql_query("SELECT SUM(jumlah) AS total_p FROM history_kasir WHERE nama='$p[nama_p]' AND tanggal='$tgl' AND jenis='Produk' AND id_kk='$klinik'"));
+	    			$hk = mysqli_fetch_array(mysqli_query($con, "SELECT SUM(jumlah) AS total_p FROM history_kasir WHERE nama='$p[nama_p]' AND tanggal='$tgl' AND jenis='Produk' AND id_kk='$klinik'"));
 
 	    			$min[] = $hk['total_p'];
 

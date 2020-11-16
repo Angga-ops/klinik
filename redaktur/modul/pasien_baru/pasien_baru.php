@@ -1,10 +1,10 @@
 <?php 
 
 
-$c = mysql_query("SELECT id_pasien FROM pasien WHERE id_kk = '$_SESSION[klinik]'");
+$c = mysqli_query($con,"SELECT id_pasien FROM pasien WHERE id_kk = '$_SESSION[klinik]'");
 $d = '[';
-while($cu = mysql_fetch_assoc($c)){
-    $dt .= '{"id":"'.$cu[id_pasien].'"},';
+while($cu = mysqli_fetch_assoc($c)){
+    $dt .= '{"id":"'.$cu['id_pasien'].'"},';
 }
 $dt = substr($dt,0,strlen($dt) - 1);
 $d .= $dt.']';
@@ -37,8 +37,8 @@ file_put_contents("../redaktur/modul/pasien_baru/cust.json",$d);
 					<div class="col-md-6">
 						<?php 
 						$id_kk = $_SESSION['klinik'];
-						$q = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'");
-						$p = mysql_fetch_array($q);
+						$q = mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'");
+						$p = mysqli_fetch_array($q);
 						$klinik = inisial($p['nama_klinik']);
 						$ini = substr($klinik,0,strlen($klinik) - 1);
 						?>

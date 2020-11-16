@@ -74,9 +74,9 @@ window.print();
 	        </tr>
 	    </thead>
 	    <tbody>
-		<?php $q1 = mysql_query("SELECT *FROM kehadiran_dr k JOIN user u ON k.id_dr=u.id_user JOIN daftar_klinik dk ON k.id_kk=dk.id_kk WHERE k.tanggal='$_GET[tgl]'"); 
+		<?php $q1 = mysqli_query($con, "SELECT *FROM kehadiran_dr k JOIN user u ON k.id_dr=u.id_user JOIN daftar_klinik dk ON k.id_kk=dk.id_kk WHERE k.tanggal='$_GET[tgl]'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {
+              while ($br = mysqli_fetch_array($q1)) {
                 ?>
             <tr>
               <td><?php echo $no; ?></td>

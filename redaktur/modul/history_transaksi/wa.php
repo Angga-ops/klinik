@@ -7,51 +7,51 @@ include "../../../config/koneksi.php";
 $id_kk     = $_SESSION['klinik'];
 $no_faktur = $_GET['faktur'];
 
-$idd = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'"));
+$idd = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'"));
 
-$nota=mysql_fetch_array(mysql_query("SELECT * FROM pembayaran where no_faktur='$no_faktur'"));
+$nota=mysqli_fetch_array(mysqli_query($con, "SELECT * FROM pembayaran where no_faktur='$no_faktur'"));
 
-$ky=mysql_query("SELECT * FROM pembayaran p JOIN history_kasir h ON p.no_faktur=h.no_faktur  WHERE p.no_faktur='$no_faktur'");
+$ky=mysqli_query($con, "SELECT * FROM pembayaran p JOIN history_kasir h ON p.no_faktur=h.no_faktur  WHERE p.no_faktur='$no_faktur'");
 
-$kd = mysql_fetch_assoc(mysql_query("SELECT * FROM history_kasir WHERE no_faktur='$no_faktur'"));
+$kd = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM history_kasir WHERE no_faktur='$no_faktur'"));
 
-$kasir = mysql_fetch_assoc(mysql_query("SELECT nama_karyawan FROM karyawan WHERE id_karyawan = '$kd[id_kasir]'"));
+$kasir = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_karyawan FROM karyawan WHERE id_karyawan = '$kd[id_kasir]'"));
 
-$cust = mysql_fetch_assoc(mysql_query("SELECT * FROM pasien WHERE id_pasien = '$kd[id_pasien]'"));
+$cust = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM pasien WHERE id_pasien = '$kd[id_pasien]'"));
 
-$telp = substr($cust[no_telp],1,strlen($cust[no_telp]) - 1);
+$telp = substr($cust['no_telp'],1,strlen($cust['no_telp']) - 1);
 
-$json = '{"telp":"62'.$telp.'","namaklinik":"'.$idd[nama_klinik].'","alamatklinik":"'.$idd[alamat].'",';
+$json = '{"telp":"62'.$telp.'","namaklinik":"'.$idd['nama_klinik'].'","alamatklinik":"'.$idd['alamat'].'",';
 
-$json .= '"nofaktur":"'.$no_faktur.'","antrian":"'.$nota['no_urut'].'","pasien":"'.$cust[nama_pasien].' ('.$cust[id_pasien].')",';    
+$json .= '"nofaktur":"'.$no_faktur.'","antrian":"'.$nota['no_urut'].'","pasien":"'.$cust['nama_pasien'].' ('.$cust['id_pasien'].')",';    
 
-$json .= '"kasir":"'.$kasir[nama_karyawan].'","tgl":"'.strftime("%d %B %Y",strtotime($nota['tgl'])).'","produk":"';
+$json .= '"kasir":"'.$kasir['nama_karyawan'].'","tgl":"'.strftime("%d %B %Y",strtotime($nota['tgl'])).'","produk":"';
 
 $tot = 0;
 
-while ($p=mysql_fetch_array($ky)) {
+while ($p=mysqli_fetch_array($ky)) {
 
 $json .= $p['nama'].'*'.$p['jumlah'].' x Rp '.number_format($p['harga'],0,",",".").'*';
 
 $tot = $tot + ($p['jumlah'] * $p['harga']);
 
-$dokter = (is_null($p[id_dr]) || $p[id_dr] == 0)? "" : $p[id_dr];
+$dokter = (is_null($p['id_dr']) || $p['id_dr'] == 0)? "" : $p['id_dr'];
 
 }
 
-$total = $tot + $nota[uang_ongkir];
+$total = $tot + $nota['uang_ongkir'];
 
 $disc = number_format($total - $nota['total'],0,",",".");
 
 
 if($dokter == ""){} else {
-	$dr = mysql_fetch_array(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = '$dokter'"));
+	$dr = mysqli_fetch_array(mysqli_query($con, "SELECT nama_lengkap FROM user WHERE id_user = '$dokter'"));
 }
 
 
-$ongkir = ($nota[uang_ongkir] == "")? 0 : $nota[uang_ongkir];
+$ongkir = ($nota['uang_ongkir'] == "")? 0 : $nota['uang_ongkir'];
 
-$json .= '","dokter":"'.$dr[nama_lengkap].'","belanja":"'.number_format($total,0,",",".").'","bayar":"'.number_format($nota['uang'],0,",",".").'","kembalian":"'.number_format($nota['kembalian'],0,",",".").'","note":"Retur Produk berlaku 1 x 24 Jam","disc":"'.$disc.'","total":"'.number_format($nota['total'],0,",",".").'","ongkir":"'.number_format($ongkir,0,",",".").'"}'; 
+$json .= '","dokter":"'.$dr['nama_lengkap'].'","belanja":"'.number_format($total,0,",",".").'","bayar":"'.number_format($nota['uang'],0,",",".").'","kembalian":"'.number_format($nota['kembalian'],0,",",".").'","note":"Retur Produk berlaku 1 x 24 Jam","disc":"'.$disc.'","total":"'.number_format($nota['total'],0,",",".").'","ongkir":"'.number_format($ongkir,0,",",".").'"}'; 
 
 ?>
 

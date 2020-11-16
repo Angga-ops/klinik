@@ -4,9 +4,9 @@ include "../../../config/koneksi.php";
 
 $id  = $_POST['id'];
 
-$q1 = mysql_query("SELECT *FROM produk_pengiriman WHERE id_pp='$id'");
+$q1 = mysqli_query($con,"SELECT *FROM produk_pengiriman WHERE id_pp='$id'");
 $response = array();
-while($row = mysql_fetch_array($q1) ){
+while($row = mysqli_fetch_array($q1) ){
 /*
 	if ($row['ket']==Null) {
 		$ket = "Sesuai";

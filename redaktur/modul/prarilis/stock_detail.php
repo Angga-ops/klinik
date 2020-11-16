@@ -67,14 +67,14 @@ setlocale(LC_TIME,"id_ID"); ?>
 
 <?php 
 
-$pr = mysql_query("SELECT * FROM prarilis WHERE klinik = '$_GET[klinik]'");
-while($pra = mysql_fetch_assoc($pr)){
+$pr = mysqli_query($con,"SELECT * FROM prarilis WHERE klinik = '$_GET[klinik]'");
+while($pra = mysqli_fetch_assoc($pr)){
 
-    $klinik = mysql_fetch_assoc(mysql_query("SELECT nama_klinik FROM daftar_klinik WHERE id_kk = '$pra[klinik]'"));
+    $klinik = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_klinik FROM daftar_klinik WHERE id_kk = '$pra[klinik]'"));
 
-$sat = mysql_fetch_assoc(mysql_query("SELECT satuan AS uan FROM data_satuan WHERE id_s = $pra[id_satuan]"));
+$sat = mysqli_fetch_assoc(mysqli_query($con,"SELECT satuan AS uan FROM data_satuan WHERE id_s = $pra[id_satuan]"));
 
-$kat = mysql_fetch_assoc(mysql_query("SELECT kategori AS egori FROM kategori WHERE id_kategori = $pra[id_kategori]"));
+$kat = mysqli_fetch_assoc(mysqli_query($con,"SELECT kategori AS egori FROM kategori WHERE id_kategori = $pra[id_kategori]"));
 
     echo "<tr>";
     echo "<td>$klinik[nama_klinik]</td>";
@@ -82,7 +82,7 @@ $kat = mysql_fetch_assoc(mysql_query("SELECT kategori AS egori FROM kategori WHE
     echo "<td>$sat[uan]</td>";
     echo "<td>$kat[egori]</td>";
     echo "<td>$pra[jml]</td>";
-    echo "<td>".strftime("%d %B %Y",strtotime($pra[tgl_terima]))."</td>";
+    echo "<td>".strftime("%d %B %Y",strtotime($pra['tgl_terima']))."</td>";
     echo "</tr>";
 }
 
@@ -94,7 +94,7 @@ $kat = mysql_fetch_assoc(mysql_query("SELECT kategori AS egori FROM kategori WHE
 
 
 <style>
-.tbl {border-collpase: collapse; width: 100%}
+.tbl {border-collapse: collapse; width: 100%}
 .tbl td {padding: 1%}
 </style>
 

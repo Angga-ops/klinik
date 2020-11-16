@@ -4,7 +4,7 @@ include "../../../config/koneksi.php";
 $nop = $_GET['nop'];
 
 
-mysql_query("UPDATE pengiriman SET status='Terkonfirmasi' WHERE no_pengiriman='$nop'");
+mysqli_query($con,"UPDATE pengiriman SET status='Terkonfirmasi' WHERE no_pengiriman='$nop'");
 
 
 ?>

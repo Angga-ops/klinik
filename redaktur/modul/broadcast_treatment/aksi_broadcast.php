@@ -28,9 +28,9 @@
 
 		$layer2 = array();
 
-		$nomor1 = mysql_query("SELECT count(nama) as jum, id_pasien from history_kasir where jenis='Treatment' group by id_pasien having jum>='$treatment'");
+		$nomor1 = mysqli_query($con, "SELECT count(nama) as jum, id_pasien from history_kasir where jenis='Treatment' group by id_pasien having jum>='$treatment'");
 
-		while($layer = mysql_fetch_array($nomor1)){
+		while($layer = mysqli_fetch_array($nomor1)){
 
 			$layer2[] = $layer['id_pasien']; 
 
@@ -46,9 +46,9 @@
 
 			$id   = $layer2[$c];
 
-			$layer3 = mysql_query("SELECT * FROM pasien where id_pasien='$id'");
+			$layer3 = mysqli_query($con, "SELECT * FROM pasien where id_pasien='$id'");
 
-			while ($nomor2 = mysql_fetch_array($layer3)){
+			while ($nomor2 = mysqli_fetch_array($layer3)){
 
 				$nomor[] = $nomor2['no_telp'];
 
@@ -116,9 +116,9 @@
 
 		
 
-		$simpan = mysql_query("Insert Into broadcast_treatment(treatment,subjek,isi,tgl_kirim, pengirim) Values('$treatment','$subjek','$isi','$tgl_kirim','$pengirim')") or die(mysql_error());
+		$simpan = mysqli_query($con, "Insert Into broadcast_treatment(treatment,subjek,isi,tgl_kirim, pengirim) Values('$treatment','$subjek','$isi','$tgl_kirim','$pengirim')") or die(mysqli_error($con));
 
-	 	catat($_SESSION['namauser'], 'Data Kategori Baru'.' ('.$nmrgn.')');
+	 	catat($con, $_SESSION['namauser'], 'Data Kategori Baru'.' ('.$nmrgn.')');
 
 		if($simpan){
 

@@ -214,8 +214,8 @@
             <select name="jenis_pasien" class="form-control" id="jenis_pasien" required>
                 <option value="">-- Pilih Jenis --</option>
 			<?php
-				$sel	= mysql_query("Select * From jenis_pembayaran");
-				while($data	= mysql_fetch_array($sel)){
+				$sel	= mysqli_query($con, "Select * From jenis_pembayaran");
+				while($data	= mysqli_fetch_array($sel)){
 			?>
                 <option value="<?php echo $data['id_jenispem']; ?>"><?php echo $data['nama_jenispem']; ?></option>            
             <?php

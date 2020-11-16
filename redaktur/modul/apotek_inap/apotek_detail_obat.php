@@ -55,13 +55,13 @@ Silakan pilih obat yang akan diserahkan kepada perawat yang bertugas
   <tbody>
   <?php 
   
-  $q = mysql_query($sql);
-  while($qu = mysql_fetch_assoc($q)){
+  $q = mysqli_query($con, $sql);
+  while($qu = mysqli_fetch_assoc($q)){
       echo "<tr>";
       echo "<td><input type='checkbox' class='chk' data-id='$qu[id]'/></td>";
       echo "<td>$qu[nama]</td>";
       echo "<td>$qu[jumlah]</td>";
-      $dokter = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user='$qu[id_dr]'"));
+      $dokter = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_lengkap FROM user WHERE id_user='$qu[id_dr]'"));
       echo "<td>$qu[ket]</td>";
       echo "<td>$dokter[nama_lengkap]</td>";
       echo "</tr>";
@@ -111,7 +111,7 @@ function printresep(){
 if(k == ""){
   alert("tidak ada data yang dipilih");
 } else {
-  window.open("modul/apotek_inap/resep_obat.php?data=" + k + "&pasien=<?php echo $_GET[pasien]; ?>&faktur=<?php echo $_GET[faktur]; ?>","_BLANK");
+  window.open("modul/apotek_inap/resep_obat.php?data=" + k + "&pasien=<?php echo $_GET['pasien']; ?>&faktur=<?php echo $_GET['faktur']; ?>","_BLANK");
 }
 
 }

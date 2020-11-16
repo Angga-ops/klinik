@@ -2,7 +2,7 @@
 
 <section class="content">
 
-<?php switch($_GET[act]){ 
+<?php switch($_GET['act']){ 
     default:
     ?>
     
@@ -39,12 +39,12 @@
         <tbody>
                    <?php 
                    
-                   $po = mysql_query("SELECT * FROM poliklinik");
-                   while($li = mysql_fetch_assoc($po)){
+                   $po = mysqli_query($con,"SELECT * FROM poliklinik");
+                   while($li = mysqli_fetch_assoc($po)){
                        echo "<tr>";
                        echo "<td>$li[poli]</td>";
                       if ($_SESSION['jenis_u']=="JU-01") {
-                         echo "<td><a href='media.php?module=poliklinik&id=$li[id_poli]&act=edit'><button class='btn btn-sm btn-info'>Edit</button></a> &nbsp; <a href='modul/poliklinik/aksi.php?act=del&id=$li[id_poli]' onclick='return confirm(\"apakah akan menghapus?\")'><button class='btn btn-sm btn-danger'>Hapus</button></a></td>";
+                         echo "<td><a href='media.php?module=poliklinik&id=$li[id_poli]&act=edit'><button class='btn btn-sm btn-info'>Edit</button></a>   <a href='modul/poliklinik/aksi.php?act=del&id=$li[id_poli]' onclick='return confirm(\"apakah akan menghapus?\")'><button class='btn btn-sm btn-danger'>Hapus</button></a></td>";
                          echo "</tr>";
                        }
                    }
@@ -70,7 +70,7 @@
             <td>Nama Poliklinik</td><td><input type="text" class="form-control" name="poli" required/></td>
             </tr>
             <tr>
-            <td><a href="media.php?module=poliklinik"><button class="btn btn-danger" type="button">Batal</button></a>&nbsp;<button class="btn btn-success" type="submit">Simpan</button></td>
+            <td><a href="media.php?module=poliklinik"><button class="btn btn-danger" type="button">Batal</button></a> <button class="btn btn-success" type="submit">Simpan</button></td>
             </tr>
             </table>
             </form>
@@ -80,7 +80,7 @@
 </div>
       <?php break;
       case "edit": 
-      $edit = mysql_fetch_assoc(mysql_query("SELECT * FROM poliklinik WHERE id_poli = '$_GET[id]'"));
+      $edit = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM poliklinik WHERE id_poli = '$_GET[id]'"));
       ?>
       
       <div class="row">
@@ -91,13 +91,13 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-            <form action="modul/poliklinik/aksi.php?act=edit&id=<?php echo $_GET[id]; ?>" method="POST">
+            <form action="modul/poliklinik/aksi.php?act=edit&id=<?php echo $_GET['id']; ?>" method="POST">
             <table class="table">
             <tr>
-            <td>Nama Poliklinik</td><td><input type="text" class="form-control" name="poli" value="<?php echo $edit[poli]; ?>" required/></td>
+            <td>Nama Poliklinik</td><td><input type="text" class="form-control" name="poli" value="<?php echo $edit['poli']; ?>" required/></td>
             </tr>
             <tr>
-            <td><a href="media.php?module=poliklinik"><button class="btn btn-danger" type="button">Batal</button></a>&nbsp;<button class="btn btn-success" type="submit">Simpan</button></td>
+            <td><a href="media.php?module=poliklinik"><button class="btn btn-danger" type="button">Batal</button></a> <button class="btn btn-success" type="submit">Simpan</button></td>
             </tr>
             </table>
             </form>

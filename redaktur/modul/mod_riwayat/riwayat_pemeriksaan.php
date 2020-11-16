@@ -24,12 +24,12 @@
    <tbody>
 <?php
 	//Ambil Id Periksa Nama Pasien
-	$data 			= mysql_query("Select id_periksa, nama_pasien, jam_periksa, tgl_periksa From pasien, pemeriksaan_pasien, perawatan_pasien Where pemeriksaan_pasien.id_antrian=perawatan_pasien.id_antrian And perawatan_pasien.id_pasien=pasien.id_pasien Order by id_periksa");
+	$data 			= mysqli_query($con,"Select id_periksa, nama_pasien, jam_periksa, tgl_periksa From pasien, pemeriksaan_pasien, perawatan_pasien Where pemeriksaan_pasien.id_antrian=perawatan_pasien.id_antrian And perawatan_pasien.id_pasien=pasien.id_pasien Order by id_periksa");
 	//Ambil Id Antrian
-	$hasil2			= mysql_fetch_array(mysql_query("Select * From pemeriksaan_pasien"));
+	$hasil2			= mysqli_fetch_array(mysqli_query($con,"Select * From pemeriksaan_pasien"));
 	//Ambil Id Pasien
-	$hasil3			= mysql_fetch_array(mysql_query("Select id_periksa, id_pasien From pemeriksaan_pasien, perawatan_pasien Where pemeriksaan_pasien.id_antrian=perawatan_pasien.id_antrian Order by id_periksa"));
-	while($hasil	= mysql_fetch_array($data)){
+	$hasil3			= mysqli_fetch_array(mysqli_query($con,"Select id_periksa, id_pasien From pemeriksaan_pasien, perawatan_pasien Where pemeriksaan_pasien.id_antrian=perawatan_pasien.id_antrian Order by id_periksa"));
+	while($hasil	= mysqli_fetch_array($data)){
 	$tgl_datang		= tgl_indo($hasil['tgl_periksa']);
 ?>
 
@@ -42,8 +42,8 @@
 	<td>
     	<?php
 			$idp		= $hasil['id_periksa'];
-			$sel_rsp	= mysql_query("Select count(id_resep) as jum From obat_keluar Where id_periksa='$idp' Group by id_periksa");
-			$cek_rsp	= mysql_fetch_array($sel_rsp);
+			$sel_rsp	= mysqli_query($con,"Select count(id_resep) as jum From obat_keluar Where id_periksa='$idp' Group by id_periksa");
+			$cek_rsp	= mysqli_fetch_array($sel_rsp);
 			$rsp		= $cek_rsp['jum'];
 			if($rsp >= 1){
 		?>
@@ -92,10 +92,10 @@
    </thead>
    <tbody>
 <?php
-	$data 			= mysql_query("Select id_plab, nama_pasien, jam_ujilab, tgl_ujilab From pasien, pemeriksaan_lab, perawatan_pasien Where pemeriksaan_lab.id_antrian=perawatan_pasien.id_antrian And perawatan_pasien.id_pasien=pasien.id_pasien Order by id_plab");
-	$hasil2			= mysql_fetch_array(mysql_query("Select * From pemeriksaan_lab"));
-	$hasil3			= mysql_fetch_array(mysql_query("Select id_plab, id_pasien From pemeriksaan_lab, perawatan_pasien Where pemeriksaan_lab.id_antrian=perawatan_pasien.id_antrian Order by id_plab"));
-	while($hasil	= mysql_fetch_array($data)){
+	$data 			= mysqli_query($con,"Select id_plab, nama_pasien, jam_ujilab, tgl_ujilab From pasien, pemeriksaan_lab, perawatan_pasien Where pemeriksaan_lab.id_antrian=perawatan_pasien.id_antrian And perawatan_pasien.id_pasien=pasien.id_pasien Order by id_plab");
+	$hasil2			= mysqli_fetch_array(mysqli_query($con,"Select * From pemeriksaan_lab"));
+	$hasil3			= mysqli_fetch_array(mysqli_query($con,"Select id_plab, id_pasien From pemeriksaan_lab, perawatan_pasien Where pemeriksaan_lab.id_antrian=perawatan_pasien.id_antrian Order by id_plab"));
+	while($hasil	= mysqli_fetch_array($data)){
 	$tgl_datang		= tgl_indo($hasil['tgl_ujilab']);
 ?>
 
@@ -142,11 +142,11 @@
    </thead>
    <tbody>
 <?php
-	$data 			= mysql_query("Select id_prontgen, nama_pasien, jam_rontgen, tgl_rontgen From pasien, pemeriksaan_rontgen, perawatan_pasien Where pemeriksaan_rontgen.id_antrian=perawatan_pasien.id_antrian And perawatan_pasien.id_pasien=pasien.id_pasien Order by id_prontgen");
+	$data 			= mysqli_query($con,"Select id_prontgen, nama_pasien, jam_rontgen, tgl_rontgen From pasien, pemeriksaan_rontgen, perawatan_pasien Where pemeriksaan_rontgen.id_antrian=perawatan_pasien.id_antrian And perawatan_pasien.id_pasien=pasien.id_pasien Order by id_prontgen");
 	//$tampil=mysql_query("SELECT * FROM antrianbaru ORDER BY ID DESC");
-	$hasil2			= mysql_fetch_array(mysql_query("Select * From pemeriksaan_rontgen"));
-	$hasil3			= mysql_fetch_array(mysql_query("Select id_prontgen, id_pasien From pemeriksaan_rontgen, perawatan_pasien Where pemeriksaan_rontgen.id_antrian=perawatan_pasien.id_antrian Order by id_prontgen"));
-	while($hasil	= mysql_fetch_array($data)){
+	$hasil2			= mysqli_fetch_array(mysqli_query($con,"Select * From pemeriksaan_rontgen"));
+	$hasil3			= mysqli_fetch_array(mysqli_query($con,"Select id_prontgen, id_pasien From pemeriksaan_rontgen, perawatan_pasien Where pemeriksaan_rontgen.id_antrian=perawatan_pasien.id_antrian Order by id_prontgen"));
+	while($hasil	= mysqli_fetch_array($data)){
 	$tgl_datang		= tgl_indo($hasil['tgl_rontgen']);
 ?>
 

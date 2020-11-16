@@ -51,7 +51,7 @@ window.print();
 
 </style>
 <?php
-	$p = mysql_fetch_array(mysql_query("SELECT *FROM history_beli_t WHERE tgl_beli between '$_GET[tgl1]' AND '$_GET[tgl2]'"));
+	$p = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM history_beli_t WHERE tgl_beli between '$_GET[tgl1]' AND '$_GET[tgl2]'"));
 ?>
 <div align="center">
 	<h4>Pembelian Produk Pada Tanggal : <?php echo $_GET['tgl1']; ?> Sampai Tanggal : <?php echo $_GET['tgl2']; ?></h4>
@@ -71,9 +71,9 @@ window.print();
 	        </tr>
 	    </thead>
 	    <tbody>
-		<?php $q1 = mysql_query("SELECT *FROM history_beli_t WHERE tgl_beli between '$_GET[tgl1]' AND '$_GET[tgl2]'"); 
+		<?php $q1 = mysqli_query($con, "SELECT *FROM history_beli_t WHERE tgl_beli between '$_GET[tgl1]' AND '$_GET[tgl2]'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {
+              while ($br = mysqli_fetch_array($q1)) {
                 ?>
             <tr>
               <td><?php echo $no; ?></td>
@@ -94,8 +94,8 @@ window.print();
 			<td><b>TOTAL</b></td>
 		<?php
           $jumlahkan = "SELECT SUM(sub_tot) AS total FROM history_beli_t where tgl_beli between '$_GET[tgl1]' AND '$_GET[tgl2]'"; //perintah untuk menjumlahkan
-          $total =@mysql_query($jumlahkan) or die (mysql_error());//melakukan query dengan varibel $jumlahkan
-          $t = mysql_fetch_array($total); //menyimpan hasil query ke variabel $t
+          $total =@mysqli_query($con, $jumlahkan) or die (mysqli_error($con));//melakukan query dengan varibel $jumlahkan
+          $t = mysqli_fetch_array($total); //menyimpan hasil query ke variabel $t
           echo '
           	<td>-</td>
           	<td>-</td>

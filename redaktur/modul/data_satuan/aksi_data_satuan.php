@@ -9,8 +9,8 @@
 	// Hapus Kamar
 	if ($module == 'ds' AND $act == 'hapus'){
 		$id		= $_GET['id'];
-		$del	= mysql_query("Delete From data_satuan Where id_s='$id'");
-		catat($_SESSION['namauser'], 'Hapus Data Satuan'.' ('.$id.')');
+		$del	= mysqli_query($con, "Delete From data_satuan Where id_s='$id'");
+		catat($con, $_SESSION['namauser'], 'Hapus Data Satuan'.' ('.$id.')');
 		header('location:../../media.php?module=data_satuan');
 	}
 	// Input Kamar Baru
@@ -19,8 +19,8 @@
 		// $status				= $_POST['status'];
 		// $kapasitas			= $_POST['kapasitas'];
 		// $terpakai			= $_POST['terpakai'];
-		$simpan		= mysql_query("Insert Into data_satuan(satuan) Values('$satuan')") or die(mysql_error());
-	 	catat($_SESSION['namauser'], 'Data Satuan Baru'.' ('.$nmrgn.')');
+		$simpan		= mysqli_query($con, "Insert Into data_satuan(satuan) Values('$satuan')") or die(mysqli_error($con));
+	 	catat($con, $_SESSION['namauser'], 'Data Satuan Baru'.' ('.$nmrgn.')');
 		if($simpan){
 			header('location:../../media.php?module=data_satuan');
 		} else {
@@ -34,8 +34,8 @@
 		// $status				= $_POST['status'];
 		// $kapasitas			= $_POST['kapasitas'];
 		// $terpakai			= $_POST['terpakai'];
-		$update		= mysql_query("Update data_satuan Set satuan='$satuan' Where id_s='$id'");
-		catat($_SESSION['namauser'], 'Edit Data Ruangan'.' ('.$id.')');
+		$update		= mysqli_query($con, "Update data_satuan Set satuan='$satuan' Where id_s='$id'");
+		catat($con, $_SESSION['namauser'], 'Edit Data Ruangan'.' ('.$id.')');
 		if($update){
 			header('location:../../media.php?module=data_satuan');
 		} else {

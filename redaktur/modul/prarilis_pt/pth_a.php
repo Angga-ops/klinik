@@ -26,16 +26,16 @@ setlocale(LC_TIME,"id_ID");
 						</tr>
 					</thead>
 					<tbody>
-					<?php $k = mysql_query("SELECT * FROM pasca_treatment GROUP BY id_pasien ORDER BY tanggal DESC");
-					while($ki = mysql_fetch_assoc($k)){
+					<?php $k = mysqli_query($con,"SELECT * FROM pasca_treatment GROUP BY id_pasien ORDER BY tanggal DESC");
+					while($ki = mysqli_fetch_assoc($k)){
 
-$pas = mysql_fetch_assoc(mysql_query("SELECT nama_pasien FROM pasien WHERE id_pasien = '$ki[id_pasien]'"));
-$dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = '$ki[id_dr]'"));
+$pas = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_pasien FROM pasien WHERE id_pasien = '$ki[id_pasien]'"));
+$dr = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_lengkap FROM user WHERE id_user = '$ki[id_dr]'"));
 
 															
 
 						echo "<tr>";
-						echo "<td>".strftime("%d %B %Y",strtotime($ki[tanggal]))."</td>";
+						echo "<td>".strftime("%d %B %Y",strtotime($ki['tanggal']))."</td>";
                         echo "<td><a href='media.php?module=pth&pasien=$ki[id_pasien]'>$pas[nama_pasien]</a></td>";
                         echo "<td>$ki[id_pasien]</td>";
 						echo "<td>$ki[subjek]</td>";

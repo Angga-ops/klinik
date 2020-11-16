@@ -1,23 +1,23 @@
 
 <?php 
 
-$fa = mysql_query("SELECT no_faktur,id_pasien,nama,kode,harga,jumlah FROM history_kasir WHERE jenis='Produk' GROUP BY no_faktur");
-while($fak = mysql_fetch_assoc($fa)){
-  $d .= '{"faktur":"'.$fak[no_faktur].'"},';
+$fa = mysqli_query($con,"SELECT no_faktur,id_pasien,nama,kode,harga,jumlah FROM history_kasir WHERE jenis='Produk' GROUP BY no_faktur");
+while($fak = mysqli_fetch_assoc($fa)){
+  $d .= '{"faktur":"'.$fak['no_faktur'].'"},';
 }
 
-$fb = mysql_query("SELECT nama_pasien, no_faktur, history_kasir.id_pasien, nama, kode, harga, jumlah
+$fb = mysqli_query($con,"SELECT nama_pasien, no_faktur, history_kasir.id_pasien, nama, kode, harga, jumlah
 FROM history_kasir
 JOIN pasien ON history_kasir.id_pasien = pasien.id_pasien WHERE history_kasir.jenis='Produk'
 GROUP BY history_kasir.id_pasien
 ");
-while($fbk = mysql_fetch_assoc($fb)){
-  $d .= '{"faktur":"'.$fbk[nama_pasien].'/'.$fbk[id_pasien].'"},';
+while($fbk = mysqli_fetch_assoc($fb)){
+  $d .= '{"faktur":"'.$fbk['nama_pasien'].'/'.$fbk['id_pasien'].'"},';
 }
 
-$fc = mysql_query("SELECT no_faktur,id_pasien,nama,kode,harga,jumlah FROM history_kasir WHERE jenis='Produk' GROUP BY nama");
-while($fck = mysql_fetch_assoc($fc)){
-  $d .= '{"faktur":"'.$fck[nama].'"},';
+$fc = mysqli_query($con,"SELECT no_faktur,id_pasien,nama,kode,harga,jumlah FROM history_kasir WHERE jenis='Produk' GROUP BY nama");
+while($fck = mysqli_fetch_assoc($fc)){
+  $d .= '{"faktur":"'.$fck['nama'].'"},';
 }
 
 
@@ -28,9 +28,9 @@ file_put_contents("modul/retur/retur.json",$data);
 
 $d = '';
 
-$fa = mysql_query("SELECT nama_p FROM produk");
-while($fak = mysql_fetch_assoc($fa)){
-  $d .= '{"nama":"'.$fak[nama_p].'"},';
+$fa = mysqli_query($con,"SELECT nama_p FROM produk");
+while($fak = mysqli_fetch_assoc($fa)){
+  $d .= '{"nama":"'.$fak['nama_p'].'"},';
 }
 
 $d = substr($d,0,strlen($d) - 1);
@@ -102,10 +102,10 @@ file_put_contents("modul/retur/prod.json",$data);
 
 <?php 
 
-$z = mysql_query("SELECT COUNT(a.id) jml,a.*,b.* FROM retur_jual a JOIN history_kasir b ON a.history = b.id GROUP BY b.no_faktur");
-while($zz = mysql_fetch_assoc($z)){
+$z = mysqli_query($con,"SELECT COUNT(a.id) jml,a.*,b.* FROM retur_jual a JOIN history_kasir b ON a.history = b.id GROUP BY b.no_faktur");
+while($zz = mysqli_fetch_assoc($z)){
   
-  $cust = mysql_fetch_assoc(mysql_query("SELECT * FROM pasien WHERE id_pasien = '$zz[id_pasien]'"));
+  $cust = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM pasien WHERE id_pasien = '$zz[id_pasien]'"));
   echo "<tr>";
   echo "<td><button class='btn btn-sm btn-warning' id='$zz[no_faktur]' onclick='cetak2(this.id)'>Print</button></td>";
   echo "<td>$zz[no_faktur]  <br/> $cust[nama_pasien] ($cust[id_pasien])</td>";
@@ -122,7 +122,7 @@ while($zz = mysql_fetch_assoc($z)){
 
 
 <style>
-.tbl {border-collpase: collapse; width: 100%}
+.tbl {border-collapse: collapse; width: 100%}
 .tbl td {padding: 1%}
 #scrollable-dropdown-menu .tt-dropdown-menu {
   max-height: 40px;
@@ -143,7 +143,7 @@ while($zz = mysql_fetch_assoc($z)){
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
+                  <span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">Data Retur Penjualan</h4>
                 <span id="msg"></span>
               </div>
@@ -245,7 +245,7 @@ $("#" + "stat-" + ids[1]).html(nilai);
       var xhr = $.ajax({
         dataType: "JSON",
   url: "modul/retur/aksi_retur.php",
-  data: {"history": ids[1],"retur": $("#" + id).val(),"tgl":"<?php echo date("Y-m-d"); ?>","username":"<?php echo $_SESSION[namauser]; ?>","jml": $("#" + "jml-" + ids[1]).val()},
+  data: {"history": ids[1],"retur": $("#" + id).val(),"tgl":"<?php echo date("Y-m-d"); ?>","username":"<?php echo $_SESSION['namauser']; ?>","jml": $("#" + "jml-" + ids[1]).val()},
   success: function(data){
     $("#" + "btl-" + ids[1]).attr("data-idretur",data.idretur);
     $("#" + "hrg-" + ids[1]).html(data.subtotal);

@@ -13,9 +13,9 @@
                   <option value="a">Pilih Klinik...</option>
                       <?php 
 
-                      $query = mysql_query("SELECT *FROM daftar_klinik");
+                      $query = mysqli_query($con, "SELECT *FROM daftar_klinik");
 
-                      while ($cb = mysql_fetch_array($query)) { 
+                      while ($cb = mysqli_fetch_array($query)) { 
 
                         ?>
                       <option value="<?php echo $cb['id_kk']?>"><?php echo $cb['nama_klinik']; ?></option>
@@ -80,15 +80,15 @@
       $offset = ($pageno-1) * $no_of_records_per_page;
 
       $cari = $_POST['cari'];
-      $total_pages_sql  = mysql_query("SELECT * FROM produk_master WHERE nama_produk LIKE '%$cari%'");
+      $total_pages_sql  = mysqli_query($con, "SELECT * FROM produk_master WHERE nama_produk LIKE '%$cari%'");
 
       //$result = mysql_query($total_pages_sql);
-      $total_rows = mysql_num_rows($total_pages_sql);
+      $total_rows = mysqli_num_rows($total_pages_sql);
       $total_pages = ceil($total_rows / $no_of_records_per_page);
 
-        $data  = mysql_query("SELECT * FROM produk_master WHERE nama_produk LIKE '%$cari%' ORDER BY nama_produk ASC LIMIT $offset, $no_of_records_per_page");
-        if(mysql_num_rows($data) > 0){
-    while($r  = mysql_fetch_array($data)){
+        $data  = mysqli_query($con, "SELECT * FROM produk_master WHERE nama_produk LIKE '%$cari%' ORDER BY nama_produk ASC LIMIT $offset, $no_of_records_per_page");
+        if(mysqli_num_rows($data) > 0){
+    while($r  = mysqli_fetch_array($data)){
     ?>
       <tr class="gradeX">
                 <td><?php
@@ -103,11 +103,11 @@
                 <td><?php echo rupiah ($r['jual_umum']);?></td>  
  <td><?php echo rupiah ($r['jual_bpjs']);?></td> 
  <td><?php echo rupiah ($r['jual_lain']);?></td>   
-                <?php $q1 = mysql_query("SELECT *FROM kategori WHERE id_kategori='$r[id_kategori]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <?php $q1 = mysqli_query($con, "SELECT *FROM kategori WHERE id_kategori='$r[id_kategori]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k['kategori']; ?></td>
-                <?php $q2 = mysql_query("SELECT *FROM data_satuan WHERE id_s='$r[id_satuan]'"); 
-                 $j = mysql_fetch_array($q2); ?>
+                <?php $q2 = mysqli_query($con, "SELECT *FROM data_satuan WHERE id_s='$r[id_satuan]'"); 
+                 $j = mysqli_fetch_array($q2); ?>
                 <td><?php echo $j['satuan']; ?></td>
             <td>
                      
@@ -231,8 +231,8 @@ $(document).ready(function(){
                 <label>Satuan Produk</label>
                 <select type="text" name="satuan" id="satuan" style="width: 90%;" class="form-control" >
                      <option value="">Satuan</option>
-                      <?php $query = mysql_query("SELECT *FROM data_satuan");
-                         while ($cb = mysql_fetch_array($query)) { ?>
+                      <?php $query = mysqli_query($con, "SELECT *FROM data_satuan");
+                         while ($cb = mysqli_fetch_array($query)) { ?>
                            <option value="<?php echo $cb['id_s']; ?>"><?php echo $cb['satuan']; ?></option>
                         <?php  } ?> 
                     </select>
@@ -246,8 +246,8 @@ $(document).ready(function(){
                 <label>Kategori Produk</label>
                 <select type="text" name="kategori" id="kategori" style="width: 90%;" class="form-control"  >
                      <option value="">Kategori</option>
-                      <?php $query = mysql_query("SELECT *FROM kategori");
-                         while ($cb = mysql_fetch_array($query)) { ?>
+                      <?php $query = mysqli_query($con, "SELECT *FROM kategori");
+                         while ($cb = mysqli_fetch_array($query)) { ?>
                            <option value="<?php echo $cb['id_kategori']; ?>"><?php echo $cb['kategori']; ?></option>
                         <?php  } ?> 
                     </select>
@@ -307,7 +307,7 @@ $(document).ready(function(){
   break;
   case "edit_produk":
   $id_produk   = $_GET['id_produk'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From produk_master Where kd_produk='$id_produk'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From produk_master Where kd_produk='$id_produk'"));
 ?>
 
 <section class="content">
@@ -346,8 +346,8 @@ $(document).ready(function(){
                 <select type="text" name="satuan" id="satuan" style="width: 90%;" class="form-control">
                 <option value="">--silakan pilih--</option>
                   
-                      <?php $query = mysql_query("SELECT *FROM data_satuan");
-                         while ($cb = mysql_fetch_array($query)) { ?>
+                      <?php $query = mysqli_query($con, "SELECT *FROM data_satuan");
+                         while ($cb = mysqli_fetch_array($query)) { ?>
                          <?php $sel = $edit['id_satuan'] == $cb['id_s']? "selected" : ""; ?>
                            <option value="<?php echo $cb['id_s']; ?>" <?php echo $sel; ?>><?php echo $cb['satuan']; ?></option>
                         <?php  } ?> 
@@ -362,8 +362,8 @@ $(document).ready(function(){
                 <label>Kategori Produk</label>
                 <select type="text" name="kategori" id="kategori" style="width: 90%;" class="form-control">
                 <option value="">--silakan pilih--</option>
-                      <?php $query = mysql_query("SELECT *FROM kategori");
-                         while ($cb = mysql_fetch_array($query)) { ?>
+                      <?php $query = mysqli_query($con, "SELECT *FROM kategori");
+                         while ($cb = mysqli_fetch_array($query)) { ?>
                           <?php $sel = $edit['id_kategori'] == $cb['id_kategori']? "selected" : ""; ?>
                            <option value="<?php echo $cb['id_kategori']; ?>" <?php echo $sel; ?>><?php echo $cb['kategori']; ?></option>
                         <?php  } ?> 

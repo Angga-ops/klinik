@@ -6,7 +6,7 @@
 		$chkarr = $_POST['checkbox'];
 		$klaster = $_POST['klaster'];
 		foreach ($chkarr as $id) {
-			mysql_query("Update pasien Set klaster='$klaster' Where id='$id'");
+			mysqli_query($con, "Update pasien Set klaster='$klaster' Where id='$id'");
 		}
 		header('location:../../media.php?module=terapkan_pelanggan');
 	}

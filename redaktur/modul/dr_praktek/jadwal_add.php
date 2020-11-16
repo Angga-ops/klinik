@@ -23,8 +23,8 @@
 
 <?php
 
-$kl = mysql_query("SELECT * FROM poliklinik");
-while($kli = mysql_fetch_assoc($kl)){
+$kl = mysqli_query($con, "SELECT * FROM poliklinik");
+while($kli = mysqli_fetch_assoc($kl)){
     echo "<option value='$kli[id_poli]'>$kli[poli]</option>";
 }
 
@@ -41,8 +41,8 @@ while($kli = mysql_fetch_assoc($kl)){
 
 <?php
 
-$kl = mysql_query("SELECT * FROM user WHERE id_ju = 'JU-02'");
-while($kli = mysql_fetch_assoc($kl)){
+$kl = mysqli_query($con, "SELECT * FROM user WHERE id_ju = 'JU-02'");
+while($kli = mysqli_fetch_assoc($kl)){
 echo "<option value='$kli[id_user]'>$kli[nama_lengkap]</option>";
 }
 

@@ -11,13 +11,13 @@ include "../config/koneksi.php";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <?php $i= mysql_fetch_array(mysql_query("SELECT *FROM identitas")); ?>
+    <?php $i= mysqli_fetch_array(mysqli_query($con, "SELECT *FROM identitas")); ?>
     <!-- Title -->
     <title><?php echo $i['nama_organisasi']; ?></title>
 
     <!-- Favicon -->
-    <?php $i= mysql_fetch_array(mysql_query("SELECT *FROM identitas")); ?>
-    <link rel="icon" href="../file_user/foto_identitas/<?php echo $i[logo]; ?>">
+    <?php $i= mysqli_fetch_array(mysqli_query($con, "SELECT *FROM identitas")); ?>
+    <link rel="icon" href="../file_user/foto_identitas/<?php echo $i['logo']; ?>">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../redaktur/assets/css/style.css">
@@ -76,7 +76,7 @@ z-index:100;
                     <nav class="classy-navbar left-content-between" id="akameNav">
 
                         <!-- Logo -->
-                        <img src="../file_user/foto_identitas/<?php echo $i[logo]; ?>" width="60px;" height="61px;">
+                        <img src="../file_user/foto_identitas/<?php echo $i['logo']; ?>" width="60px;" height="61px;">
                             &emsp;<?php echo $i['nama_organisasi']; ?>
 <br>
                             &emsp;<?php echo $i['alamat']; ?>

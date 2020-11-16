@@ -79,8 +79,8 @@
       <tbody>
          <?php 
       
-      $j = mysql_query("SELECT * FROM asuransi");
-      while($jo = mysql_fetch_assoc($j)){
+      $j = mysqli_query($con, "SELECT * FROM asuransi");
+      while($jo = mysqli_fetch_assoc($j)){
         ?>
         <tr>
           <td><?php echo $jo['nama'];?></td>

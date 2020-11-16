@@ -192,7 +192,7 @@ $id_kk = $_SESSION['klinik']; ?>
 			  <!-- input data pasien -->
 
 			  <form style="margin-bottom: 20px;" id="form_p">
-						<input class="form-control" type="hidden" name="id_kasir" value="<?php echo $_SESSION[id_user]; ?>">
+						<input class="form-control" type="hidden" name="id_kasir" value="<?php echo $_SESSION['id_user']; ?>">
 					 		<input class="form-control id_pasien" type="hidden" name="id_pasien" id="id_pasien">
 
 							 <div class="row">
@@ -246,8 +246,8 @@ $id_kk = $_SESSION['klinik']; ?>
 											<option value="">--abaikan--</option>
 											<?php 
 											
-											$asur = mysql_query("SELECT * FROM asuransi");
-											while($asuri = mysql_fetch_assoc($asur)){
+											$asur = mysqli_query($con,"SELECT * FROM asuransi");
+											while($asuri = mysqli_fetch_assoc($asur)){
 												echo "<option value='$asuri[id]'>$asuri[nama]</option>";
 											}
 											
@@ -260,8 +260,8 @@ $id_kk = $_SESSION['klinik']; ?>
 										<select class="form-control" id="poli" name="poli" style="width: 93%;">
 											<option value="belum">Silahkan pilih poliklinik ..</option>
 											<?php 
-											$q1 = mysql_query("SELECT *FROM poliklinik");
-											while ($dok = mysql_fetch_array($q1)) { ?>
+											$q1 = mysqli_query($con,"SELECT *FROM poliklinik");
+											while ($dok = mysqli_fetch_array($q1)) { ?>
 												<option value="<?php echo $dok['id_poli']; ?>"><?php echo $dok['poli'] ?></option>
 											<?php } ?>
 										</select>
@@ -271,8 +271,8 @@ $id_kk = $_SESSION['klinik']; ?>
 										<label>Dokter</label>
 										<select class="form-control" style="width: 93%;" name="dokter">
 											<option value="belum">Silahkan pilih dokter ..</option>
-											<?php $do = mysql_query("SELECT * FROM user WHERE id_ju = 'JU-02'");
-											while($doc = mysql_fetch_assoc($do)){
+											<?php $do = mysqli_query($con,"SELECT * FROM user WHERE id_ju = 'JU-02'");
+											while($doc = mysqli_fetch_assoc($do)){
 												echo "<option value='$doc[id_user]'>$doc[nama_lengkap]</option>";
 											}
 											?>
@@ -346,8 +346,8 @@ $id_kk = $_SESSION['klinik']; ?>
 						<option value="">--silakan pilih--</option>
 							<?php 
 							
-							$u = mysql_query("SELECT * FROM kategori_biaya");
-							while($ux = mysql_fetch_assoc($u)){
+							$u = mysqli_query($con,"SELECT * FROM kategori_biaya");
+							while($ux = mysqli_fetch_assoc($u)){
 								echo "<option value='$ux[id]'>$ux[kategori]</option>";
 							}
 							
@@ -415,15 +415,15 @@ $id_kk = $_SESSION['klinik']; ?>
 					 				<td>
 					 					<select class="form-control" name="dr_visit">
 										 <option value="">--silakan pilih--</option>
-										 <?php $do = mysql_query("SELECT * FROM user WHERE id_ju = 'JU-02'");
-											while($doc = mysql_fetch_assoc($do)){
+										 <?php $do = mysqli_query($con,"SELECT * FROM user WHERE id_ju = 'JU-02'");
+											while($doc = mysqli_fetch_assoc($do)){
 												echo "<option value='$doc[id_user]'>$doc[nama_lengkap]</option>";
 											}
 											?>
 										 <?php
-while($ko = mysql_fetch_assoc($c)){
+while($ko = mysqli_fetch_assoc($c)){
    
-   $dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = $ko[id_dr]"));
+   $dr = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_lengkap FROM user WHERE id_user = $ko[id_dr]"));
 
 echo "<option value='$ko[id_dr]'>$dr[nama_lengkap]</option>";
 
@@ -565,7 +565,7 @@ function changedoc(){
 			  <!-- inap --> 
 
 			  <form style="margin-bottom: 20px;" id="form_j">
-							<input class="form-control" type="hidden" name="id_kasir" value="<?php echo $_SESSION[id_user]; ?>">
+							<input class="form-control" type="hidden" name="id_kasir" value="<?php echo $_SESSION['id_user']; ?>">
 					 		<input class="form-control id_pasien" type="hidden" name="id_pasien" id="id_pasien2">
 					 	
 							 <div class="row">
@@ -618,8 +618,8 @@ function changedoc(){
 											<option value="">--abaikan--</option>
 											<?php 
 											
-											$asur = mysql_query("SELECT * FROM asuransi");
-											while($asuri = mysql_fetch_assoc($asur)){
+											$asur = mysqli_query($con,"SELECT * FROM asuransi");
+											while($asuri = mysqli_fetch_assoc($asur)){
 												echo "<option value='$asuri[id]'>$asuri[nama]</option>";
 											}
 											
@@ -632,12 +632,12 @@ function changedoc(){
 										<select class="form-control" id="ruang" name="ruang" style="width: 93%;">
 											<option value="belum">Silahkan pilih ruang ..</option>
 											<?php 
-											$q1 = mysql_query("SELECT *FROM ruangan");
-											while ($dok = mysql_fetch_array($q1)) { 
-												if(!is_null($dok[status])){
+											$q1 = mysqli_query($con,"SELECT *FROM ruangan");
+											while ($dok = mysqli_fetch_array($q1)) { 
+												if(!is_null($dok['status'])){
 													$status = "(Rusak)";
 													$stat = "disabled";
-												} else if($dok[kapasitas] == $dok[terpakai]){
+												} else if($dok['kapasitas'] == $dok['terpakai']){
 													$status = "(Penuh)";
 													$stat = "disabled";
 												} else {
@@ -654,8 +654,8 @@ function changedoc(){
 										<select class="form-control" style="width: 93%;" name="dokter">
 											<option value="belum">Silahkan pilih dokter ..</option>
 											<?php 
-											$q1 = mysql_query("SELECT *FROM user WHERE id_ju = 'JU-02'");
-											while ($dok = mysql_fetch_array($q1)) { 
+											$q1 = mysqli_query($con,"SELECT *FROM user WHERE id_ju = 'JU-02'");
+											while ($dok = mysqli_fetch_array($q1)) { 
 											
 												?>
 												<option value="<?php echo $dok['id_user']; ?>"><?php echo $dok['nama_lengkap']; ?></option>
@@ -726,8 +726,8 @@ function changedoc(){
 		  <option value="">--silakan pilih--</option>
 			  <?php 
 			  
-			  $u = mysql_query("SELECT * FROM kategori_biaya");
-			  while($ux = mysql_fetch_assoc($u)){
+			  $u = mysqli_query($con,"SELECT * FROM kategori_biaya");
+			  while($ux = mysqli_fetch_assoc($u)){
 				  echo "<option value='$ux[id]'>$ux[kategori]</option>";
 			  }
 			  
@@ -795,15 +795,15 @@ function changedoc(){
 					   <td>
 						   <select class="form-control" name="dr_visit">
 						   <option value="">--silakan pilih--</option>
-						   <?php $do = mysql_query("SELECT * FROM user WHERE id_ju = 'JU-02'");
-							  while($doc = mysql_fetch_assoc($do)){
+						   <?php $do = mysqli_query($con,"SELECT * FROM user WHERE id_ju = 'JU-02'");
+							  while($doc = mysqli_fetch_assoc($do)){
 								  echo "<option value='$doc[id_user]'>$doc[nama_lengkap]</option>";
 							  }
 							  ?>
 						   <?php
-while($ko = mysql_fetch_assoc($c)){
+while($ko = mysqli_fetch_assoc($c)){
 
-$dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = $ko[id_dr]"));
+$dr = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_lengkap FROM user WHERE id_user = $ko[id_dr]"));
 
 echo "<option value='$ko[id_dr]'>$dr[nama_lengkap]</option>";
 
@@ -1596,11 +1596,6 @@ $.ajax({
  /* // before unload
   window.onbeforeunload = function (){
   	$.ajax({
-          url: 'modul/mod_kasir_lama/batal.php',
-          success:function(data){
-          }
-        });
-  }; */
-
-});
+		  url: 'modul/mod_k */
+	  });	  
 </script>

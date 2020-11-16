@@ -56,9 +56,9 @@ Silakan pilih obat yang akan diprint dan klik tombol print
   <tbody>
   <?php 
   
-  $q = mysql_query($sql);
+  $q = mysqli_query($con,$sql);
   $x = 1;
-  while($qu = mysql_fetch_assoc($q)){
+  while($qu = mysqli_fetch_assoc($q)){
       echo "<tr>";
       echo "<td><input type='checkbox' class='chk' id='chk-$x' data-id='$qu[id]' onclick='checkIt(this.id)'/></td>";
       echo "<td><input type='checkbox' class='chk2' id='chk2-$x' data-id='$qu[id]'  onclick='checkIt(this.id)'/></td>";
@@ -141,7 +141,7 @@ function printresep(){
 if(js == ""){
   alert("tidak ada data yang dipilih");
 } else {
-  location.href = "media.php?module=bayar_obat&layan=jalan&data=" + js + "&pasien=<?php echo $_GET[pasien]; ?>&faktur=<?php echo $_GET[faktur]; ?>";
+  location.href = "media.php?module=bayar_obat&layan=jalan&data=" + js + "&pasien=<?php echo $_GET['pasien']; ?>&faktur=<?php echo $_GET['faktur']; ?>";
 }
 
 }

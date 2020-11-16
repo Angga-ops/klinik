@@ -16,8 +16,8 @@
                 <select name="klaster" class="form-control"  required>
                     <option value="">-- Pilih Jenis Klaster --</option>
                     <?php
-                      $sel  = mysql_query("Select * From kategori_pelanggan");
-                      while($data = mysql_fetch_array($sel)){ ?>
+                      $sel  = mysqli_query($con, "Select * From kategori_pelanggan");
+                      while($data = mysqli_fetch_array($sel)){ ?>
                     <option value="<?php echo $data['kategori']; ?>"><?php echo $data['kategori']; ?> (<?php echo $data['keterangan']; ?>)</option>            
                 <?php } ?>
                 </select>
@@ -46,9 +46,9 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From pasien");
+    $tampil   = mysqli_query($con, "Select * From pasien");
     $no = 1;
-    while($r  = mysql_fetch_array($tampil)){
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
                 <td><input type="checkbox" name="checkbox[]" value="<?php echo $r["id"]; ?>"></td>

@@ -9,8 +9,8 @@
 	// Hapus Kamar
 	if ($module == 'dr' AND $act == 'hapus'){
 		$id		= $_GET['id'];
-		$del	= mysql_query("Delete From ruangan Where id='$id'");
-		catat($_SESSION['namauser'], 'Hapus Ruangan'.' ('.$id.')');
+		$del	= mysqli_query($con, "Delete From ruangan Where id='$id'");
+		catat($con, $_SESSION['namauser'], 'Hapus Ruangan'.' ('.$id.')');
 		header('location:../../media.php?module=druangan');
 	}
 	// Input Kamar Baru
@@ -21,8 +21,8 @@
 		$terpakai			= $_POST['terpakai'];
 		$id_kk				= $_POST['cabang'];
 
-		$simpan		= mysql_query("Insert Into ruangan(nama_ruangan,status,kapasitas,terpakai,id_kk) Values('$nama_ruangan','$status','$kapasitas','$terpakai','$id_kk')") or die(mysql_error());
-	 	catat($_SESSION['namauser'], 'Data Ruanagan Baru'.' ('.$nmrgn.')');
+		$simpan		= mysqli_query($con, "Insert Into ruangan(nama_ruangan,status,kapasitas,terpakai,id_kk) Values('$nama_ruangan','$status','$kapasitas','$terpakai','$id_kk')") or die(mysqli_error($con));
+	 	catat($con, $_SESSION['namauser'], 'Data Ruanagan Baru'.' ('.$nmrgn.')');
 		if($simpan){
 			header('location:../../media.php?module=druangan');
 		} else {
@@ -35,8 +35,8 @@
 		$nama_ruangan		= $_POST['nama_ruangan'];
 		$kapasitas			= $_POST['kapasitas'];
 		$id_kk				= $_POST['cabang'];
-		$update		= mysql_query("UPDATE ruangan Set nama_ruangan='$nama_ruangan', kapasitas='$kapasitas', id_kk='$id_kk' Where id='$id'");
-		catat($_SESSION['namauser'], 'Edit Data Ruangan'.' ('.$id.')');
+		$update		= mysqli_query($con, "UPDATE ruangan Set nama_ruangan='$nama_ruangan', kapasitas='$kapasitas', id_kk='$id_kk' Where id='$id'");
+		catat($con, $_SESSION['namauser'], 'Edit Data Ruangan'.' ('.$id.')');
 		if($update){
 			header('location:../../media.php?module=druangan');
 		} else {

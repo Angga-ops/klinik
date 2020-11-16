@@ -28,11 +28,11 @@
 
 
 
-                      $query = mysql_query("SELECT *FROM daftar_klinik");
+                      $query = mysqli_query($con, "SELECT *FROM daftar_klinik");
 
 
 
-                      while ($cb = mysql_fetch_array($query)) { 
+                      while ($cb = mysqli_fetch_array($query)) { 
 
 
 
@@ -110,9 +110,9 @@
 
     <?php
 
-    $tampil   = mysql_query("Select * From krisar");
+    $tampil   = mysqli_query($con, "Select * From krisar");
 
-    while($r  = mysql_fetch_array($tampil)){
+    while($r  = mysqli_fetch_array($tampil)){
 
     ?>
 
@@ -244,9 +244,9 @@ $(document).ready(function(){
 
       <?php
 
-        $data     = mysql_query("Select * From daftar_klinik");            
+        $data     = mysqli_query($con, "Select * From daftar_klinik");            
 
-              while($hasil  = mysql_fetch_array($data)){
+              while($hasil  = mysqli_fetch_array($data)){
 
       ?>
 
@@ -386,7 +386,7 @@ $(document).ready(function(){
 
   $id_krisar   = $_GET['id_krisar'];
 
-  $edit   = mysql_fetch_array(mysql_query("Select * From krisar Where id_krisar='$id_krisar'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From krisar Where id_krisar='$id_krisar'"));
 
 ?>
 
@@ -426,7 +426,7 @@ $(document).ready(function(){
 
                  <?php
 
-                    $ca   = mysql_query("Select * From daftar_klinik");
+                    $ca   = mysqli_query($con, "Select * From daftar_klinik");
 
                     if ($edit['id_kk'] =='') {
 
@@ -438,7 +438,7 @@ $(document).ready(function(){
 
                 }
 
-                    while ($edit_ca   = mysql_fetch_array($ca)) {
+                    while ($edit_ca   = mysqli_fetch_array($ca)) {
 
                     if ($edit_ca['id_kk']  == $edit['id_kk']) {
 
@@ -480,7 +480,7 @@ $(document).ready(function(){
 
                 <input type="text" class="form-control" name="tanggal" value="<?php echo $edit['tanggal'] ?>" readonly/>
 
-                <input type="hidden" class="form-control" name="id_krisar" value="<?php echo $edit[id_krisar] ?>" readonly/>
+                <input type="hidden" class="form-control" name="id_krisar" value="<?php echo $edit['id_krisar'] ?>" readonly/>
 
               </div>
 
@@ -496,7 +496,7 @@ $(document).ready(function(){
 
                 <label>Nama</label>
 
-                <input type="text" class="form-control" name="nama" value="<?php echo $edit[nama] ?>" required/>
+                <input type="text" class="form-control" name="nama" value="<?php echo $edit['nama'] ?>" required/>
 
               </div>
 
@@ -512,7 +512,7 @@ $(document).ready(function(){
 
                 <label>Nomor Telepon</label>
 
-                <input type="text" class="form-control" name="no_telp" value="<?php echo $edit[no_telp] ?>" required/>
+                <input type="text" class="form-control" name="no_telp" value="<?php echo $edit['no_telp'] ?>" required/>
 
               </div>
 
@@ -528,7 +528,7 @@ $(document).ready(function(){
 
                 <label>Beauty</label>
 
-                <input type="text" class="form-control" name="beauty" value="<?php echo $edit[beauty] ?>" required/>
+                <input type="text" class="form-control" name="beauty" value="<?php echo $edit['beauty'] ?>" required/>
 
               </div>
 
@@ -544,7 +544,7 @@ $(document).ready(function(){
 
                 <label>Kritik dan Saran</label>
 
-                <input type="text" class="form-control" name="krisar" value="<?php echo $edit[krisar] ?>" required></input>
+                <input type="text" class="form-control" name="krisar" value="<?php echo $edit['krisar'] ?>" required></input>
 
               </div>
 

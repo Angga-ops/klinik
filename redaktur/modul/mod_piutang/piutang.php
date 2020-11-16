@@ -93,11 +93,11 @@ span.select2 { width: 100% !important }
                  while($hasil = mysqli_fetch_assoc($qlau)){
                    
             $cb = mysqli_fetch_assoc(mysqli_query($conn,"SELECT nama_cb FROM cabang WHERE id_cb = '$hasil[id_cb]'"));
-                  echo "<tr><td>".(strftime("%d %B %Y",strtotime($_POST[tgl1])))." s/d ".(strftime("%d %B %Y",strtotime($_POST[tgl2])))."</td>";
-                  echo "<td>Rp ".(number_format($hasil[total],0,",","."))."</td>";
+                  echo "<tr><td>".(strftime("%d %B %Y",strtotime($_POST['tgl1'])))." s/d ".(strftime("%d %B %Y",strtotime($_POST['tgl2'])))."</td>";
+                  echo "<td>Rp ".(number_format($hasil['total'],0,",","."))."</td>";
                   echo "<td>$cb[nama_cb]</td></tr>";
 
-                  $total = $total + $hasil[total];
+                  $total = $total + $hasil['total'];
 
                  }         
                          

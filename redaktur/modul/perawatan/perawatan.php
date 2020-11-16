@@ -12,11 +12,11 @@ $id_kk = $_SESSION['klinik'];
 $id_dr = $_SESSION['id_user'];
 
 
-mysql_query("UPDATE antrian_pasien SET status='Sedang Menjalani Perawatan' WHERE no_faktur='$nofak' AND id_kk='$id_kk'");
+mysqli_query($con,"UPDATE antrian_pasien SET status='Sedang Menjalani Perawatan' WHERE no_faktur='$nofak' AND id_kk='$id_kk'");
 
- $p = mysql_query("SELECT *,antrian_pasien.tanggal_pendaftaran AS tgl FROM antrian_pasien 
+ $p = mysqli_query($con,"SELECT *,antrian_pasien.tanggal_pendaftaran AS tgl FROM antrian_pasien 
  	JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE no_faktur='$nofak' AND antrian_pasien.id_kk='$id_kk'");
- $pas = mysql_fetch_array($p);
+ $pas = mysqli_fetch_array($p);
 
 ?>
 <section class="content">
@@ -36,9 +36,9 @@ mysql_query("UPDATE antrian_pasien SET status='Sedang Menjalani Perawatan' WHERE
 									<td><input class="form-control" type="text" name="nama" readonly value="<?php echo $pas['nama_pasien']; ?>"></td>
 									<input class="form-control" type="hidden" name="id_ruangan" id="id_ruangan" value="<?php echo $_GET['id_r']; ?>">
 									<input class="form-control" type="hidden" name="no_urut" id="no_urut" value="<?php echo $nu; ?>">
-									<input type="hidden" name="id_pasien" value="<?php echo $pas[id_pasien]; ?>">
+									<input type="hidden" name="id_pasien" value="<?php echo $pas['id_pasien']; ?>">
 									<input type="hidden" name="id_dr" value="<?php echo $id_dr; ?>">
-									<input type="hidden" name="nofak" value="<?php echo $pas[no_faktur]; ?>">
+									<input type="hidden" name="nofak" value="<?php echo $pas['no_faktur']; ?>">
 								</tr>
 								<tr>
 									<td><label>Alamat</label></td>
@@ -68,8 +68,8 @@ mysql_query("UPDATE antrian_pasien SET status='Sedang Menjalani Perawatan' WHERE
 							</tr>
 							<tr>
 								<?php $id = $pas['id_pasien']; ?>
-								<?php $t = mysql_query("SELECT *FROM history_ap WHERE id_pasien='$id'"); 
-								$j = mysql_num_rows($t);
+								<?php $t = mysqli_query($con,"SELECT *FROM history_ap WHERE id_pasien='$id'"); 
+								$j = mysqli_num_rows($t);
 								if($j==0){
 									$j="1";
 								} ?>
@@ -103,10 +103,10 @@ mysql_query("UPDATE antrian_pasien SET status='Sedang Menjalani Perawatan' WHERE
 					 		<input class="form-control" type="hidden" name="id_kk" value="<?php echo $id_kk ?>">
 					 		<input class="form-control" type="hidden" id="src" name="src" value="<?php echo "dokter" ?>">
 					 		<input class="form-control" type="hidden" id="nou" name="no_urut" value="<?php echo $nu; ?>">
-					 		<input class="form-control" type="hidden" name="id_pasien" value="<?php echo $pas[id_pasien]; ?>">
+					 		<input class="form-control" type="hidden" name="id_pasien" value="<?php echo $pas['id_pasien']; ?>">
 					 		<input type="hidden" class="form-control" name="id_dr" value="<?php echo $id_dr; ?>">
 					 		<input type="hidden" name="modal" id="modal">
-					 		<input type="hidden" name="nofak" value="<?php echo $pas[no_faktur]; ?>">
+					 		<input type="hidden" name="nofak" value="<?php echo $pas['no_faktur']; ?>">
 					 		<table border='0' cellpadding='0' cellspacing='0' width='100%'>
 					 			<tr>
 						 			<td>
@@ -134,12 +134,12 @@ mysql_query("UPDATE antrian_pasien SET status='Sedang Menjalani Perawatan' WHERE
 					 	</form>
 							<form style="margin-bottom: 20px;" id="form_produk" class="collapse">
 					 		<input class="form-control" type="hidden" name="id_kk" value="<?php echo $id_kk ?>">
-					 		<input class="form-control" type="hidden" name="id_pasien" value="<?php echo $pas[id_pasien]; ?>">
+					 		<input class="form-control" type="hidden" name="id_pasien" value="<?php echo $pas['id_pasien']; ?>">
 					 		<input class="form-control" type="hidden" id="src" name="src" value="<?php echo "dokter" ?>">
 					 		<input class="form-control" type="hidden" id="nou" name="no_urut" value="<?php echo $nu; ?>">
 					 		<input type="hidden" name="kode_p" id="kode_p">
 				 			<input type="hidden" name="harga_b" id="harga_b">
-				 			<input type="hidden" name="nofak" value="<?php echo $pas[no_faktur]; ?>">
+				 			<input type="hidden" name="nofak" value="<?php echo $pas['no_faktur']; ?>">
 					 		<table border='0' cellpadding='0' cellspacing='0' width='100%'>
 					 			<tr>
 						 			<td>

@@ -10,8 +10,8 @@
 	// Hapus data_gtm
 	if ($module == 'sbm' AND $act == 'hapus'){
 		$id		= $_GET['id'];		
-		$del	= mysql_query("Delete From menu Where id_menu='$id'");
-		catat($_SESSION['namauser'], 'Hapus Data Sub Menu'.' ('.$id.')');
+		$del	= mysqli_query($con,"Delete From menu Where id_menu='$id'");
+		catat($con,$_SESSION['namauser'], 'Hapus Data Sub Menu'.' ('.$id.')');
 			header('location:../../media.php?module=sub_menu');
 	}
 	// Input data_gtm Baru
@@ -21,8 +21,8 @@
 		$nm			= $_POST['nama'];
 		$lnk		= $_POST['page'];
 		$sts		= $_POST['status'];
-		$simpan		= mysql_query("Insert Into menu(id_sm,id_menu,nama_menu,page_menu,sts_menu) Values('$mn','$id','$nm','$lnk','$sts')") or die(mysql_error());
-		catat($_SESSION['namauser'], 'Data Sub Menu Baru'.' ('.$nm.')');
+		$simpan		= mysqli_query($con,"Insert Into menu(id_sm,id_menu,nama_menu,page_menu,sts_menu) Values('$mn','$id','$nm','$lnk','$sts')") or die(mysqli_error($con));
+		catat($con, $_SESSION['namauser'], 'Data Sub Menu Baru'.' ('.$nm.')');
 		if($simpan){
 			header('location:../../media.php?module=sub_menu');
 		} else {
@@ -36,8 +36,8 @@
 		$nm			= $_POST['nama'];
 		$lnk		= $_POST['page'];
 		$sts		= $_POST['status'];
-		$edit		= mysql_query("Update menu Set id_sm='$mn', nama_menu='$nm', page_menu='$lnk', sts_menu='$sts' Where id_menu='$id'") or die(mysql_error());
-		catat($_SESSION['namauser'], 'Edit Data Sub Menu'.' ('.$id.')');
+		$edit		= mysqli_query($con,"Update menu Set id_sm='$mn', nama_menu='$nm', page_menu='$lnk', sts_menu='$sts' Where id_menu='$id'") or die(mysqli_error($con));
+		catat($con, $_SESSION['namauser'], 'Edit Data Sub Menu'.' ('.$id.')');
 		if($edit){
 			header('location:../../media.php?module=sub_menu');
 		} else {

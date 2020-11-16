@@ -50,9 +50,9 @@
 			<td width="12%"><div align="center" id="donker">Tanggal</div></td>
 			<td width="14%"><div align="center" id="donker">Nominal</div></td>
         <?php
-			$tot_pem	= mysql_fetch_array(mysql_query("Select sum(jumlah_pmop) as total From pemasukan_op Where year(tgl_pmop)='$thn' And month(tgl_pmop)='$bln'"));
-			$pemasukan	= mysql_query("Select tgl_pmop, sum(jumlah_pmop) as total From pemasukan_op Where year(tgl_pmop)='$thn' And month(tgl_pmop)='$bln' Group by tgl_pmop");
-			while($pem	= mysql_fetch_array($pemasukan)){
+			$tot_pem	= mysqli_fetch_array(mysqli_query($con, "Select sum(jumlah_pmop) as total From pemasukan_op Where year(tgl_pmop)='$thn' And month(tgl_pmop)='$bln'"));
+			$pemasukan	= mysqli_query($con, "Select tgl_pmop, sum(jumlah_pmop) as total From pemasukan_op Where year(tgl_pmop)='$thn' And month(tgl_pmop)='$bln' Group by tgl_pmop");
+			while($pem	= mysqli_fetch_array($pemasukan)){
 		?>
         <tr id="tdb">
 			<td><?php echo $pem['tgl_pmop']; ?></td>
@@ -74,9 +74,9 @@
 			<td width="12%"><div align="center" id="donker">Tanggal</div></td>
 			<td width="14%"><div align="center" id="donker">Nominal</div></td>
         <?php
-			$tot_png		= mysql_fetch_array(mysql_query("Select sum(jumlah_pop) as total From pengeluaran_op Where year(tgl_pop)='$thn' And month(tgl_pop)='$bln'"));
-			$pengeluaran	= mysql_query("Select tgl_pop, sum(jumlah_pop) as total From pengeluaran_op Where year(tgl_pop)='$thn' And month(tgl_pop)='$bln' Group by tgl_pop");
-			while($png		= mysql_fetch_array($pengeluaran)){
+			$tot_png		= mysqli_fetch_array(mysqli_query($con, "Select sum(jumlah_pop) as total From pengeluaran_op Where year(tgl_pop)='$thn' And month(tgl_pop)='$bln'"));
+			$pengeluaran	= mysqli_query($con, "Select tgl_pop, sum(jumlah_pop) as total From pengeluaran_op Where year(tgl_pop)='$thn' And month(tgl_pop)='$bln' Group by tgl_pop");
+			while($png		= mysqli_fetch_array($pengeluaran)){
 		?>
         <tr id="tdb">
 			<td><?php echo $png['tgl_pop']; ?></td>

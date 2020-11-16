@@ -6,11 +6,11 @@ if(isset($_POST['search'])){
 
 $search = $_POST['search'];
 
-$query = mysql_query("SELECT * FROM pasien WHERE nama_pasien like'%".$search."%'");
+$query = mysqli_query($con, "SELECT * FROM pasien WHERE nama_pasien like'%".$search."%'");
 
 $response = array();
 
-while($row = mysql_fetch_array($query)){
+while($row = mysqli_fetch_array($query)){
    $response[] = array(
    	"label"=>$row['nama_pasien']
    );

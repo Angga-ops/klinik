@@ -18,11 +18,11 @@
 		$total  = $jml*$hrg;
 		$jam    = $_POST['jam_datang'];
 		$tgl	= $_POST['tgl_datang'];
-		$pembm	= mysql_query("Insert Into pembayaran_bm(no_faktur,id_supplier,id_brg,jumlah,harga_beli,total_harga, jam_datang, tgl_datang) Values('$fak','$spl','$brg','$jml','$hrg','$total','$jam','$tgl')");
+		$pembm	= mysqli_query($con, "Insert Into pembayaran_bm(no_faktur,id_supplier,id_brg,jumlah,harga_beli,total_harga, jam_datang, tgl_datang) Values('$fak','$spl','$brg','$jml','$hrg','$total','$jam','$tgl')");
 
 		
 								
-		catat($_SESSION['namauser'], 'Data Barang Masuk Baru'.' ('.$fak.')');
+		catat($con, $_SESSION['namauser'], 'Data Barang Masuk Baru'.' ('.$fak.')');
 		if($pembm){
 		?>
 		<script type="text/javascript" language="javascript">

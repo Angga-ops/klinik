@@ -9,23 +9,23 @@
 		</div>
 
 		<?php 
-				$pem = mysql_fetch_array(mysql_query("SELECT antrian_pasien.id AS antrian, antrian_pasien.* , pasien.* FROM antrian_pasien JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.no_faktur='$no_faktur'"));
+				$pem = mysqli_fetch_array(mysqli_query($con,"SELECT antrian_pasien.id AS antrian, antrian_pasien.* , pasien.* FROM antrian_pasien JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.no_faktur='$no_faktur'"));
 				$id_pasien = $pem['id_pasien'];
-				$mem = mysql_fetch_assoc(mysql_query("SELECT a.* FROM kategori_pelanggan a JOIN pasien b ON a.kategori = b.klaster WHERE b.id_pasien = '$id_pasien'"));
+				$mem = mysqli_fetch_assoc(mysqli_query($con,"SELECT a.* FROM kategori_pelanggan a JOIN pasien b ON a.kategori = b.klaster WHERE b.id_pasien = '$id_pasien'"));
 				?>
 			
 <hr/>
 <div class="row">
 			    <div class="col-md-12">
 				<div class="callout callout-warning">
-				<strong>Perhatian!</strong>&nbsp;Jika memerlukan pemeriksaan lab sebelum ada Tindakan Dokter <a href="#" data-toggle="modal" data-target="#modal-default-notice" class="btn btn-xs btn-success" onclick="nl(this.id)" id="nl" data-faktur="<?php echo $_GET[nofak]; ?>" data-pasien="<?php echo $_GET[id]; ?>" data-dr="<?php echo $_SESSION['id_dr']; ?>" data-layanan="jalan"  data-jamin="<?php echo $pem[jenis_pasien]; ?>">Klik Di sini</a>
+				<strong>Perhatian!</strong>&nbsp;Jika memerlukan pemeriksaan lab sebelum ada Tindakan Dokter <a href="#" data-toggle="modal" data-target="#modal-default-notice" class="btn btn-xs btn-success" onclick="nl(this.id)" id="nl" data-faktur="<?php echo $_GET['nofak']; ?>" data-pasien="<?php echo $_GET['id']; ?>" data-dr="<?php echo $_SESSION['id_dr']; ?>" data-layanan="jalan"  data-jamin="<?php echo $pem['jenis_pasien']; ?>">Klik Di sini</a>
 				</div>
 				</div>
 			</div>
 			<div class="row">
 			    <div class="col-md-12">
 				<div class="callout callout-warning">
-				<strong>Perhatian!</strong>&nbsp;Jika pasien hendak dirujuk untuk Rawat Inap sebelum ada Tindakan Dokter <a class="btn btn-xs btn-success" href="modul/pasca_treatment/rujuk_inap.php?idantrian=<?php echo $pem[antrian]; ?>"  onclick="return confirm('apakah yakin akan merujuk rawat inap?')">Klik Di sini</a>
+				<strong>Perhatian!</strong>&nbsp;Jika pasien hendak dirujuk untuk Rawat Inap sebelum ada Tindakan Dokter <a class="btn btn-xs btn-success" href="modul/pasca_treatment/rujuk_inap.php?idantrian=<?php echo $pem['antrian']; ?>"  onclick="return confirm('apakah yakin akan merujuk rawat inap?')">Klik Di sini</a>
 				</div>
 				</div>
 			</div>
@@ -200,8 +200,8 @@
 						<option value="">--silakan pilih--</option>
 							<?php 
 							
-							$u = mysql_query("SELECT * FROM kategori_biaya WHERE id = 1");
-							while($ux = mysql_fetch_assoc($u)){
+							$u = mysqli_query($con,"SELECT * FROM kategori_biaya WHERE id = 1");
+							while($ux = mysqli_fetch_assoc($u)){
 								echo "<option value='$ux[id]'>$ux[kategori]</option>";
 							}
 							
@@ -258,15 +258,15 @@
 					 				<td>
 					 					<select class="form-control" name="dr_visit">
 										 <option value="">--silakan pilih--</option>
-										 <?php $do = mysql_query("SELECT * FROM user WHERE id_ju = 'JU-02'");
-											while($doc = mysql_fetch_assoc($do)){
+										 <?php $do = mysqli_query($con,"SELECT * FROM user WHERE id_ju = 'JU-02'");
+											while($doc = mysqli_fetch_assoc($do)){
 												echo "<option value='$doc[id_user]'>$doc[nama_lengkap]</option>";
 											}
 											?>
 										 <?php
-while($ko = mysql_fetch_assoc($c)){
+while($ko = mysqli_fetch_assoc($c)){
    
-   $dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = $ko[id_dr]"));
+   $dr = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_lengkap FROM user WHERE id_user = $ko[id_dr]"));
 
 echo "<option value='$ko[id_dr]'>$dr[nama_lengkap]</option>";
 
@@ -439,20 +439,20 @@ echo "<option value='$ko[id_dr]'>$dr[nama_lengkap]</option>";
 						</tr>
 					</thead>
 					<tbody>
-						<?php $q =  mysql_query("SELECT *FROM pasca_treatment WHERE id_pasien='$id_pasien' ORDER BY tanggal DESC"); 
+						<?php $q =  mysqli_query($con,"SELECT *FROM pasca_treatment WHERE id_pasien='$id_pasien' ORDER BY tanggal DESC"); 
 						$no = 1;
-							  while($pc = mysql_fetch_array($q)){ ?>
+							  while($pc = mysqli_fetch_array($q)){ ?>
 						<tr>
 							<td><?php echo $pc['tanggal']; ?></td>
 							<td><?php echo $pc['subjek']; ?></td>
 							<td><?php echo $pc['objek']; ?></td>
 							<td><?php echo $pc['assestment']; ?></td>
 							<td>
-								<?php $q1 = mysql_query("SELECT *FROM history_kasir WHERE no_faktur='$pc[no_faktur]' AND kategori = 0"); 
-								$cekp = mysql_num_rows($q1);
+								<?php $q1 = mysqli_query($con,"SELECT *FROM history_kasir WHERE no_faktur='$pc[no_faktur]' AND kategori = 0"); 
+								$cekp = mysqli_num_rows($q1);
 								if ($cekp>0) {
 									echo "| ";
-									while ($p=mysql_fetch_array($q1)) {
+									while ($p=mysqli_fetch_array($q1)) {
 										echo $p['nama'];
 										echo " | ";
 									}
@@ -462,12 +462,12 @@ echo "<option value='$ko[id_dr]'>$dr[nama_lengkap]</option>";
 								?>
 							</td>
 							<td>
-								<?php $q2 = mysql_query("SELECT *FROM history_kasir WHERE no_faktur='$pc[no_faktur]' AND kategori != 0"); 
+								<?php $q2 = mysqli_query($con,"SELECT *FROM history_kasir WHERE no_faktur='$pc[no_faktur]' AND kategori != 0"); 
 								
-								$cekt = mysql_num_rows($q2);
+								$cekt = mysqli_num_rows($q2);
 								if ($cekt>0) {
 									echo "| ";
-									while ($t=mysql_fetch_array($q2)) {
+									while ($t=mysqli_fetch_array($q2)) {
 										echo $t['nama'];
 										echo " | ";
 									}

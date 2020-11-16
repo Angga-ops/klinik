@@ -25,11 +25,11 @@ session_start();
 else{
 
 //cek hak akses user
-$cek=user_akses($_GET[module],$_SESSION[sessid]);
-if($cek==1 OR $_SESSION[leveluser]=='admin'){
+$cek=user_akses($_GET['module'],$_SESSION['sessid']);
+if($cek==1 OR $_SESSION['leveluser']=='admin'){
 
 $aksi="modul/mod_logo/aksi_logo.php";
-switch($_GET[act]){
+switch($_GET['act']){
   // Tampil logo
   default:
       
@@ -57,10 +57,10 @@ switch($_GET[act]){
    
    
    
-    $tampil=mysql_query("SELECT * FROM logo ORDER BY id_logo DESC");
+    $tampil=mysqli_query($con,"SELECT * FROM logo ORDER BY id_logo DESC");
     $no=1;
-    while ($r=mysql_fetch_array($tampil)){
-      $tgl=tgl_indo($r[tgl_posting]);
+    while ($r=mysqli_fetch_array($tampil)){
+      $tgl=tgl_indo($r['tgl_posting']);
 	  
 	  
     echo "<tr class=gradeX> 
@@ -80,8 +80,8 @@ switch($_GET[act]){
   
 
   case "editlogo":
-    $edit = mysql_query("SELECT * FROM logo WHERE id_logo='$_GET[id]'");
-    $r    = mysql_fetch_array($edit);
+    $edit = mysqli_query($con,"SELECT * FROM logo WHERE id_logo='$_GET[id]'");
+    $r    = mysqli_fetch_array($edit);
 	
   echo "
    <div id='main-content'>

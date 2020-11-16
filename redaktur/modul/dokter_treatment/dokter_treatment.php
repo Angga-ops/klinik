@@ -33,8 +33,8 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From treatment");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con, "Select * From treatment");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
                 <td><?php echo $r["nama_t"]; ?></td>
@@ -112,7 +112,7 @@ $(document).ready(function(){
   break;
   case "edit_kategori":
   $id   = $_GET['id'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From kategori Where id_kategori='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From kategori Where id_kategori='$id'"));
 ?>
 
 <section class="content">

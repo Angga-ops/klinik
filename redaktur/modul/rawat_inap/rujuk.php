@@ -30,9 +30,9 @@
 
 <?php 
 
-$j = mysql_query("SELECT * FROM rujuk_inap a JOIN antrian_pasien b ON a.antrian_pasien = b.id JOIN pasien c ON b.id_pasien = c.id_pasien JOIN user d ON b.id_dr = d.id_user JOIN poliklinik e ON b.poliklinik = e.id_poli");
+$j = mysqli_query($con,"SELECT * FROM rujuk_inap a JOIN antrian_pasien b ON a.antrian_pasien = b.id JOIN pasien c ON b.id_pasien = c.id_pasien JOIN user d ON b.id_dr = d.id_user JOIN poliklinik e ON b.poliklinik = e.id_poli");
 
-while($ju = mysql_fetch_assoc($j)){
+while($ju = mysqli_fetch_assoc($j)){
     echo "<tr>";
     echo "<td><a href='#' data-target='#modal-default3' data-toggle='modal' onclick='pushit($ju[antrian_pasien])'><button class='btn btn-xs btn-success'>Tambah</button></a></td>";
     echo "<td>$ju[nama_pasien]</td>";
@@ -71,12 +71,12 @@ while($ju = mysql_fetch_assoc($j)){
 										<select class="form-control" id="ruang" name="ruang" style="width: 93%;">
 											<option value="belum">Silahkan pilih ruang ..</option>
 											<?php 
-											$q1 = mysql_query("SELECT *FROM ruangan");
-											while ($dok = mysql_fetch_array($q1)) { 
-												if(!is_null($dok[status])){
+											$q1 = mysqli_query($con,"SELECT *FROM ruangan");
+											while ($dok = mysqli_fetch_array($q1)) { 
+												if(!is_null($dok['status'])){
 													$status = "(Rusak)";
 													$stat = "disabled";
-												} else if($dok[kapasitas] == $dok[terpakai]){
+												} else if($dok['kapasitas'] == $dok['terpakai']){
 													$status = "(Penuh)";
 													$stat = "disabled";
 												} else {

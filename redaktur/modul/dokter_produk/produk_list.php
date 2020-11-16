@@ -37,14 +37,14 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From produk Where id_kk='$id_kk'");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con, "Select * From produk Where id_kk='$id_kk'");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
                 <td><?php echo $r["kode_barang"]; ?></td>
                 <td><?php echo $r["nama_p"]; ?></td>
-                <?php $q1 = mysql_query("SELECT *FROM kategori WHERE id_kategori='$r[id_kategori]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <?php $q1 = mysqli_query($con, "SELECT *FROM kategori WHERE id_kategori='$r[id_kategori]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k["kategori"]; ?></td>
                 <!--<td><?php echo $r["harga_beli"]; ?></td>-->
                 <td><?php echo rupiah($r["harga_jual"]); ?></td>
@@ -133,7 +133,7 @@ $(document).ready(function(){
   break;
   case "edit_kategori":
   $id   = $_GET['id'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From kategori Where id_kategori='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From kategori Where id_kategori='$id'"));
 ?>
 
 <section class="content">

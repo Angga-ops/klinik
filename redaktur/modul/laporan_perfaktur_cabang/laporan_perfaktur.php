@@ -52,29 +52,29 @@
 				<?php 
 
 				
-$idd = mysql_fetch_array(mysql_query("SELECT * FROM daftar_klinik WHERE id_kk='$id_kk'"));
-$p = mysql_query("SELECT no_faktur FROM history_kasir WHERE tanggal='$harian' AND id_kk='$id_kk' GROUP BY no_faktur");
+$idd = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM daftar_klinik WHERE id_kk='$id_kk'"));
+$p = mysqli_query($con, "SELECT no_faktur FROM history_kasir WHERE tanggal='$harian' AND id_kk='$id_kk' GROUP BY no_faktur");
 				
 				$no =1;
 		$cap = array();
 		$total = 0;
-		while ($brs = mysql_fetch_array($p)) { 
+		while ($brs = mysqli_fetch_array($p)) { 
 
-			array_push($cap,$brs[no_faktur]);
+			array_push($cap,$brs['no_faktur']);
 				
 			} 
 
 
 			foreach($cap as $k => $v){
-				$s = mysql_query("SELECT * FROM history_kasir WHERE no_faktur = '$v'");
+				$s = mysqli_query($con, "SELECT * FROM history_kasir WHERE no_faktur = '$v'");
 				$subt = 0;
-				while($br = mysql_fetch_assoc($s)){
+				while($br = mysqli_fetch_assoc($s)){
 					$subtotal = $br['sub_total'];
 				//	$subtotal= $br['harga']*$br['jumlah']; 
 					$subt = $subt + $subtotal;
 
 					
-$cust = mysql_fetch_assoc(mysql_query("SELECT * FROM pasien WHERE id_pasien = '$br[id_pasien]'"));
+$cust = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM pasien WHERE id_pasien = '$br[id_pasien]'"));
 $disc = ($br['diskon'] == 0)? 0 : ($br['diskon']/100*$br['harga']);
 
 					?>
@@ -97,7 +97,7 @@ $disc = ($br['diskon'] == 0)? 0 : ($br['diskon']/100*$br['harga']);
 					<?php
 				} 
 				
-	$ong = mysql_fetch_assoc(mysql_query("SELECT uang_ongkir AS kir FROM pembayaran WHERE no_faktur = '$v'"));	
+	$ong = mysqli_fetch_assoc(mysqli_query($con, "SELECT uang_ongkir AS kir FROM pembayaran WHERE no_faktur = '$v'"));	
 	$ongkirs = is_null($ong['kir']) || $ong['kir'] == ""? 0 : $ong['kir'];
 				?>
 
@@ -155,29 +155,29 @@ $disc = ($br['diskon'] == 0)? 0 : ($br['diskon']/100*$br['harga']);
 				<?php 
 
 				
-$idd = mysql_fetch_array(mysql_query("SELECT * FROM daftar_klinik WHERE id_kk='$id_kk'"));
-$p = mysql_query("SELECT no_faktur FROM history_kasir WHERE tanggal='$tgl' AND id_kk='$id_kk' GROUP BY no_faktur");
+$idd = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM daftar_klinik WHERE id_kk='$id_kk'"));
+$p = mysqli_query($con, "SELECT no_faktur FROM history_kasir WHERE tanggal='$tgl' AND id_kk='$id_kk' GROUP BY no_faktur");
 				
 				$no =1;
 		$cap = array();
 		$total = 0;
-		while ($brs = mysql_fetch_array($p)) { 
+		while ($brs = mysqli_fetch_array($p)) { 
 
-			array_push($cap,$brs[no_faktur]);
+			array_push($cap,$brs['no_faktur']);
 				
 			} 
 
 
 			foreach($cap as $k => $v){
-				$s = mysql_query("SELECT * FROM history_kasir WHERE no_faktur = '$v'");
+				$s = mysqli_query($con, "SELECT * FROM history_kasir WHERE no_faktur = '$v'");
 				$subt = 0;
-				while($br = mysql_fetch_assoc($s)){
+				while($br = mysqli_fetch_assoc($s)){
 					$subtotal = $br['sub_total'];
 				//	$subtotal= $br['harga']*$br['jumlah']; 
 					$subt = $subt + $subtotal;
 
 					
-$cust = mysql_fetch_assoc(mysql_query("SELECT * FROM pasien WHERE id_pasien = '$br[id_pasien]'"));
+$cust = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM pasien WHERE id_pasien = '$br[id_pasien]'"));
 $disc = ($br['diskon'] == 0)? 0 : ($br['diskon']/100*$br['harga']);
 
 					?>
@@ -200,7 +200,7 @@ $disc = ($br['diskon'] == 0)? 0 : ($br['diskon']/100*$br['harga']);
 					<?php
 				} 
 				
-	$ong = mysql_fetch_assoc(mysql_query("SELECT uang_ongkir AS kir FROM pembayaran WHERE no_faktur = '$v'"));	
+	$ong = mysqli_fetch_assoc(mysqli_query($con, "SELECT uang_ongkir AS kir FROM pembayaran WHERE no_faktur = '$v'"));	
 	$ongkirs = is_null($ong['kir']) || $ong['kir'] == ""? 0 : $ong['kir'];
 				?>
 

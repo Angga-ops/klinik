@@ -11,7 +11,7 @@ $id = $_POST['id'];
 if(isset($_POST['search'])){
  $search = $_POST['search'];
 
- $tipes = $_POST[jamin]; /*
+ $tipes = $_POST['jamin']; /*
  switch($tipes){
 	 case "umum": $harga = "AND penjamin = 'UMUM'"; break;
 	 case "bpjs": $harga = "AND penjamin = 'BPJS'"; break;
@@ -26,16 +26,16 @@ $query = "SELECT * FROM produk a JOIN produk_master b ON a.kode_barang = b.kd_pr
 
 
  // 7 9 12 13
- $result = mysql_query($query);
+ $result = mysqli_query($con,$query);
 
  $response = array();
- while($row = mysql_fetch_array($result) ){
+ while($row = mysqli_fetch_array($result) ){
 
 	
 switch($tipes){
-	case "umum": $harga = $row[jual_umum]; break;
-	case "bpjs": $harga = $row[jual_bpjs]; break;
-	case "lain": $harga = $row[jual_lain]; break;
+	case "umum": $harga = $row['jual_umum']; break;
+	case "bpjs": $harga = $row['jual_bpjs']; break;
+	case "lain": $harga = $row['jual_lain']; break;
 }
 
 	

@@ -5,8 +5,8 @@ include "../../../config/koneksi.php";
 if($_POST['id']) {
         $id = $_POST['id'];
         // mengambil data berdasarkan id
-        $tampil     = mysql_query("SELECT * FROM beli_k WHERE id = $id");
-        while($data = mysql_fetch_array($tampil)){
+        $tampil     = mysqli_query($con,"SELECT * FROM beli_k WHERE id = $id");
+        while($data = mysqli_fetch_array($tampil)){
          ?>
             <table class="table">
                 <tr>
@@ -22,8 +22,8 @@ if($_POST['id']) {
                 <tr>
                     <td>Suplier</td>
                     <td>:</td>
-                    <td><?php $q1 = mysql_query("SELECT *FROM suplier WHERE id_sup='$data[id_sup]'"); 
-                    $k = mysql_fetch_array($q1); ?>
+                    <td><?php $q1 = mysqli_query($con,"SELECT *FROM suplier WHERE id_sup='$data[id_sup]'"); 
+                    $k = mysqli_fetch_array($q1); ?>
                     <?php echo $k['nama_sup']; ?></td>
                 </tr>
                 <tr>
@@ -62,13 +62,13 @@ if($_POST['id']) {
                 </thead>
                 <tbody>
                 <?php
-                    $tampil     = mysql_query("Select * From history_beli_k where no_fak='$data[no_fak]'");
+                    $tampil     = mysqli_query($con,"Select * From history_beli_k where no_fak='$data[no_fak]'");
                     $no = 1;
-                    while($data = mysql_fetch_array($tampil)){
+                    while($data = mysqli_fetch_array($tampil)){
                 ?>
                 <tr class="gradeX">
-                    <?php $q1 = mysql_query("SELECT *FROM produk_master WHERE nama_produk='$data[nama_brg]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                    <?php $q1 = mysqli_query($con,"SELECT *FROM produk_master WHERE nama_produk='$data[nama_brg]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                  <td><?php
                         if ( $k['gambar'] == '') {
                             echo "Belum Ada Gambar";

@@ -7,11 +7,11 @@
 	$act	= $_GET['act'];
 	if ($module == 'pasien' AND $act == 'mitra'){ 
 		$jp		= $_GET['jenis_pasien'];
-		$sql	= mysql_query("Select * From jenis_mitra Where id_jenispem='$jp'");
+		$sql	= mysqli_query($con,"Select * From jenis_mitra Where id_jenispem='$jp'");
 		?>
 		<option value="">-- Pilih Mitra --</option>
 		<?php
-		while ($d = mysql_fetch_array($sql)){
+		while ($d = mysqli_fetch_array($sql)){
 		?>
 		<option value="<?php echo $d['id_mitra']; ?>"><?php echo $d['nama_mitra']; ?></option>
 		<?php
@@ -20,14 +20,14 @@
 	// Hapus Pasien
 	elseif ($module == 'pasien' AND $act == 'hapus'){
 		$id		= $_GET['id'];
-		$delete	= mysql_query("Delete From pasien Where id='$id'");
-		catat($_SESSION['namauser'], 'Hapus Data Pasien'.' ('.$id.')');
+		$delete	= mysqli_query($con,"Delete From pasien Where id='$id'");
+		catat($con,$_SESSION['namauser'], 'Hapus Data Pasien'.' ('.$id.')');
 		header('location:../../media.php?module='.$module);
 	}
 	// Update pasien
 	elseif ($module=='pasien' AND $act=='update'){
 		$lahir	= $_POST['thn_lahir'].'-'.$_POST['bln_lahir'].'-'.$_POST['tgl_lahir'];
-		$update	= mysql_query("UPDATE pasien SET no_rm = '$_POST[no_rm]',
+		$update	= mysqli_query($con,"UPDATE pasien SET no_rm = '$_POST[no_rm]',
                                 nama_pasien = '$_POST[nama_pasien]',
                                 nama_ayah = '$_POST[nama_ayah]',
                                 nama_ibu = '$_POST[nama_ibu]',
@@ -50,7 +50,7 @@
 								riwayat_penyakit = '$_POST[riwayat_penyakit]',
                                 alergi_obat = '$_POST[alergi_obat]'
                                 WHERE id = '$_POST[id]'");
-		catat($_SESSION['namauser'], "Berhasil update pasien $_POST[nama]");
+		catat($con,$_SESSION['namauser'], "Berhasil update pasien $_POST[nama]");
 		header('location:../../media.php?module=pasien');
 	}
 ?>

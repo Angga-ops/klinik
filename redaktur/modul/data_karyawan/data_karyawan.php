@@ -50,11 +50,11 @@ Note : Untuk menambahkan data atau pindah kerja cabang karyawan silahkan hubungi
         <tbody>
         <?php
 		if ($_SESSION['jenis_u'] == 'JU-01'){
-            $tampil     = mysql_query("Select * From karyawan");
+            $tampil     = mysqli_query($con, "Select * From karyawan");
 		} else if (($_SESSION['jenis_u'] != 'JU-01') OR ($_SESSION['jenis_u'] != 'JU-02') ){
-			$tampil     = mysql_query("Select * From karyawan");
+			$tampil     = mysqli_query($con, "Select * From karyawan");
 		}
-            while($data = mysql_fetch_array($tampil)){
+            while($data = mysqli_fetch_array($tampil)){
         ?>
             <tr class="gradeX">
               <td><?php
@@ -63,9 +63,9 @@ Note : Untuk menambahkan data atau pindah kerja cabang karyawan silahkan hubungi
                         }else{
                             echo '<a href="'.$url.'/foto_karyawan/'.$data['foto'].'"><img src="'.$url.'/foto_karyawan/'.$data['foto'].'" width="80px" height="80px"></a>';
                         }?></td>
-              <?php $q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$data[id_kk]'"); 
-                 $k = mysql_fetch_array($q1);
-                   $bg=mysql_fetch_array(mysql_query("SELECT * FROM jenis_user WHERE id_ju='$data[id_ju]'"));
+              <?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$data[id_kk]'"); 
+                 $k = mysqli_fetch_array($q1);
+                   $bg=mysqli_fetch_array(mysqli_query($con, "SELECT * FROM jenis_user WHERE id_ju='$data[id_ju]'"));
 				 ?>
               
              <td><?php echo $data['nama_karyawan']; ?></td>
@@ -143,10 +143,10 @@ $(document).ready(function(){
                 <label>Klinik</label>
                 <select class="form-control" name="klinik" required>
                
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik"); 
-                      while($k = mysql_fetch_array($q1)){ ?>
+                <?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik"); 
+                      while($k = mysqli_fetch_array($q1)){ ?>
 
-                      <option value="<?php echo $k[id_kk]; ?>"><?php echo $k["nama_klinik"]; ?></option>
+                      <option value="<?php echo $k['id_kk']; ?>"><?php echo $k["nama_klinik"]; ?></option>
                       <?php 
                     }
                 ?>
@@ -185,8 +185,8 @@ $(document).ready(function(){
                 <select name="bagian" class="form-control" required>
                    <option value="">-- Pilih Jenis --</option>
       <?php
-        $data     = mysql_query("Select * From jenis_user WHERE (id_ju!='JU-01') AND (id_ju!='JU-02')");            
-              while($hasil  = mysql_fetch_array($data)){
+        $data     = mysqli_query($con, "Select * From jenis_user WHERE (id_ju!='JU-01') AND (id_ju!='JU-02')");            
+              while($hasil  = mysqli_fetch_array($data)){
       ?>
         <option value="<?php echo $hasil['id_ju']; ?>"><?php echo $hasil['nama_ju']; ?></option>            
             <?php
@@ -281,7 +281,7 @@ $(document).ready(function(){
     break;
     case "edit_karyawan":
     $id     = $_GET["id_karyawan"];
-    $edit   =  mysql_fetch_array(mysql_query("Select * From karyawan Where id_karyawan='$id'"));
+    $edit   =  mysqli_fetch_array(mysqli_query($con, "Select * From karyawan Where id_karyawan='$id'"));
 ?>
 
 <section class="content">
@@ -302,10 +302,10 @@ $(document).ready(function(){
                 <label> Klinik</label>
                 <select class="form-control" name="klinik" required>
                 <option value="<?php echo $edit['id_kk']?>">
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik"); 
-                      while($k = mysql_fetch_array($q1)){ ?>
+                <?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik"); 
+                      while($k = mysqli_fetch_array($q1)){ ?>
                         <?php echo $k['nama_klinik']?></option>
-                      <option value="<?php echo $k[id_kk]; ?>"><?php echo $k["nama_klinik"]; ?></option>
+                      <option value="<?php echo $k['id_kk']; ?>"><?php echo $k["nama_klinik"]; ?></option>
                       <?php 
                     }
                 ?>
@@ -357,8 +357,8 @@ $(document).ready(function(){
                 <select name="bagian" class="form-control" required>
                   
       <?php
-        $data     = mysql_query("Select * From jenis_user WHERE (id_ju!='JU-01') AND (id_ju!='JU-02')");            
-              while($hasil  = mysql_fetch_array($data)){
+        $data     = mysqli_query($con, "Select * From jenis_user WHERE (id_ju!='JU-01') AND (id_ju!='JU-02')");            
+              while($hasil  = mysqli_fetch_array($data)){
           if($hasil['id_ju']==$edit['id_ju']){
       ?>
         <option value="<?php echo $hasil['id_ju']; ?>" checked><?php echo $hasil['nama_ju']; ?></option>            

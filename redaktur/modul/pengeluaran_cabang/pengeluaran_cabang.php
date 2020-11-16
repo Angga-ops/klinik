@@ -39,23 +39,23 @@
       <tbody>
         <?php 
         $d = array();
-        $qr = mysql_query("SELECT *FROM pengeluaran Where id_kk='$klinik' GROUP BY tanggal");
-        while ($pr = mysql_fetch_array($qr)) {
+        $qr = mysqli_query($con, "SELECT *FROM pengeluaran Where id_kk='$klinik' GROUP BY tanggal");
+        while ($pr = mysqli_fetch_array($qr)) {
 
-          array_push($d,$pr[tanggal]);
+          array_push($d,$pr['tanggal']);
 
          }
 
          foreach($d as $k => $v){
            
-          $q = mysql_query("SELECT *FROM pengeluaran Where tanggal = '$v'");
+          $q = mysqli_query($con,"SELECT *FROM pengeluaran Where tanggal = '$v'");
 
-          while ($p = mysql_fetch_array($q)) {
+          while ($p = mysqli_fetch_array($q)) {
 
           ?>
         <tr>
-          <?php $q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$p[id_kk]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+          <?php $q1 = mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$p[id_kk]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
               <td><?php echo $k['nama_klinik']; ?></td>
           <td><?php echo $p['tanggal']; ?></td>
           <td><?php echo $p['kasir']; ?></td>
@@ -63,8 +63,8 @@
           <td><?php echo $p['kategori_p']; ?></td>
           <td><?php echo $p['ket']; ?></td>
           <td>
-            <a class="btn btn-xs btn-info" href="media.php?module=pengeluaran_cabang&act=edit&id=<?php echo $p[id_p]; ?>"><i class="fa fa-edit"></i> Edit</a>
-            <a class="btn btn-xs btn-danger" href="modul/pengeluaran_cabang/aksi_pengeluaran.php?act=hapus&id=<?php echo $p[id_p]; ?>"><i class="fa fa-trash"></i> Hapus</a>
+            <a class="btn btn-xs btn-info" href="media.php?module=pengeluaran_cabang&act=edit&id=<?php echo $p['id_p']; ?>"><i class="fa fa-edit"></i> Edit</a>
+            <a class="btn btn-xs btn-danger" href="modul/pengeluaran_cabang/aksi_pengeluaran.php?act=hapus&id=<?php echo $p['id_p']; ?>"><i class="fa fa-trash"></i> Hapus</a>
           </td>
         </tr>
          
@@ -143,10 +143,10 @@
                 <label>Pilih Klinik</label>
                 <select class="form-control" name="id_kk" readonly>
                 
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik Where id_kk='$_SESSION[klinik]'"); 
-                      while($k = mysql_fetch_array($q1)){ ?>
+                <?php $q1 = mysqli_query($con,"SELECT *FROM daftar_klinik Where id_kk='$_SESSION[klinik]'"); 
+                      while($k = mysqli_fetch_array($q1)){ ?>
 
-                      <option value="<?php echo $k[id_kk]; ?>"><?php echo $k["nama_klinik"]; ?></option>
+                      <option value="<?php echo $k['id_kk']; ?>"><?php echo $k["nama_klinik"]; ?></option>
                       <?php 
                     }
                 ?>
@@ -175,7 +175,7 @@
   break;
   case "edit":
   $id   = $_GET['id'];
-  $p   = mysql_fetch_array(mysql_query("SELECT * From pengeluaran Where id_p='$id'"));
+  $p   = mysqli_fetch_array(mysqli_query($con,"SELECT * From pengeluaran Where id_p='$id'"));
 ?>
 
 <section class="content">
@@ -235,10 +235,10 @@
                 <div class="form-group">
                 <label>Pilih Klinik</label>
                 <select class="form-control" name="id_kk" readonly>
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik Where id_kk='$p[id_kk]'"); 
-                      while($k = mysql_fetch_array($q1)){ ?>
+                <?php $q1 = mysqli_query($con,"SELECT *FROM daftar_klinik Where id_kk='$p[id_kk]'"); 
+                      while($k = mysqli_fetch_array($q1)){ ?>
                         <?php echo $k['nama_klinik']?></option>
-                      <option value="<?php echo $k[id_kk]; ?>"><?php echo $k["nama_klinik"]; ?></option>
+                      <option value="<?php echo $k['id_kk']; ?>"><?php echo $k["nama_klinik"]; ?></option>
                       <?php 
                     }
                 ?>

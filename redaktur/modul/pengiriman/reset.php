@@ -2,7 +2,7 @@
 include "../../../config/koneksi.php";
 
 
-mysql_query("TRUNCATE table produk_ps");
+mysqli_query($con,"TRUNCATE table produk_ps");
 
 exit();
 ?>

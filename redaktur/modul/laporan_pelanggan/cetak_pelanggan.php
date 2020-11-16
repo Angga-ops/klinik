@@ -70,12 +70,12 @@ window.print();
 		<?php 
 		$id_kk = $_GET['id_kk'];
 			if ($id_kk == 0) {
-				$q1 = mysql_query("SELECT *FROM pasien"); 
+				$q1 = mysqli_query($con, "SELECT *FROM pasien"); 
               	$no =1;
-              	while($br = mysql_fetch_array($q1)) { ?>
+              	while($br = mysqli_fetch_array($q1)) { ?>
 		            <tr>
 		              <td><?php echo $no++; ?></td>
-		              <td><?php $sat = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik")); 
+		              <td><?php $sat = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM daftar_klinik")); 
 		              echo $sat['nama_klinik']; ?></td>
 		              <td><?php echo $br['nama_pasien']; ?></td>
 		              <td><?php echo $br['alamat']; ?></td>
@@ -87,13 +87,13 @@ window.print();
 		            </tr>
                 <?php } ?>
 			<?php }else{
-				$q1 = mysql_query("SELECT *FROM pasien where id_kk='$_GET[id_kk]'"); 
+				$q1 = mysqli_query($con, "SELECT *FROM pasien where id_kk='$_GET[id_kk]'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {
+              while ($br = mysqli_fetch_array($q1)) {
                 ?>
             <tr>
               <td><?php echo $no; ?></td>
-              <td><?php $sat = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$br[id_kk]'")); 
+              <td><?php $sat = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$br[id_kk]'")); 
               echo $sat['nama_klinik']; ?></td>
               <td><?php echo $br['nama_pasien']; ?></td>
               <td><?php echo $br['alamat']; ?></td>

@@ -1,1 +1,0 @@
-[10-Nov-2020 03:09:24 UTC] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/creativ5/public_html/klinik/config/koneksi.php on line 12

@@ -14,7 +14,7 @@ switch ($act) {
 				<h4>Data Pasien</h4>
 				<?php 
 				$nama = $_GET['np'];
-				$pem = mysql_fetch_array(mysql_query("SELECT *FROM pasien WHERE nama_pasien='$nama'"));
+				$pem = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM pasien WHERE nama_pasien='$nama'"));
 
 				?>
 				<div class="row">
@@ -98,13 +98,13 @@ switch ($act) {
 						</tr>
 					</thead>
 					<tbody>
-						<?php $q =  mysql_query("SELECT *FROM pasca_treatment WHERE id_pasien='$pem[id_pasien]' ORDER BY tanggal DESC"); 
-							  while($pc = mysql_fetch_array($q)){ ?>
+						<?php $q =  mysqli_query($con, "SELECT *FROM pasca_treatment WHERE id_pasien='$pem[id_pasien]' ORDER BY tanggal DESC"); 
+							  while($pc = mysqli_fetch_array($q)){ ?>
 						<tr>
 							<td><?php echo $pc['tanggal']; ?></td>
 							<td>
 								<?php 
-								$d = mysql_fetch_array(mysql_query("SELECT *FROM user WHERE id_user='$pc[id_dr]'"));
+								$d = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM user WHERE id_user='$pc[id_dr]'"));
 								echo $d['nama_lengkap'];
 								?>
 							</td>
@@ -112,11 +112,11 @@ switch ($act) {
 							<td><?php echo $pc['objek']; ?></td>
 							<td><?php echo $pc['assestment']; ?></td>
 							<td>
-								<?php $q1 = mysql_query("SELECT *FROM history_kasir WHERE no_faktur='$pc[no_faktur]' AND jenis='Produk'"); 
-								$cekp = mysql_num_rows($q1);
+								<?php $q1 = mysqli_query($con, "SELECT *FROM history_kasir WHERE no_faktur='$pc[no_faktur]' AND jenis='Produk'"); 
+								$cekp = mysqli_num_rows($q1);
 								if ($cekp>0) {
 									echo "| ";
-									while ($p=mysql_fetch_array($q1)) {
+									while ($p=mysqli_fetch_array($q1)) {
 										echo $p['nama'];
 										echo " | ";
 									}
@@ -126,11 +126,11 @@ switch ($act) {
 								?>
 							</td>
 							<td>
-								<?php $q2 = mysql_query("SELECT *FROM history_kasir WHERE no_faktur='$pc[no_faktur]' AND jenis='Treatment'"); 
-								$cekt = mysql_num_rows($q2);
+								<?php $q2 = mysqli_query($con, "SELECT *FROM history_kasir WHERE no_faktur='$pc[no_faktur]' AND jenis='Treatment'"); 
+								$cekt = mysqli_num_rows($q2);
 								if ($cekt>0) {
 									echo "| ";
-									while ($t=mysql_fetch_array($q2)) {
+									while ($t=mysqli_fetch_array($q2)) {
 										echo $t['nama'];
 										echo " | ";
 									}

@@ -2,22 +2,22 @@
 
 include "../../../config/koneksi.php";
 
-switch($_GET[act]){
+switch($_GET['act']){
     case "add": 
     
-    mysql_query("INSERT INTO kategori_biaya VALUES (NULL,'$_POST[nama]')");
+    mysqli_query($con, "INSERT INTO kategori_biaya VALUES (NULL,'$_POST[nama]')");
     
     break;
 
     case "edit": 
     
-    mysql_query("UPDATE kategori_biaya SET kategori = '$_POST[nama]' WHERE id = '$_POST[id]'");
+    mysqli_query($con, "UPDATE kategori_biaya SET kategori = '$_POST[nama]' WHERE id = '$_POST[id]'");
     
     break;
 
     case "del": 
     
-    mysql_query("DELETE FROM kategori_biaya WHERE id = '$_GET[id]'");
+    mysqli_query($con, "DELETE FROM kategori_biaya WHERE id = '$_GET[id]'");
     
     break;
 

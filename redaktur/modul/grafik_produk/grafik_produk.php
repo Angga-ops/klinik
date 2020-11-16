@@ -138,9 +138,9 @@
 
                       <?php
 
-                      $klinik = mysql_query("SELECT nama,  COUNT(*) as jumlah FROM history_kasir WHERE month(tanggal) = '$_POST[bulan]' AND year(tanggal) = '$_POST[tahun]' AND jenis='Produk' GROUP BY nama Order by jumlah DESC limit 10");
+                      $klinik = mysqli_query($con, "SELECT nama,  COUNT(*) as jumlah FROM history_kasir WHERE month(tanggal) = '$_POST[bulan]' AND year(tanggal) = '$_POST[tahun]' AND jenis='Produk' GROUP BY nama Order by jumlah DESC limit 10");
 
-                      while ($t=mysql_fetch_array($klinik)) { ?>
+                      while ($t=mysqli_fetch_array($klinik)) { ?>
 
                       "<?php echo $t['nama']; ?> (<?php echo $t['jumlah']; ?>)",
 
@@ -156,9 +156,9 @@
 
                          <?php
 
-                      $klinik = mysql_query("SELECT nama,  COUNT(*) as jumlah FROM history_kasir WHERE month(tanggal) = '$_POST[bulan]' AND year(tanggal) = '$_POST[tahun]' AND jenis='Produk' GROUP BY nama Order by jumlah DESC limit 10");
+                      $klinik = mysqli_query($con, "SELECT nama,  COUNT(*) as jumlah FROM history_kasir WHERE month(tanggal) = '$_POST[bulan]' AND year(tanggal) = '$_POST[tahun]' AND jenis='Produk' GROUP BY nama Order by jumlah DESC limit 10");
 
-                      while ($t=mysql_fetch_array($klinik)) { ?>
+                      while ($t=mysqli_fetch_array($klinik)) { ?>
 
                       "<?php echo $t['jumlah']; ?>",
 

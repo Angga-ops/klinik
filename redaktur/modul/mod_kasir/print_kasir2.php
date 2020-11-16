@@ -18,17 +18,17 @@ use Mike42\Escpos\Printer; */
 $id_kk     = $_SESSION['klinik'];
 $no_faktur = $_GET['nofak'];
 
-$idd = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'"));
+$idd = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'"));
 
-$nota=mysql_fetch_array(mysql_query("SELECT * FROM pembayaran where no_faktur='$no_faktur'"));
+$nota=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM pembayaran where no_faktur='$no_faktur'"));
 
-$ky=mysql_query("SELECT * FROM pembayaran p JOIN history_kasir h ON p.no_faktur=h.no_faktur  WHERE p.no_faktur='$no_faktur'");
+$ky=mysqli_query($con,"SELECT * FROM pembayaran p JOIN history_kasir h ON p.no_faktur=h.no_faktur  WHERE p.no_faktur='$no_faktur'");
 
-$kd = mysql_fetch_assoc(mysql_query("SELECT * FROM history_kasir WHERE no_faktur='$no_faktur'"));
+$kd = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM history_kasir WHERE no_faktur='$no_faktur'"));
 
-$kasir = mysql_fetch_assoc(mysql_query("SELECT nama_karyawan FROM karyawan WHERE id_karyawan = '$kd[id_kasir]'"));
+$kasir = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_karyawan FROM karyawan WHERE id_karyawan = '$kd[id_kasir]'"));
 
-$cust = mysql_fetch_assoc(mysql_query("SELECT * FROM pasien WHERE id_pasien = '$kd[id_pasien]'"));
+$cust = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM pasien WHERE id_pasien = '$kd[id_pasien]'"));
 
 /*
 try {
@@ -43,7 +43,7 @@ try {
 	$printer -> text("=======================================\n");
 
 
-	while ($p=mysql_fetch_array($ky)) {
+	while ($p=mysqli_fetch_array($ky)) {
 		$printer -> text("".$p['nama']."".$p['jumlah']."".$p['harga']."".$p['jumlah']*$p['harga']."\n");
 	}
 	
@@ -74,30 +74,31 @@ ob_start();
 	table {width: 100%; }
 }
 @page {
-	margin: 0.1cm
-	size: 80mm 200mm
+	margin: 0.1cm;
+	size: 80mm 200mm;
 }
 </style>
 
 <center>
-<h5><strong></strong><?php echo $idd[nama_klinik]; ?></strong></h5>
+<h5><strong></strong><?php echo $idd['nama_klinik']; ?></strong></h5>
 ----------------------------------------
-<h5><?php echo $idd[alamat]; ?> - Telp: <?php echo $idd[telepon]; ?></h5>
+<h5><?php echo $idd['alamat']; ?> - Telp: <?php echo $idd['telepon']; ?></h5>
 </center>
-&NewLine;
+
+
 <table>
 <tr>
-<td>No.Faktur&nbsp;&nbsp;</td><td>:</td><td><?php echo $no_faktur; ?></td></tr>
-<td>No.Antrian&nbsp;</td><td>:</td><td><?php echo $nota['no_urut']; ?></td></tr>
-<td>Pasien&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>:</td><td><?php echo $cust[nama_pasien]." (".$cust[id_pasien].")"; ?></td></tr>
-<td>Kasir&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>:</td><td><?php echo $kasir[nama_karyawan]; ?></td></tr>
-<td>Tgl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>:</td><td><?php echo strftime("%d %B %Y",strtotime($nota['tgl'])); ?></td></tr>
+<td>No.Faktur  </td><td>:</td><td><?php echo $no_faktur; ?></td></tr>
+<td>No.Antrian </td><td>:</td><td><?php echo $nota['no_urut']; ?></td></tr>
+<td>Pasien     </td><td>:</td><td><?php echo $cust['nama_pasien']." (".$cust['id_pasien'].")"; ?></td></tr>
+<td>Kasir      </td><td>:</td><td><?php echo $kasir['nama_karyawan']; ?></td></tr>
+<td>Tgl        </td><td>:</td><td><?php echo strftime("%d %B %Y",strtotime($nota['tgl'])); ?></td></tr>
 </table>
 
 <table style="width: 30%">
 <tr>
-<th>#item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-<th style="width: 2%">#Harga&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> 
+<th>#item     </th>
+<th style="width: 2%">#Harga            </th> 
 <th style="width: 2%">#SubTotal</th>
 </tr>
 <tr>
@@ -106,7 +107,7 @@ ob_start();
 <?php 
 $no = 1;
 $tot = 0;
-while ($p=mysql_fetch_array($ky)) {
+while ($p=mysqli_fetch_array($ky)) {
     
     $nil = $p['jumlah']." x Rp ".number_format($p['harga'],0,",",".");
     $nils = (strlen($nil) > 18)? 1 : 18 - strlen($nil);
@@ -114,19 +115,19 @@ while ($p=mysql_fetch_array($ky)) {
     $spasi = "";
     
     for($sp = 0; $sp < $nils; $sp++){
-        $spasi .= "&nbsp;"; 
+        $spasi .= " "; 
     }
     
-	echo "<tr><td colspan=3>".$no.". ".$p['nama']."</td></tr><tr><td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$nil."".$spasi."</td><td>Rp ".number_format($p['jumlah']*$p['harga'],0,",",".")."</td></tr>";
+	echo "<tr><td colspan=3>".$no.". ".$p['nama']."</td></tr><tr><td><td>          ".$nil."".$spasi."</td><td>Rp ".number_format($p['jumlah']*$p['harga'],0,",",".")."</td></tr>";
 
 	$tot = $tot + ($p['jumlah']*$p['harga']);
 	
-		$dokter = (is_null($p[id_dr]) || $p[id_dr] == 0)? "" : $p[id_dr];
+		$dokter = (is_null($p['id_dr']) || $p['id_dr'] == 0)? "" : $p['id_dr'];
 		
 		$no++;
 }
 
-$total = $tot + $nota[uang_ongkir];
+$total = $tot + $nota['uang_ongkir'];
 
 ?>
 <td colspan=3>========================================</td>
@@ -135,21 +136,21 @@ $total = $tot + $nota[uang_ongkir];
 <table><tr>
     <?php
 if($dokter == ""){} else {
-	$dr = mysql_fetch_array(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = '$dokter'"));
+	$dr = mysqli_fetch_array(mysqli_query($con,"SELECT nama_lengkap FROM user WHERE id_user = '$dokter'"));
 	?>
-<td>Dokter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>:</td><td><?php echo $dr[nama_lengkap]; ?></td></tr>
+<td>Dokter     </td><td>:</td><td><?php echo $dr['nama_lengkap']; ?></td></tr>
 	<?php
 }
 
-$ongkir = ($nota[uang_ongkir] == "")? 0 : $nota[uang_ongkir]; ?></tr>
+$ongkir = ($nota['uang_ongkir'] == "")? 0 : $nota['uang_ongkir']; ?></tr>
 <tr>
-<td>Belanja&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>:</td><td>Rp <?php echo number_format($tot,0,",","."); ?></td></tr>
-<td>Ongkos Kirim&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>:</td><td>Rp <?php echo number_format($ongkir,0,",","."); ?></td></tr>
-<td>Hemat Spesial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>:</td><td>Rp <?php echo number_format($total - $nota['total'],0,",","."); ?></td></tr>
-<td>Total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>:</td><td>Rp <?php echo number_format($nota['total'],0,",","."); ?></td></tr>
-<td>Uang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>:</td><td>Rp <?php echo number_format($nota['uang'],0,",","."); ?></td></tr>
-<td>Kembalian&nbsp;</td><td>:</td><td>Rp <?php echo number_format($nota['kembalian'],0,",","."); ?></td></tr>
-<tr><td colspan=3><center>&nbsp;&nbsp;Retur Produk berlaku 1 x 24 Jam</center></td></tr>
+<td>Belanja     </td><td>:</td><td>Rp <?php echo number_format($tot,0,",","."); ?></td></tr>
+<td>Ongkos Kirim      </td><td>:</td><td>Rp <?php echo number_format($ongkir,0,",","."); ?></td></tr>
+<td>Hemat Spesial     </td><td>:</td><td>Rp <?php echo number_format($total - $nota['total'],0,",","."); ?></td></tr>
+<td>Total     </td><td>:</td><td>Rp <?php echo number_format($nota['total'],0,",","."); ?></td></tr>
+<td>Uang      </td><td>:</td><td>Rp <?php echo number_format($nota['uang'],0,",","."); ?></td></tr>
+<td>Kembalian </td><td>:</td><td>Rp <?php echo number_format($nota['kembalian'],0,",","."); ?></td></tr>
+<tr><td colspan=3><center>  Retur Produk berlaku 1 x 24 Jam</center></td></tr>
 </table>
 <br><br>	
 

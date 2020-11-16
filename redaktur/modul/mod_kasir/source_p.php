@@ -9,11 +9,11 @@ if(isset($_POST['search'])){
 
 		$search = $_POST['search'];
 
-		 $query = mysql_query("SELECT * FROM pasien WHERE nama_pasien like'%".$search."%'  AND id_kk = '$_SESSION[klinik]'");
+		 $query = mysqli_query($con,"SELECT * FROM pasien WHERE nama_pasien like'%".$search."%'  AND id_kk = '$_SESSION[klinik]'");
 
 		 $response = array();
 
-		 while($row = mysql_fetch_array($query)){
+		 while($row = mysqli_fetch_array($query)){
 		   $response[] = array(
 		   	"alamat"=>$row['alamat'],
 		   	"jk"=>$row['jk'],
@@ -32,11 +32,11 @@ if(isset($_POST['search'])){
 
 		$search = $_POST['search'];
 
-		 $query = mysql_query("SELECT * FROM pasien WHERE id_pasien like'%".$search."%'  AND id_kk = '$_SESSION[klinik]'");
+		 $query = mysqli_query($con,"SELECT * FROM pasien WHERE id_pasien like'%".$search."%'  AND id_kk = '$_SESSION[klinik]'");
 
 		 $response = array();
 
-		 while($row = mysql_fetch_array($query)){
+		 while($row = mysqli_fetch_array($query)){
 		   $response[] = array(
 		   	"alamat"=>$row['alamat'],
 		   	"jk"=>$row['jk'],
@@ -55,11 +55,11 @@ if(isset($_POST['search'])){
 
 		$search = $_POST['search'];
 
-		 $query = mysql_query("SELECT * FROM pasien WHERE tgl_lahir like'%".$search."%'  AND id_kk = '$_SESSION[klinik]'");
+		 $query = mysqli_query($con,"SELECT * FROM pasien WHERE tgl_lahir like'%".$search."%'  AND id_kk = '$_SESSION[klinik]'");
 
 		 $response = array();
 
-		 while($row = mysql_fetch_array($query)){
+		 while($row = mysqli_fetch_array($query)){
 		   $response[] = array(
 		   	"alamat"=>$row['alamat'],
 		   	"jk"=>$row['jk'],
@@ -78,11 +78,11 @@ if(isset($_POST['search'])){
 
 		$search = $_POST['search'];
 
-		 $query = mysql_query("SELECT * FROM pasien WHERE nama_pasien like'%".$search."%'  AND id_kk = '$_SESSION[klinik]'");
+		 $query = mysqli_query($con,"SELECT * FROM pasien WHERE nama_pasien like'%".$search."%'  AND id_kk = '$_SESSION[klinik]'");
 
 		 $response = array();
 
-		 while($row = mysql_fetch_array($query)){
+		 while($row = mysqli_fetch_array($query)){
 		   $response[] = array(
 		   	"alamat"=>$row['alamat'],
 		   	"jk"=>$row['jk'],

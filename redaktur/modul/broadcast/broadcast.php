@@ -17,8 +17,8 @@
             <select name="klaster" class="form-control"  required>
                 <option value="">-- Pilih Jenis Klaster Pelanggan --</option>
       <?php
-        $sel  = mysql_query("Select * From kategori_pelanggan");
-        while($data = mysql_fetch_array($sel)){
+        $sel  = mysqli_query($con, "Select * From kategori_pelanggan");
+        while($data = mysqli_fetch_array($sel)){
       ?>
                 <option value="<?php echo $data['kategori']; ?>"><?php echo $data['kategori']; ?> (<?php echo $data['keterangan']; ?>)</option>            
             <?php
@@ -86,16 +86,16 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From broadcast");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con, "Select * From broadcast");
+    while($r  = mysqli_fetch_array($tampil)){
       $no=1;
     ?>
       <tr class="gradeX">
                 <td><?php echo $r["klaster"]; ?></td>
                 <td><?php echo $r["subjek"]; ?></td>
                 <td><?php echo $r["isi"]; ?></td>
-                <!--<?php $q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <!--<?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k['nama_klinik']; ?></td>-->
             <td>
                      

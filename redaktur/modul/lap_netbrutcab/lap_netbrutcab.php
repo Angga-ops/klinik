@@ -71,12 +71,12 @@
     <?php
     $bulan = isset($_POST['bulan'])? $_POST['bulan'] : date("m");
     $tahun = isset($_POST['tahun'])? $_POST['tahun'] : date("Y");
-    $q1   = mysql_query("SELECT tanggal, SUM(sub_total) as subt FROM history_kasir WHERE month(tanggal) = '$bulan' AND year(tanggal) = '$tahun' AND id_kk='$id_kk' group by tanggal");
+    $q1   = mysqli_query($con, "SELECT tanggal, SUM(sub_total) as subt FROM history_kasir WHERE month(tanggal) = '$bulan' AND year(tanggal) = '$tahun' AND id_kk='$id_kk' group by tanggal");
 
-    while($r  = mysql_fetch_array($q1)){
+    while($r  = mysqli_fetch_array($q1)){
 
-      $ong = mysql_fetch_assoc(mysql_query("SELECT SUM(uang_ongkir) AS kir FROM pembayaran WHERE tgl = '$r[tanggal]'"));
-      $ret = mysql_fetch_assoc(mysql_query("SELECT SUM(a.harga*b.jml) ur FROM history_kasir a JOIN retur_jual b ON a.id = b.history WHERE b.retur = 3 AND b.tgl = '$r[tanggal]' AND a.id_kk = '$_SESSION[klinik]'"));
+      $ong = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(uang_ongkir) AS kir FROM pembayaran WHERE tgl = '$r[tanggal]'"));
+      $ret = mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(a.harga*b.jml) ur FROM history_kasir a JOIN retur_jual b ON a.id = b.history WHERE b.retur = 3 AND b.tgl = '$r[tanggal]' AND a.id_kk = '$_SESSION[klinik]'"));
 
 
 $total = ($r["subt"] + $ong["kir"]) - $ret["ur"];
@@ -85,8 +85,8 @@ $total = ($r["subt"] + $ong["kir"]) - $ret["ur"];
       <tr class="gradeX">
                 <td><?php echo $r["tanggal"]; ?></td>
                 <td><?php echo rupiah($total);?></td>
-        <?php $q2   = mysql_query("SELECT SUM(biaya_p) as luar FROM pengeluaran where tanggal='$r[tanggal]' AND id_kk='$id_kk' order by tanggal");
-            $k = mysql_fetch_array($q2) ?>
+        <?php $q2   = mysqli_query($con, "SELECT SUM(biaya_p) as luar FROM pengeluaran where tanggal='$r[tanggal]' AND id_kk='$id_kk' order by tanggal");
+            $k = mysqli_fetch_array($q2) ?>
                 <td><?php echo rupiah($k["luar"]); ?></td>
                 <td><?php echo rupiah(($total)-$k["luar"]); ?></td>
                
@@ -166,7 +166,7 @@ $(document).ready(function(){
   break;
   case "edit_kategori":
   $id   = $_GET['id'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From kategori Where id_kategori='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From kategori Where id_kategori='$id'"));
 ?>
 
 <section class="content">

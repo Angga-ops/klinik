@@ -46,12 +46,12 @@
                     $now = date("Y-m",strtotime("+1 month"))."-24";
                    }
                    
-                   $d = mysql_query("SELECT b.id_drpraktek,b.expired,b.jam,a.nama_lengkap,b.hari,(SELECT poli FROM poliklinik WHERE id_poli = b.id_poli) poli 
+                   $d = mysqli_query($con, "SELECT b.id_drpraktek,b.expired,b.jam,a.nama_lengkap,b.hari,(SELECT poli FROM poliklinik WHERE id_poli = b.id_poli) poli 
                    FROM user a JOIN dr_praktek b ON a.id_user = b.id_dr WHERE b.expired >= '$last' AND b.expired <= '$now' ORDER BY b.hari ASC");
 
-                   while($dr = mysql_fetch_assoc($d)){
+                   while($dr = mysqli_fetch_assoc($d)){
                        
-                    switch($dr[hari]){
+                    switch($dr['hari']){
                         case 1: $day = "Senin"; break;
                         case 2: $day = "Selasa"; break;
                         case 3: $day = "Rabu"; break;
@@ -67,7 +67,7 @@
                        echo "<td>$dr[poli]</td>";
                        echo "<td>$day</td>";
                        echo "<td>$dr[jam]</td>";
-                       echo "<td>".strftime("%d %B %Y",strtotime($dr[expired]))."</td>";
+                       echo "<td>".strftime("%d %B %Y",strtotime($dr['expired']))."</td>";
                        echo "</tr>";
                    }
                    
@@ -96,9 +96,9 @@
 <option value="">--silakan pilih--</option>
 <?php 
 
-$u = mysql_query("SELECT hari,jam,id_drpraktek,(SELECT nama_lengkap FROM user WHERE id_user = dr_praktek.id_dr) dokter, (SELECT poli FROM poliklinik WHERE id_poli = dr_praktek.id_poli) poli FROM dr_praktek WHERE expired >= '$last' AND expired <= '$now' ORDER BY hari ASC");
-while($ux = mysql_fetch_assoc($u)){
-    switch($ux[hari]){
+$u = mysqli_query($con, "SELECT hari,jam,id_drpraktek,(SELECT nama_lengkap FROM user WHERE id_user = dr_praktek.id_dr) dokter, (SELECT poli FROM poliklinik WHERE id_poli = dr_praktek.id_poli) poli FROM dr_praktek WHERE expired >= '$last' AND expired <= '$now' ORDER BY hari ASC");
+while($ux = mysqli_fetch_assoc($u)){
+    switch($ux['hari']){
         case "1": $day = "Senin"; break;
         case "2": $day = "Selasa"; break;
         case "3": $day = "Rabu"; break;
@@ -120,9 +120,9 @@ while($ux = mysql_fetch_assoc($u)){
 <option value="">--silakan pilih--</option>
 <?php 
 
-$u = mysql_query("SELECT hari,jam,id_drpraktek,(SELECT nama_lengkap FROM user WHERE id_user = dr_praktek.id_dr) dokter, (SELECT poli FROM poliklinik WHERE id_poli = dr_praktek.id_poli) poli FROM dr_praktek WHERE expired >= '$last' AND expired <= '$now' ORDER BY hari ASC");
-while($ux = mysql_fetch_assoc($u)){
-    switch($ux[hari]){
+$u = mysqli_query($con, "SELECT hari,jam,id_drpraktek,(SELECT nama_lengkap FROM user WHERE id_user = dr_praktek.id_dr) dokter, (SELECT poli FROM poliklinik WHERE id_poli = dr_praktek.id_poli) poli FROM dr_praktek WHERE expired >= '$last' AND expired <= '$now' ORDER BY hari ASC");
+while($ux = mysqli_fetch_assoc($u)){
+    switch($ux['hari']){
         case "1": $day = "Senin"; break;
         case "2": $day = "Selasa"; break;
         case "3": $day = "Rabu"; break;

@@ -83,10 +83,10 @@ $id_dr		= $_SESSION['id_dr'];
 	
 		
 
-mysql_query("INSERT INTO pasca_treatment(id_kk,id_dr,id_pasien,no_faktur,tanggal,subjek,objek,assestment,foto1,foto2,foto3,foto4) VALUES 
+mysqli_query($con,"INSERT INTO pasca_treatment(id_kk,id_dr,id_pasien,no_faktur,tanggal,subjek,objek,assestment,foto1,foto2,foto3,foto4) VALUES 
 	('$id_kk','$id_dr','$id_pasien','$nofak','$tanggal','$subjek','$objek','$ases','$nama_file_unik1','$nama_file_unik2','$nama_file_unik3','$nama_file_unik4')");
 
-mysql_query("DELETE FROM noticelab WHERE no_faktur = '$nofak' AND id_pasien = '$id_pasien'");
+mysqli_query($con,"DELETE FROM noticelab WHERE no_faktur = '$nofak' AND id_pasien = '$id_pasien'");
 
 ?>
 <script>

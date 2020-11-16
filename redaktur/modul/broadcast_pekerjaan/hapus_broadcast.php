@@ -20,7 +20,7 @@
 
 		$id		= $_GET['id_broadcast'];
 
-		$del	= mysql_query("Delete From broadcast_pekerjaan Where id_broadcast='$id'");
+		$del	= mysqli_query($con, "Delete From broadcast_pekerjaan Where id_broadcast='$id'");
 
 		
 

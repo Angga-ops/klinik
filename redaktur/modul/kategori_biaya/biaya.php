@@ -40,8 +40,8 @@
       <tbody>
       <?php 
       
-      $j = mysql_query("SELECT * FROM kategori_biaya WHERE id != 2");
-      while($jo = mysql_fetch_assoc($j)){
+      $j = mysqli_query($con, "SELECT * FROM kategori_biaya WHERE id != 2");
+      while($jo = mysqli_fetch_assoc($j)){
         echo "<tr>";
         echo "<td>$jo[kategori]</td>";
         echo "<td><a href='?module=kategori_biaya_edit&id=$jo[id]'><button class='btn btn-info btn-sm'>Edit</button></a>&nbsp;&nbsp;<a href='modul/kategori_biaya/aksi.php?act=del&id=$jo[id]' onclick='return confirm(\"apakah yakin menghapus?\")'><button class='btn btn-danger btn-sm'>Hapus</button></a></td>";

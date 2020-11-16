@@ -13,9 +13,9 @@
                   <option value="a">Pilih Klinik...</option>
                       <?php 
 
-                      $query = mysql_query("SELECT *FROM daftar_klinik");
+                      $query = mysqli_query($con, "SELECT *FROM daftar_klinik");
 
-                      while ($cb = mysql_fetch_array($query)) { 
+                      while ($cb = mysqli_fetch_array($query)) { 
 
                         ?>
                       <option value="<?php echo $cb['id_kk']?>"><?php echo $cb['nama_klinik']; ?></option>
@@ -55,13 +55,13 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From krisar");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con, "Select * From krisar");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
       			<td><?php
-							$q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'");
-							$k = mysql_fetch_array($q1);?>
+							$q1 = mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'");
+							$k = mysqli_fetch_array($q1);?>
 								<?php echo $k["nama_klinik"]; ?>
 							</td>
                 <td><?php echo $r["tanggal"]; ?></td>
@@ -127,8 +127,8 @@ $(document).ready(function(){
                 <select name="cabang" class="form-control" required>
                    <option value="">-- Pilih Cabang --</option>
       <?php
-        $data     = mysql_query("Select * From daftar_klinik");            
-              while($hasil  = mysql_fetch_array($data)){
+        $data     = mysqli_query($con, "Select * From daftar_klinik");            
+              while($hasil  = mysqli_fetch_array($data)){
       ?>
         <option value="<?php echo $hasil['id_kk']; ?>"><?php echo $hasil['nama_klinik']; ?></option>            
             <?php
@@ -198,7 +198,7 @@ $(document).ready(function(){
   break;
   case "edit_krisar":
   $id_krisar   = $_GET['id_krisar'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From krisar Where id_krisar='$id_krisar'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From krisar Where id_krisar='$id_krisar'"));
 ?>
 
 <section class="content">
@@ -218,13 +218,13 @@ $(document).ready(function(){
                 <label>Jenis Cabang</label>
                 <select name="cabang" class="form-control" required>
                  <?php
-                    $ca   = mysql_query("Select * From daftar_klinik");
+                    $ca   = mysqli_query($con, "Select * From daftar_klinik");
                     if ($edit['id_kk'] =='') {
                 ?>
                     <option value="" selected>-- Pilih Cabang --</option>
                 <?php
                 }
-                    while ($edit_ca   = mysql_fetch_array($ca)) {
+                    while ($edit_ca   = mysqli_fetch_array($ca)) {
                     if ($edit_ca['id_kk']  == $edit['id_kk']) {
                     ?>
                         <option value="<?php echo $edit_ca['id_kk']; ?>" selected><?php echo $edit_ca['nama_klinik']; ?></option>
@@ -245,7 +245,7 @@ $(document).ready(function(){
               <div class="form-group">
                 <label>Tanggal</label>
                 <input type="text" class="form-control" name="tanggal" value="<?php echo $edit['tanggal'] ?>" readonly/>
-                <input type="hidden" class="form-control" name="id_krisar" value="<?php echo $edit[id_krisar] ?>" readonly/>
+                <input type="hidden" class="form-control" name="id_krisar" value="<?php echo $edit['id_krisar'] ?>" readonly/>
               </div>
               </div>
             </div>
@@ -253,7 +253,7 @@ $(document).ready(function(){
             <div class="col-md-12">
               <div class="form-group">
                 <label>Nama</label>
-                <input type="text" class="form-control" name="nama" value="<?php echo $edit[nama] ?>" required/>
+                <input type="text" class="form-control" name="nama" value="<?php echo $edit['nama'] ?>" required/>
               </div>
               </div>
             </div>
@@ -261,7 +261,7 @@ $(document).ready(function(){
             <div class="col-md-12">
               <div class="form-group">
                 <label>Nomor Telepon</label>
-                <input type="text" class="form-control" name="no_telp" value="<?php echo $edit[no_telp] ?>" required/>
+                <input type="text" class="form-control" name="no_telp" value="<?php echo $edit['no_telp'] ?>" required/>
               </div>
               </div>
             </div>
@@ -269,7 +269,7 @@ $(document).ready(function(){
             <div class="col-md-12">
               <div class="form-group">
                 <label>Beauty</label>
-                <input type="text" class="form-control" name="beauty" value="<?php echo $edit[beauty] ?>" required/>
+                <input type="text" class="form-control" name="beauty" value="<?php echo $edit['beauty'] ?>" required/>
               </div>
               </div>
             </div>
@@ -277,7 +277,7 @@ $(document).ready(function(){
             <div class="col-md-12">
               <div class="form-group">
                 <label>Kritik dan Saran</label>
-                <input type="text" class="form-control" name="krisar" value="<?php echo $edit[krisar] ?>" required></input>
+                <input type="text" class="form-control" name="krisar" value="<?php echo $edit['krisar'] ?>" required></input>
               </div>
               </div>
             </div>

@@ -14,9 +14,9 @@
                   <option value="a">Pilih Klinik...</option>
                       <?php 
 
-                      $query = mysql_query("SELECT *FROM daftar_klinik");
+                      $query = mysqli_query($con,"SELECT *FROM daftar_klinik");
 
-                      while ($cb = mysql_fetch_array($query)) { 
+                      while ($cb = mysqli_fetch_array($query)) { 
 
                         ?>
                       <option value="<?php echo $cb['id_kk']?>"><?php echo $cb['nama_klinik']; ?></option>
@@ -53,12 +53,12 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From rekening where id_kk='$id_kk'");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con,"Select * From rekening where id_kk='$id_kk'");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <?php $q1 = mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k['nama_klinik']; ?></td>
                 <td><?php echo $r['nama_bank']; ?></td>
                 <td><?php echo $r['no_rek']; ?></td>
@@ -120,8 +120,8 @@ $(document).ready(function(){
                 <label>Cabang Klinik</label>
                 <select name="klinik" class="form-control" readonly>
       <?php
-        $data     = mysql_query("Select * From daftar_klinik where id_kk='$id_kk'");            
-              while($hasil  = mysql_fetch_array($data)){
+        $data     = mysqli_query($con,"Select * From daftar_klinik where id_kk='$id_kk'");            
+              while($hasil  = mysqli_fetch_array($data)){
       ?>
         <option value="<?php echo $hasil['id_kk']; ?>"><?php echo $hasil['nama_klinik']; ?></option>            
             <?php
@@ -176,7 +176,7 @@ $(document).ready(function(){
   case "edit_rekening":
   $id   = $_GET['id_rekening'];
   $id_kk = $_SESSION['klinik'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From rekening Where id_rekening='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con,"Select * From rekening Where id_rekening='$id'"));
 ?>
 
 <section class="content">
@@ -196,8 +196,8 @@ $(document).ready(function(){
                 <label>Cabang Klinik</label>
                 <select name="klinik" class="form-control" readonly>
       <?php
-        $data     = mysql_query("Select * From daftar_klinik where id_kk='$id_kk'");            
-              while($hasil  = mysql_fetch_array($data)){
+        $data     = mysqli_query($con,"Select * From daftar_klinik where id_kk='$id_kk'");            
+              while($hasil  = mysqli_fetch_array($data)){
       ?>
         <option value="<?php echo $hasil['id_kk']; ?>"><?php echo $hasil['nama_klinik']; ?></option>            
             <?php

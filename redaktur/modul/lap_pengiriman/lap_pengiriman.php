@@ -41,17 +41,17 @@ if(empty($_GET["tgl2"])){
 		 				</tr>
 		 			</thead>
 		 			<tbody>
-		 				<?php $q = mysql_query("SELECT *FROM pengiriman p JOIN daftar_klinik dk ON p.cabang=dk.id_kk WHERE p.tanggal>='$tgl' AND p.tanggal<='$tgl2'"); 
-		 					while($d = mysql_fetch_array($q)){ ?>
+		 				<?php $q = mysqli_query($con, "SELECT *FROM pengiriman p JOIN daftar_klinik dk ON p.cabang=dk.id_kk WHERE p.tanggal>='$tgl' AND p.tanggal<='$tgl2'"); 
+		 					while($d = mysqli_fetch_array($q)){ ?>
 		 				<tr>
 		 					<td><?php echo $d["pengirim"]; ?></td>
 		 					<td><?php echo $d["penerima"]; ?></td>
 		 					<td><?php echo $d["nama_klinik"]; ?></td>
-		 					<?php $pp = mysql_fetch_array(mysql_query("SELECT COUNT(kode_produk) AS jenis,SUM(jumlah) AS total FROM produk_pengiriman WHERE no_pengiriman='$d[no_pengiriman]'")); ?>
+		 					<?php $pp = mysqli_fetch_array(mysqli_query($con, "SELECT COUNT(kode_produk) AS jenis,SUM(jumlah) AS total FROM produk_pengiriman WHERE no_pengiriman='$d[no_pengiriman]'")); ?>
 		 					<td><?php echo $pp["jenis"]; ?></td>
 		 					<td><?php echo $pp["total"]; ?></td>
 
-		 					<td><a href="media.php?module=pengiriman&act=detail&nop=<?php echo $d[no_pengiriman]; ?>" class="btn btn-info btn-xs"><i class="fa fa-list"></i> Detail</a></td>
+		 					<td><a href="media.php?module=pengiriman&act=detail&nop=<?php echo $d['no_pengiriman']; ?>" class="btn btn-info btn-xs"><i class="fa fa-list"></i> Detail</a></td>
 		 				</tr>
 		 				<?php
 		 					}

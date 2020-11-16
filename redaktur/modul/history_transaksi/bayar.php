@@ -22,27 +22,27 @@ if ($uang+$uang_tr<$total+$ongkir) {
 	exit();
 }
 
-$pem     = mysql_fetch_array(mysql_query("SELECT *FROM pembayaran WHERE no_faktur='$nofak'"));
+$pem     = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM pembayaran WHERE no_faktur='$nofak'"));
 $total   = $total   + $pem['total'];
 $uang    = $uang    + $pem['uang'];
 $uang_tr = $uang_tr + $pem['uang_transfer'];
-mysql_query("UPDATE history_kasir SET status='Lunas',id_kasir='$id_kasir' WHERE no_faktur='$nofak' AND status='Belum Lunas'");
+mysqli_query($con, "UPDATE history_kasir SET status='Lunas',id_kasir='$id_kasir' WHERE no_faktur='$nofak' AND status='Belum Lunas'");
 
 if(is_null($pem['total'])){
 if($uang == $total){
-	mysql_query("INSERT INTO pembayaran (status,no_faktur,id_pasien,id_kk,no_urut,tgl,total,uang,uang_transfer,uang_ongkir,m_pembayaran,id_rek,ket,kembalian,id_kasir) VALUES ('Lunas','$nofak','$id','$id_kk','$no_urut','$tgl','$total','$uang','$uang_tr','$ongkir','$metode','$id_rek',NULL,'$kembalian','$id_kasir')");
+	mysqli_query($con, "INSERT INTO pembayaran (status,no_faktur,id_pasien,id_kk,no_urut,tgl,total,uang,uang_transfer,uang_ongkir,m_pembayaran,id_rek,ket,kembalian,id_kasir) VALUES ('Lunas','$nofak','$id','$id_kk','$no_urut','$tgl','$total','$uang','$uang_tr','$ongkir','$metode','$id_rek',NULL,'$kembalian','$id_kasir')");
 } else {
-	mysql_query("INSERT INTO pembayaran (no_faktur,id_pasien,id_kk,no_urut,tgl,total,uang,uang_transfer,uang_ongkir,m_pembayaran,id_rek,ket,kembalian,id_kasir) VALUES ('$nofak','$id','$id_kk','$no_urut','$tgl','$total','$uang','$uang_tr','$ongkir','$metode','$id_rek',NULL,'$kembalian','$id_kasir')");
+	mysqli_query($con, "INSERT INTO pembayaran (no_faktur,id_pasien,id_kk,no_urut,tgl,total,uang,uang_transfer,uang_ongkir,m_pembayaran,id_rek,ket,kembalian,id_kasir) VALUES ('$nofak','$id','$id_kk','$no_urut','$tgl','$total','$uang','$uang_tr','$ongkir','$metode','$id_rek',NULL,'$kembalian','$id_kasir')");
 }
 
 } else {
 	
-mysql_query("UPDATE pembayaran SET status = 'Lunas', total='$total',uang='$uang',uang_transfer='$uang_tr' WHERE no_faktur='$nofak'");
+mysqli_query($con, "UPDATE pembayaran SET status = 'Lunas', total='$total',uang='$uang',uang_transfer='$uang_tr' WHERE no_faktur='$nofak'");
 
 }
 
-mysql_query("UPDATE history_ap SET pembayaran='Lunas' WHERE no_faktur='$nofak'");
-mysql_query("DELETE FROM kasir_sementara WHERE no_faktur='$nofak' AND jenis = 'Treatment'");
+mysqli_query($con, "UPDATE history_ap SET pembayaran='Lunas' WHERE no_faktur='$nofak'");
+mysqli_query($con, "DELETE FROM kasir_sementara WHERE no_faktur='$nofak' AND jenis = 'Treatment'");
 
 exit();
 

@@ -27,8 +27,8 @@
              <option value="">--silakan pilih--</option>
              <?php 
              
-             $dr = mysql_query("SELECT * FROM user WHERE id_ju = 'JU-02'");
-             while($dri = mysql_fetch_assoc($dr)){
+             $dr = mysqli_query($con, "SELECT * FROM user WHERE id_ju = 'JU-02'");
+             while($dri = mysqli_fetch_assoc($dr)){
                echo "<option value='$dri[id_user]'>$dri[nama_lengkap]</option>";
              }
              
@@ -55,8 +55,8 @@
              <option value="">--silakan pilih--</option>
              <?php 
              
-             $dr = mysql_query("SELECT * FROM poliklinik");
-             while($dri = mysql_fetch_assoc($dr)){
+             $dr = mysqli_query($con, "SELECT * FROM poliklinik");
+             while($dri = mysqli_fetch_assoc($dr)){
                echo "<option value='$dri[id_poli]'>$dri[poli]</option>";
              }
              
@@ -155,9 +155,9 @@
 
 <?php 
 
-$ev = mysql_query("SELECT * FROM dr_pengganti");
-while($eve = mysql_fetch_assoc($ev)){
-  $dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = $eve[id_dr]"));
+$ev = mysqli_query($con, "SELECT * FROM dr_pengganti");
+while($eve = mysqli_fetch_assoc($ev)){
+  $dr = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_lengkap FROM user WHERE id_user = $eve[id_dr]"));
   $k .= "{id: $eve[id], title: '$dr[nama_lengkap]', start: '$eve[tgl] $eve[jam]', allDay: false},";
 }
 

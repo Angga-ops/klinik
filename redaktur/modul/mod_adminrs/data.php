@@ -2,8 +2,8 @@
 
 include "../../../config/koneksi.php";
 
-$r = mysql_fetch_assoc(mysql_query("SELECT * FROM biaya_administrasi WHERE id = '$_GET[id]'"));
+$r = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM biaya_administrasi WHERE id = '$_GET[id]'"));
 
-echo '{"nama":"'.$r[nama].'","biaya":"'.$r[biaya].'"}';
+echo '{"nama":"'.$r['nama'].'","biaya":"'.$r['biaya'].'"}';
 
 ?>

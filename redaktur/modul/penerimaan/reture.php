@@ -7,13 +7,13 @@ $id  = $_POST['id'];
 
 switch ($src) {
 	case 'rs':
-		$q1 = mysql_query("SELECT *FROM produk_rs WHERE id_pr='$id'");
+		$q1 = mysqli_query($con,"SELECT *FROM produk_rs WHERE id_pr='$id'");
 		$response = array();
-		while($row = mysql_fetch_array($q1) ){
+		while($row = mysqli_fetch_array($q1) ){
 
 			$nop  = $row['no_pengiriman'];
 			$kode = $row['kode_produk'];
-			$pp = mysql_fetch_array(mysql_query("SELECT *FROM produk_pengiriman WHERE no_pengiriman='$nop' AND kode_produk='$kode'"));
+			$pp = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM produk_pengiriman WHERE no_pengiriman='$nop' AND kode_produk='$kode'"));
 			$limit = $pp['jumlah'];
 
 			$response = array(
@@ -28,9 +28,9 @@ switch ($src) {
 		break;
 	
 	default:
-		$q1 = mysql_query("SELECT *FROM produk_pengiriman WHERE id_pp='$id'");
+		$q1 = mysqli_query($con,"SELECT *FROM produk_pengiriman WHERE id_pp='$id'");
 		$response = array();
-		while($row = mysql_fetch_array($q1) ){
+		while($row = mysqli_fetch_array($q1) ){
 			$response = array(
 				"nama"=>$row['nama_produk'],
 				"kode"=>$row['kode_produk'],

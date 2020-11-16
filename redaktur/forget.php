@@ -9,14 +9,14 @@
 
 <?php
 include "config/koneksi.php";
-if($_POST[proses]){
+if($_POST['proses']){
 
   $sql    = "SELECT password1 FROM users WHERE email='$_POST[email]'";
-  $hasil  = mysql_query($sql);
-  $jumlah = mysql_num_rows($hasil);
+  $hasil  = mysqli_query($con, $sql);
+  $jumlah = mysqli_num_rows($hasil);
 
   if ($jumlah==1){
-    $data=mysql_fetch_array($hasil);
+    $data=mysqli_fetch_array($hasil);
     $kepada = "$_POST[email]"; //alamat email user
     $judul = "Password Anda";
     $dari = "From: email@namadomain.com \r\n"; 

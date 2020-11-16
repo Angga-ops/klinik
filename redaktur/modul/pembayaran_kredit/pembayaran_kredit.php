@@ -27,16 +27,16 @@
                   </thead>
                   <tbody>
                     <?php
-            $tampil     = mysql_query("Select * From beli_k WHERE '$date' <= tgl_tempo");
+            $tampil     = mysqli_query($con,"Select * From beli_k WHERE '$date' <= tgl_tempo");
             $no = 1;
-            while($data = mysql_fetch_array($tampil)){
+            while($data = mysqli_fetch_array($tampil)){
         ?>
             <tr class="gradeX">
              <td><?php echo $no++?></td>
              <td><?php echo $data['no_fak']; ?></td>
              <td><?php echo $data['tgl_beli']; ?></td>
-             <?php $q1 = mysql_query("SELECT *FROM suplier WHERE id_sup='$data[id_sup]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+             <?php $q1 = mysqli_query($con,"SELECT *FROM suplier WHERE id_sup='$data[id_sup]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
              <td><?php echo $k['nama_sup']; ?></td>
              <td><?php echo $data['total']?></td>
              <td><?php echo $data['tgl_tempo']?></td>
@@ -134,9 +134,9 @@
                 <form style="margin-bottom: 20px;" role="form" method="POST" action="modul/pembelian_k/edit.php">
                   <?php
                   $id = $data['id']; 
-                  $query_edit = mysql_query("SELECT * FROM beli WHERE id='$id'");
+                  $query_edit = mysqli_query($con,"SELECT * FROM beli WHERE id='$id'");
                   //$result = mysqli_query($conn, $query);
-                  while ($row = mysql_fetch_array($query_edit)) {  
+                  while ($row = mysqli_fetch_array($query_edit)) {  
                   ?>
 
                   <div class="form-group">
@@ -156,8 +156,8 @@
                     <label>Suplier</label>
                     <select type="text" name="id_sup" name="id_sup" class="form-control" >
                              <option value="<?php echo $row['id_sup'];?>"><?php echo $row['id_sup'];?></option>
-                              <?php $query = mysql_query("SELECT *FROM suplier");
-                                 while ($cb = mysql_fetch_array($query)) { ?>
+                              <?php $query = mysqli_query($con,"SELECT *FROM suplier");
+                                 while ($cb = mysqli_fetch_array($query)) { ?>
                                    <option value="<?php echo $cb['id_sup']; ?>"><?php echo $cb['nama_sup']; ?></option>
                                 <?php  } ?> 
                             </select>

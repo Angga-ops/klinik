@@ -20,11 +20,11 @@
    </thead>
    <tbody>
 <?php
-	$data 	= mysql_query("Select id_pembayaran, nama_pasien From pembayaran, tagihan, perawatan_pasien, pasien Where pembayaran.id_tagihan=tagihan.id_tagihan And tagihan.id_antrian=perawatan_pasien.id_antrian And perawatan_pasien.id_pasien=pasien.id_pasien Order by id_pembayaran");
+	$data 	= mysqli_query($con, "Select id_pembayaran, nama_pasien From pembayaran, tagihan, perawatan_pasien, pasien Where pembayaran.id_tagihan=tagihan.id_tagihan And tagihan.id_antrian=perawatan_pasien.id_antrian And perawatan_pasien.id_pasien=pasien.id_pasien Order by id_pembayaran");
 	//$tampil=mysql_query("SELECT * FROM antrianbaru ORDER BY ID DESC");
-	$hasil2	= mysql_fetch_array(mysql_query("Select id_antrian from pembayaran, tagihan Where pembayaran.id_tagihan=tagihan.id_tagihan"));
-	$hasil3	= mysql_fetch_array(mysql_query("Select id_tagihan, id_pasien From tagihan, perawatan_pasien Where tagihan.id_antrian=perawatan_pasien.id_antrian Order by id_tagihan"));
-	while($hasil= mysql_fetch_array($data)){
+	$hasil2	= mysqli_fetch_array(mysqli_query($con, "Select id_antrian from pembayaran, tagihan Where pembayaran.id_tagihan=tagihan.id_tagihan"));
+	$hasil3	= mysqli_fetch_array(mysqli_query($con, "Select id_tagihan, id_pasien From tagihan, perawatan_pasien Where tagihan.id_antrian=perawatan_pasien.id_antrian Order by id_tagihan"));
+	while($hasil= mysqli_fetch_array($data)){
 	$tgl_datang	= tgl_indo($hasil['tgl_periksa']);
     ?>
 

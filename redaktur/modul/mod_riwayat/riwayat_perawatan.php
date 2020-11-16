@@ -25,8 +25,8 @@
    </thead>
    <tbody>
 <?php
-	$data = mysql_query("Select id_antrian, nama_pasien, nama_poli, antrian, keterangan, tgl_datang, jam_datang From perawatan_pasien, pasien, tujuan Where perawatan_pasien.id_pasien=pasien.id_pasien And perawatan_pasien.id_poli=tujuan.id_poli And antrian='Rawat Jalan' And keterangan='Keluar'");
-	while($hasil= mysql_fetch_array($data)){
+	$data = mysqli_query($con,"Select id_antrian, nama_pasien, nama_poli, antrian, keterangan, tgl_datang, jam_datang From perawatan_pasien, pasien, tujuan Where perawatan_pasien.id_pasien=pasien.id_pasien And perawatan_pasien.id_poli=tujuan.id_poli And antrian='Rawat Jalan' And keterangan='Keluar'");
+	while($hasil= mysqli_fetch_array($data)){
 	$tgl_datang	= tgl_indo($hasil['tgl_datang']);
 ?>
   <tr class="gradeX">
@@ -82,8 +82,8 @@
    </thead>
    <tbody>
 <?php
-	$data = mysql_query("Select id_antrian, nama_pasien, nama_poli, antrian, keterangan, tgl_datang, jam_datang From perawatan_pasien, pasien, tujuan Where perawatan_pasien.id_pasien=pasien.id_pasien And perawatan_pasien.id_poli=tujuan.id_poli And antrian='Rawat Inap' And keterangan='Keluar'");
-	while($hasil= mysql_fetch_array($data)){
+	$data = mysqli_query($con,"Select id_antrian, nama_pasien, nama_poli, antrian, keterangan, tgl_datang, jam_datang From perawatan_pasien, pasien, tujuan Where perawatan_pasien.id_pasien=pasien.id_pasien And perawatan_pasien.id_poli=tujuan.id_poli And antrian='Rawat Inap' And keterangan='Keluar'");
+	while($hasil= mysqli_fetch_array($data)){
 	$tgl_datang	= tgl_indo($hasil['tgl_datang']);
 ?>
 
@@ -136,8 +136,8 @@
    </thead>
    <tbody>
 <?php
-	$data = mysql_query("Select id_antrian, nama_pasien, nama_poli, antrian, keterangan, tgl_datang, jam_datang From perawatan_pasien, pasien, tujuan Where perawatan_pasien.id_pasien=pasien.id_pasien And perawatan_pasien.id_poli=tujuan.id_poli And antrian='IGD' And keterangan='Keluar'");
-	while($hasil= mysql_fetch_array($data)){
+	$data = mysqli_query($con,"Select id_antrian, nama_pasien, nama_poli, antrian, keterangan, tgl_datang, jam_datang From perawatan_pasien, pasien, tujuan Where perawatan_pasien.id_pasien=pasien.id_pasien And perawatan_pasien.id_poli=tujuan.id_poli And antrian='IGD' And keterangan='Keluar'");
+	while($hasil= mysqli_fetch_array($data)){
 	$tgl_datang	= tgl_indo($hasil['tgl_datang']);
 ?>
 

@@ -17,9 +17,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $q1 = mysql_query("SELECT * FROM produk_pusat");
-						  while($pp = mysql_fetch_array($q1)){ 
-							  $be = mysql_fetch_array(mysql_query("SELECT harga FROM "))
+					<?php $q1 = mysqli_query($con, "SELECT * FROM produk_pusat");
+						  while($pp = mysqli_fetch_array($q1)){ 
+							  $be = mysqli_fetch_array(mysqli_query($con, "SELECT harga FROM "))
 							  ?>
 					<tr>
 						<td><?php echo $pp["kode_barang"]; ?></td>

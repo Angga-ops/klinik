@@ -13,7 +13,7 @@ $tgl_tempo = $_POST['tgl_tempo'];
 
 //query update
 $query = "UPDATE beli_k SET no_fak='$no_fak' , tgl_beli='$tgl_beli', total='$total', id_sup='$id_sup', tgl_tempo='$tgl_tempo' WHERE id='$id'";
-mysql_query($query);
+mysqli_query($con,$query);
 header('location:../../media.php?module=pembelian_k');
 
 

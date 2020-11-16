@@ -80,36 +80,36 @@ span.select2 { width: 100% !important }
              $json = "";
              while($hasil = mysqli_fetch_assoc($qlau)){
 
-               $cus = mysqli_fetch_assoc(mysqli_query($conn,"SELECT nama_m AS nama, telp_m AS telp FROM customer WHERE id_cus = '".$hasil[id_cus]."'"));
+               $cus = mysqli_fetch_assoc(mysqli_query($conn,"SELECT nama_m AS nama, telp_m AS telp FROM customer WHERE id_cus = '".$hasil['id_cus']."'"));
 
-               $det = mysqli_fetch_assoc(mysqli_query($conn,"SELECT id_mode,qty,pcs FROM nota_detail WHERE id_nota = '".$hasil[id_nota]."'"));
+               $det = mysqli_fetch_assoc(mysqli_query($conn,"SELECT id_mode,qty,pcs FROM nota_detail WHERE id_nota = '".$hasil['id_nota']."'"));
 
-               $mode = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM mode WHERE id_mode = '".$det[id_mode]."'"));
+               $mode = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM mode WHERE id_mode = '".$det['id_mode']."'"));
 
-               $cb = mysqli_fetch_assoc(mysqli_query($conn,"SELECT nama_cb FROM cabang WHERE id_cb = '".$hasil[id_cb]."'"));
+               $cb = mysqli_fetch_assoc(mysqli_query($conn,"SELECT nama_cb FROM cabang WHERE id_cb = '".$hasil['id_cb']."'"));
 
                $detail = mysqli_fetch_array(mysqli_query($conn,"SELECT nota.*, SUM(nota_detail.qty) AS berat, SUM(nota_detail.pcs) AS potong, 
 								SUM(nota_detail.dis_plus) AS potongan, mode.kode_mode, mode.mode, mode.satuan_mode, mode.hrg_mode FROM nota 
-                INNER JOIN nota_detail ON nota.id_nota = nota_detail.id_nota INNER JOIN mode ON nota_detail.id_mode = mode.id_mode WHERE nota.id_nota = '".$hasil[id_nota]."'"));
+                INNER JOIN nota_detail ON nota.id_nota = nota_detail.id_nota INNER JOIN mode ON nota_detail.id_mode = mode.id_mode WHERE nota.id_nota = '".$hasil['id_nota']."'"));
                 
-                $tot = ($det[qty] * $mode[hrg_mode]);
-                $dsk = $tot * ($hasil[diskon_member]/100);
+                $tot = ($det['qty'] * $mode['hrg_mode']);
+                $dsk = $tot * ($hasil['diskon_member']/100);
                 $tagihan = number_format($tot - $dsk,0,",",".");
 
                echo "
                <tr><!--
                <td><a href='modul/mod_bayar/share.php?id_nota=$hasil[id_nota]' target='_BLANK'><i class='fa fa-print fa-2x'></i></a></td>-->
               
-               <td>".$hasil[no_nota]."</td>
-               <td>".$cus[nama]."</td>
-               <td>".(strftime("%d %B %Y",strtotime($hasil[tgl_mulai])))."</td>
-               <td>".(strftime("%d %B %Y",strtotime($hasil[tgl_selesai])))."</td>
-               <td>".$mode[mode]." <br/> ".$det[qty]." kg / ".$det[pcs]." Pcs </td>
-               <td>Rp ".number_format($mode[hrg_mode],0,",",".")."</td>
+               <td>".$hasil['no_nota']."</td>
+               <td>".$cus['nama']."</td>
+               <td>".(strftime("%d %B %Y",strtotime($hasil['tgl_mulai'])))."</td>
+               <td>".(strftime("%d %B %Y",strtotime($hasil['tgl_selesai'])))."</td>
+               <td>".$mode['mode']." <br/> ".$det['qty']." kg / ".$det['pcs']." Pcs </td>
+               <td>Rp ".number_format($mode['hrg_mode'],0,",",".")."</td>
                <td>Rp ".number_format($tot,0,",",".")."</td>
                <td>Rp ".number_format($dsk,0,",",".")."</td>
                <td>Rp ".$tagihan."</td>
-               <td>".$cb[nama_cb]."</td>
+               <td>".$cb['nama_cb']."</td>
                </tr>
                ";
 

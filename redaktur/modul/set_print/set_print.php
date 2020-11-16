@@ -3,7 +3,7 @@ $act = $_GET['act'];
     switch ($act) {
         case 'edit':
     $id     = $_GET["id"];
-    $edit   =  mysql_fetch_array(mysql_query("SELECT * From daftar_klinik Where id_kk='$id'"));
+    $edit   =  mysqli_fetch_array(mysqli_query($con,"SELECT * From daftar_klinik Where id_kk='$id'"));
 ?>
 <section class="content">
     
@@ -59,8 +59,8 @@ $act = $_GET['act'];
         </thead>
         <tbody>
         <?php
-            $q      = mysql_query("SELECT * FROM daftar_klinik WHERE id_kk='$_SESSION[klinik]'");
-            while($data = mysql_fetch_array($q)){
+            $q      = mysqli_query($con,"SELECT * FROM daftar_klinik WHERE id_kk='$_SESSION[klinik]'");
+            while($data = mysqli_fetch_array($q)){
         ?>
             <tr class="gradeX">
         <td>

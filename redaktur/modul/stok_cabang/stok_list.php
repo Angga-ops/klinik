@@ -38,12 +38,12 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From produk Where id_kk='$id_kk'");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con,"Select * From produk Where id_kk='$id_kk'");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
-        <?php $q1 = mysql_query("SELECT *FROM produk_master WHERE nama_produk='$r[nama_p]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+        <?php $q1 = mysqli_query($con,"SELECT *FROM produk_master WHERE nama_produk='$r[nama_p]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                  <td><?php
                         if ( $k['gambar'] == '') {
                             echo "Belum Ada Gambar";
@@ -52,8 +52,8 @@
                         }?>
                 <td><?php echo $r["kode_barang"]; ?></td>
                 <td><?php echo $r["nama_p"]; ?></td>
-                <?php $q1 = mysql_query("SELECT *FROM kategori WHERE id_kategori='$r[id_kategori]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <?php $q1 = mysqli_query($con,"SELECT *FROM kategori WHERE id_kategori='$r[id_kategori]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k["kategori"]; ?></td>
                 <td width='120px' ><?php echo rupiah($r["harga_jual"]); ?></td>
                 <td><?php echo $r["jumlah"]; ?></td>
@@ -143,7 +143,7 @@ $(document).ready(function(){
   break;
   case "edit_stok":
   $id   = $_GET['id_p'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From produk Where id_p='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con,"Select * From produk Where id_p='$id'"));
 ?>
 
 <section class="content">

@@ -37,16 +37,16 @@
                   </thead>
                   <tbody>
                     <?php
-            $tampil     = mysql_query("Select * From beli");
+            $tampil     = mysqli_query($con, "Select * From beli");
             $no = 1;
-            while($data = mysql_fetch_array($tampil)){
+            while($data = mysqli_fetch_array($tampil)){
         ?>
             <tr class="gradeX">
              <td><?php echo $no++?></td>
              <td><?php echo $data['no_fak']; ?></td>
              <td><?php echo $data['tgl_beli']; ?></td>
-             <?php $q1 = mysql_query("SELECT *FROM suplier WHERE id_sup='$data[id_sup]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+             <?php $q1 = mysqli_query($con, "SELECT *FROM suplier WHERE id_sup='$data[id_sup]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
              <td><?php echo $k['nama_sup']; ?></td>
              <td><?php echo $data['total']?></td>
              <td><?php echo $data['pembayaran']?></td>
@@ -143,9 +143,9 @@
                 <form style="margin-bottom: 20px;" role="form" method="POST" action="modul/pembelian_t/edit.php">
                   <?php
                   $id = $data['id']; 
-                  $query_edit = mysql_query("SELECT * FROM beli WHERE id='$id'");
+                  $query_edit = mysqli_query($con, "SELECT * FROM beli WHERE id='$id'");
                   //$result = mysqli_query($conn, $query);
-                  while ($row = mysql_fetch_array($query_edit)) {  
+                  while ($row = mysqli_fetch_array($query_edit)) {  
                   ?>
 
                   <div class="form-group">
@@ -165,8 +165,8 @@
                     <label>Suplier</label>
                     <select type="text" name="id_sup" name="id_sup" class="form-control" >
                              <option value="<?php echo $row['id_sup'];?>"><?php echo $row['id_sup'];?></option>
-                              <?php $query = mysql_query("SELECT *FROM suplier");
-                                 while ($cb = mysql_fetch_array($query)) { ?>
+                              <?php $query = mysqli_query($con, "SELECT *FROM suplier");
+                                 while ($cb = mysqli_fetch_array($query)) { ?>
                                    <option value="<?php echo $cb['id_sup']; ?>"><?php echo $cb['nama_sup']; ?></option>
                                 <?php  } ?> 
                             </select>
@@ -282,8 +282,8 @@ $(document).ready(function(){
                   <td>
                     <select type="text" name="id_satuan" id="id_satuan" style="width: 90%;" class="form-control" readonly >
                      <option value="">Satuan</option>
-                      <?php $query = mysql_query("SELECT *FROM data_satuan");
-                         while ($cb = mysql_fetch_array($query)) { ?>
+                      <?php $query = mysqli_query($con, "SELECT *FROM data_satuan");
+                         while ($cb = mysqli_fetch_array($query)) { ?>
                            <option value="<?php echo $cb['id_s']; ?>"><?php echo $cb['satuan']; ?></option>
                         <?php  } ?> 
                     </select>
@@ -291,8 +291,8 @@ $(document).ready(function(){
                   <td>
                     <select type="text" name="id_kategori" id="id_kategori" style="width: 90%;" class="form-control" readonly >
                      <option value="">Kategori</option>
-                      <?php $query = mysql_query("SELECT *FROM kategori");
-                         while ($cb = mysql_fetch_array($query)) { ?>
+                      <?php $query = mysqli_query($con, "SELECT *FROM kategori");
+                         while ($cb = mysqli_fetch_array($query)) { ?>
                            <option value="<?php echo $cb['id_kategori']; ?>"><?php echo $cb['kategori']; ?></option>
                         <?php  } ?> 
                     </select>
@@ -353,8 +353,8 @@ $(document).ready(function(){
       <td id="total">
         <?php
           $jumlahkan = "SELECT SUM(sub_tot) AS total FROM pembelian_t"; //perintah untuk menjumlahkan
-          $total =@mysql_query($jumlahkan) or die (mysql_error());//melakukan query dengan varibel $jumlahkan
-          $t = mysql_fetch_array($total); //menyimpan hasil query ke variabel $t
+          $total =@mysqli_query($con, $jumlahkan) or die (mysqli_error($con));//melakukan query dengan varibel $jumlahkan
+          $t = mysqli_fetch_array($total); //menyimpan hasil query ke variabel $t
           ?><b><?php echo rupiah($t["total"]); ?></b></td>
     </tr>
                 </table>
@@ -368,8 +368,8 @@ $(document).ready(function(){
                 <table class="table" >
                       <tbody>
                        <!--  <?php
-                        $selectidmax  = mysql_query("SELECT max(no_fak) as nofak From beli");
-                        $hsilidmax    = mysql_fetch_array($selectidmax);
+                        $selectidmax  = mysqli_query($con, "SELECT max(no_fak) as nofak From beli");
+                        $hsilidmax    = mysqli_fetch_array($selectidmax);
                         $idmax        = $hsilidmax['nofak'];
                         $nourut       = (int) substr($idmax, 3);
                         $nourut++;
@@ -388,8 +388,8 @@ $(document).ready(function(){
                             <td><label>Suplier</label></td>
                             <td><select type="text" name="id_sup" name="id_sup" class="form-control" >
                              <option value="">--- Pilih Suplier ---</option>
-                              <?php $query = mysql_query("SELECT *FROM suplier");
-                                 while ($cb = mysql_fetch_array($query)) { ?>
+                              <?php $query = mysqli_query($con, "SELECT *FROM suplier");
+                                 while ($cb = mysqli_fetch_array($query)) { ?>
                                    <option value="<?php echo $cb['id_sup']; ?>"><?php echo $cb['nama_sup']; ?></option>
                                 <?php  } ?> 
                             </select></td>
@@ -412,7 +412,7 @@ $(document).ready(function(){
         <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <button style="align-items: : right;" type="submit" name="submit" class="btn btn-success">Simpan Transaksi</a>
+                <button style="align-items: right;" type="submit" name="submit" class="btn btn-success">Simpan Transaksi</a>
               </div>
               </div>
             </div>   

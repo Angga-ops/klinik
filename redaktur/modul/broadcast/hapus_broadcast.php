@@ -9,7 +9,7 @@
 	// Hapus Produk
 	if ($module == 'broadcast' AND $act == 'hapus'){
 		$id		= $_GET['id_broadcast'];
-		$del	= mysql_query("Delete From broadcast Where id_broadcast='$id'");
+		$del	= mysqli_query($con, "Delete From broadcast Where id_broadcast='$id'");
 		
 		header('location:../../media.php?module=broadcast');
 	}

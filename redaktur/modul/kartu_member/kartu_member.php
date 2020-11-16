@@ -15,8 +15,8 @@
 		 				</tr>
 		 			</thead>
 		 			<tbody>
-		 				<?php $qp = mysql_query("SELECT *FROM pasien"); 
-		 					while($p=mysql_fetch_array($qp)){ ?>
+		 				<?php $qp = mysqli_query($con, "SELECT *FROM pasien"); 
+		 					while($p=mysqli_fetch_array($qp)){ ?>
 		 				<tr>
 		 					<td><?php echo $p["nama_pasien"]; ?></td>
 			 				<td><?php echo tgl_indo($p["km_exp"]); ?></td>

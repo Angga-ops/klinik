@@ -24,8 +24,8 @@
     </thead>
     <tbody>
 <?php
-	$tampil		= mysql_query("Select * From tujuan Order by iden_poli Asc");
-	while($r	= mysql_fetch_array($tampil)){
+	$tampil		= mysqli_query($con, "Select * From tujuan Order by iden_poli Asc");
+	while($r	= mysqli_fetch_array($tampil)){
 ?>
         <tr class="gradeX">
             <td><?php echo $r['iden_poli']; ?></td>
@@ -103,8 +103,8 @@
 	break;
     case "edit_poli":
 	$idp	= $_GET['id'];
-    $edit 	= mysql_query("SELECT * FROM tujuan WHERE id_poli='$idp'");
-    $data	= mysql_fetch_array($edit);
+    $edit 	= mysqli_query($con, "SELECT * FROM tujuan WHERE id_poli='$idp'");
+    $data	= mysqli_fetch_array($edit);
 ?>
     <div id="main-content">
     <div class="container_12">    

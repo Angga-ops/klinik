@@ -38,8 +38,8 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From user");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con, "Select * From user");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
                  

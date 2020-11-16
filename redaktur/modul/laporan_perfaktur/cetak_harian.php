@@ -52,7 +52,7 @@ window.print();
 </style>
 <?php
 $harian = date('Y-m-d');
-	$p = mysql_fetch_array(mysql_query("SELECT *FROM history_kasir WHERE tanggal='$harian'"));
+	$p = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM history_kasir WHERE tanggal='$harian'"));
 ?>
 <div align="center">
 	<h3>Pendapatan pada tanggal : <?php echo $harian; ?></h3>
@@ -74,9 +74,9 @@ $harian = date('Y-m-d');
 	        </tr>
 	    </thead>
 	    <tbody>
-		<?php $q1 = mysql_query("SELECT *FROM history_kasir WHERE tanggal='$harian'"); 
+		<?php $q1 = mysqli_query($con, "SELECT *FROM history_kasir WHERE tanggal='$harian'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {
+              while ($br = mysqli_fetch_array($q1)) {
               	$subtotal= $br['harga']*$br['jumlah'];
                 ?>
             <tr>

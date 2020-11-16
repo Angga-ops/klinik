@@ -2,6 +2,6 @@
 
 include "../../../config/koneksi.php";
 
-mysql_query("INSERT INTO dr_visit VALUES (NULL,'$_GET[pasien]','$_GET[faktur]','$_GET[dr]')");
+mysqli_query($con,"INSERT INTO dr_visit VALUES (NULL,'$_GET[pasien]','$_GET[faktur]','$_GET[dr]')");
 
 ?>

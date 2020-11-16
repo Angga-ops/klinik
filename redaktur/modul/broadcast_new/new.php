@@ -67,9 +67,9 @@
 
 <?php
 
-  $sel  = mysql_query("Select * From pekerjaan");
+  $sel  = mysqli_query($con, "Select * From pekerjaan");
 
-  while($data = mysql_fetch_array($sel)){
+  while($data = mysqli_fetch_array($sel)){
 
 ?>
 
@@ -90,8 +90,8 @@
 
 <option value="">-- Pilih Jenis Klaster Pelanggan --</option>
       <?php
-        $sel  = mysql_query("Select * From kategori_pelanggan");
-        while($data = mysql_fetch_array($sel)){
+        $sel  = mysqli_query($con, "Select * From kategori_pelanggan");
+        while($data = mysqli_fetch_array($sel)){
       ?>
                 <option value="<?php echo $data['kategori']; ?>"><?php echo $data['kategori']; ?> (<?php echo $data['keterangan']; ?>)</option>            
             <?php
@@ -120,19 +120,19 @@
 
 <?php
 
-$tgl1 = !isset($_GET[tgl1]) || $_GET[tgl1] != date("Y-m-d")? " AND tanggal >= '$_GET[tgl1]' AND tanggal <= '$_GET[tgl2]'" : "";
-$tgl2 = !isset($_GET[tgl1]) || $_GET[tgl1] != date("Y-m-d")? " AND tgl >= '$_GET[tgl1]' AND tgl <= '$_GET[tgl2]'" : "";
+$tgl1 = !isset($_GET['tgl1']) || $_GET['tgl1'] != date("Y-m-d")? " AND tanggal >= '$_GET[tgl1]' AND tanggal <= '$_GET[tgl2]'" : "";
+$tgl2 = !isset($_GET['tgl1']) || $_GET['tgl1'] != date("Y-m-d")? " AND tgl >= '$_GET[tgl1]' AND tgl <= '$_GET[tgl2]'" : "";
 
 switch($_GET["tipe"]){
 	default: $where = "LIMIT 0"; break;
 
 	case "1": 
-	$c = mysql_query("SELECT count(nama) as jum, id_pasien from history_kasir where jenis='Treatment' $tgl1 group by id_pasien having jum>='$_GET[val]'"); 
+	$c = mysqli_query($con, "SELECT count(nama) as jum, id_pasien from history_kasir where jenis='Treatment' $tgl1 group by id_pasien having jum>='$_GET[val]'"); 
 
-	while($cx = mysql_fetch_assoc($c)){
-		$xz .= "'".$cx[id_pasien]."',";
+	while($cx = mysqli_fetch_assoc($c)){
+		$xz .= "'".$cx['id_pasien']."',";
 	}
-	if(mysql_num_rows($c) == 0){
+	if(mysqli_num_rows($c) == 0){
 		$where = "LIMIT 0";
 	} else {
 		$xz = substr($xz,0,strlen($xz) - 1);
@@ -148,13 +148,13 @@ switch($_GET["tipe"]){
 	break;
 
 	case "3": 
-	$c = mysql_query("SELECT * from pembayaran where total>='$_GET[val]' $tgl2 group by id_pasien"); 
+	$c = mysqli_query($con, "SELECT * from pembayaran where total>='$_GET[val]' $tgl2 group by id_pasien"); 
 
-	while($cx = mysql_fetch_assoc($c)){
-		$xz .= "'".$cx[id_pasien]."',";
+	while($cx = mysqli_fetch_assoc($c)){
+		$xz .= "'".$cx['id_pasien']."',";
 	}
 
-	if(mysql_num_rows($c) == 0){
+	if(mysqli_num_rows($c) == 0){
 		$where = "LIMIT 0";
 	} else {
 	$xz = substr($xz,0,strlen($xz) - 1);
@@ -187,14 +187,14 @@ switch($_GET["tipe"]){
 				<tbody>
                    <?php
                     
-					$q = mysql_query("SELECT id,nama_pasien,no_telp FROM pasien $where"); 
+					$q = mysqli_query($con, "SELECT id,nama_pasien,no_telp FROM pasien $where"); 
 
-						 while($r = mysql_fetch_array($q)){
+						 while($r = mysqli_fetch_array($q)){
 						 	?>
 					<tr>
-						<td><input type="checkbox" class="chk" data-hp="<?php echo $r[no_telp]; ?>" checked/></td>
-                        <td><?php echo $r[nama_pasien]; ?></td>
-                        <td><?php echo $r[no_telp]; ?></td>
+						<td><input type="checkbox" class="chk" data-hp="<?php echo $r['no_telp']; ?>" checked/></td>
+                        <td><?php echo $r['nama_pasien']; ?></td>
+                        <td><?php echo $r['no_telp']; ?></td>
 					</tr>
 						 	<?php
 						 }
@@ -286,7 +286,7 @@ function kirimpesan(){
 			$.ajax({
 				type: "POST",
 				url: "modul/broadcast_new/bc_report.php",
-				data: {"pesan": $("#pesan").val() , "tipe": "<?php echo $_GET[tipe]; ?>", "val": "<?php echo $_GET[val]; ?>", "subject" : $("#subject").val(), "namauser": "<?php echo $_SESSION[namauser]; ?>"}
+				data: {"pesan": $("#pesan").val() , "tipe": "<?php echo $_GET['tipe']; ?>", "val": "<?php echo $_GET['val']; ?>", "subject" : $("#subject").val(), "namauser": "<?php echo $_SESSION['namauser']; ?>"}
 			});
 
 		 };

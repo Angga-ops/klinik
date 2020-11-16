@@ -26,11 +26,11 @@
 
 		//Broadcast pesanenter
 
-		$nomor1 = mysql_query("SELECT * from pasien where pekerjaan='$pekerjaan'");
+		$nomor1 = mysqli_query($con, "SELECT * from pasien where pekerjaan='$pekerjaan'");
 
 		$message = $isi;
 
-		while ($nomor2 = mysql_fetch_array($nomor1)) 
+		while ($nomor2 = mysqli_fetch_array($nomor1)) 
 
 		 $nomor[] = $nomor2;
 
@@ -90,9 +90,9 @@
 
 		
 
-		$simpan = mysql_query("Insert Into broadcast_pekerjaan(pekerjaan,subjek,isi,tgl_kirim, pengirim) Values('$pekerjaan','$subjek','$isi','$tgl_kirim','$pengirim')") or die(mysql_error());
+		$simpan = mysqli_query($con, "Insert Into broadcast_pekerjaan(pekerjaan,subjek,isi,tgl_kirim, pengirim) Values('$pekerjaan','$subjek','$isi','$tgl_kirim','$pengirim')") or die(mysqli_error($con));
 
-	 	catat($_SESSION['namauser'], 'Data Kategori Baru'.' ('.$nmrgn.')');
+	 	catat($con, $_SESSION['namauser'], 'Data Kategori Baru'.' ('.$nmrgn.')');
 
 		if($simpan){
 

@@ -8,18 +8,18 @@
 	// Hapus Pasien
 	if ($module=='pendaftarbaru' AND $act=='mitra'){ 
 		$jp		= $_GET['jenis_pasien'];
-		$sql	= mysql_query("Select * From jenis_mitra Where id_jenispem='$jp'");
+		$sql	= mysqli_query($con,"Select * From jenis_mitra Where id_jenispem='$jp'");
 		?>
 		<option value="">-- Pilih Mitra --</option>
 		<?php
-		while ($d = mysql_fetch_array($sql)){
+		while ($d = mysqli_fetch_array($sql)){
 		?>
 		<option value="<?php echo $d['id_mitra']; ?>"><?php echo $d['nama_mitra']; ?></option>
 		<?php
 		}		
 	}
 	elseif ($module=='pendaftarbaru' AND $act=='input'){ 
-	$simpan = mysql_query("INSERT INTO pasien(id_pasien,
+	$simpan = mysqli_query($con,"INSERT INTO pasien(id_pasien,
                                   nama_pasien,
                                   nama_ayah,
                                   nama_ibu,
@@ -64,9 +64,9 @@
                       '$_POST[mitra]',
                       '$_POST[riwayat_penyakit]',
                       '$_POST[alergi_obat]',
-                      '$_POST[tgl_daftar]')") or die(mysql_error());
+                      '$_POST[tgl_daftar]')") or die(mysqli_error($con));
 
-		catat($_SESSION['namauser'], 'Pasien Baru'.' ('.$_POST['no_id'].')');
+		catat($con, $_SESSION['namauser'], 'Pasien Baru'.' ('.$_POST['no_id'].')');
 		header('location:../../media.php?module=pendaftarbaru');
 	}
 ?>

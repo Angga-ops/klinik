@@ -7,16 +7,16 @@
     
 <?php 
     
-$bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
+$bc = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
     
     ?>    
     
       <h1>
-        <?php echo $bc[crumb]; ?>
+        <?php echo $bc['crumb']; ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="?module=home"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"> <?php echo $bc[crumb]; ?></li>
+        <li class="active"> <?php echo $bc['crumb']; ?></li>
       </ol>
     </section>
 
@@ -53,8 +53,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
         </thead>
     	<tbody>
 		<?php
-            $menu		= mysql_query("Select * From sub_menu, menu Where sub_menu.id_sm=menu.id_sm");
-            while($data	= mysql_fetch_array($menu)){
+            $menu		= mysqli_query($con,"Select * From sub_menu, menu Where sub_menu.id_sm=menu.id_sm");
+            while($data	= mysqli_fetch_array($menu)){
         ?>
 			<tr class="gradeX">
                  <td>
@@ -113,14 +113,14 @@ $(document).ready(function(){
                 <select name="menu" class="form-control" required>
                   <option value="">-- Pilih --</option>
                  <?php
-					$selectidmax 	= mysql_query("Select max(id_menu) as id From menu Where id_menu Like '%MN-%'");
-					$hsilidmax		= mysql_fetch_array($selectidmax);
+					$selectidmax 	= mysqli_query($con,"Select max(id_menu) as id From menu Where id_menu Like '%MN-%'");
+					$hsilidmax		= mysqli_fetch_array($selectidmax);
 					$idmax 			= $hsilidmax['id'];
 					$nourut 		= (int) substr($idmax, 3,2);
 					$nourut++;
 					$kode			= "MN-".sprintf("%02s", $nourut);
-                    $sql 			= mysql_query("SELECT * From sub_menu where page_sm IN ('#','') Order by nama_sm Asc");
-                    while($data		= mysql_fetch_array($sql)) {
+                    $sql 			= mysqli_query($con,"SELECT * From sub_menu where page_sm IN ('#','') Order by nama_sm Asc");
+                    while($data		= mysqli_fetch_array($sql)) {
                ?>
                 <option value=<?php echo $data['id_sm']; ?>><?php echo $data['nama_sm']; ?></option>
                 <?php
@@ -186,7 +186,7 @@ $(document).ready(function(){
 	break;
     case "edit_sbm":
 	$id		= $_GET["id"];
-    $edit 	=  mysql_fetch_array(mysql_query("Select * From menu Where id_menu='$id'"));
+    $edit 	=  mysqli_fetch_array(mysqli_query($con,"Select * From menu Where id_menu='$id'"));
 ?>
 
 <section class="content">
@@ -206,13 +206,13 @@ $(document).ready(function(){
                 <label>Menu</label>
                 <select name="menu" class="form-control" required>
                 <?php
-                    $sm		= mysql_query("Select * From sub_menu Order by nama_sm Asc");
+                    $sm		= mysqli_query($con,"Select * From sub_menu Order by nama_sm Asc");
                     if ($edit['id_sm'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Jenis --</option>
                 <?php
                 }
-                    while ($edit_sm 	= mysql_fetch_array($sm)) {
+                    while ($edit_sm 	= mysqli_fetch_array($sm)) {
                     if ($edit['id_sm']	== $edit_sm['id_sm']) {
                     ?>
                         <option value="<?php echo $edit_sm['id_sm']; ?>" selected><?php echo $edit_sm['nama_sm']; ?></option>
@@ -292,13 +292,13 @@ $(document).ready(function(){
             <label for="field4">Menu</label>
             <select name="menu" required>
 				<?php
-                    $sm		= mysql_query("Select * From sub_menu Order by nama_sm Asc");
+                    $sm		= mysqli_query($con,"Select * From sub_menu Order by nama_sm Asc");
                     if ($edit['id_sm'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Jenis --</option>
                 <?php
                 }
-                    while ($edit_sm 	= mysql_fetch_array($sm)) {
+                    while ($edit_sm 	= mysqli_fetch_array($sm)) {
                     if ($edit['id_sm']	== $edit_sm['id_sm']) {
                     ?>
                         <option value="<?php echo $edit_sm['id_sm']; ?>" selected><?php echo $edit_sm['nama_sm']; ?></option>

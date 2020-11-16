@@ -18,15 +18,15 @@ $id_pasien = $_POST['id_pasien'];
 $kunjungan = 0;
 
 
-$p = mysql_query("SELECT *FROM pasien WHERE id_pasien='$id_pasien'");
-$cek = mysql_num_rows($p);
+$p = mysqli_query($con,"SELECT *FROM pasien WHERE id_pasien='$id_pasien'");
+$cek = mysqli_num_rows($p);
 
 if ($cek>0) {
 	echo "sudah";
 	exit();
 }
 
-mysql_query("INSERT INTO pasien (id_pasien,id_kk,nama_pasien,alamat,jk,tgl_lahir,umur,no_telp,tgl_pendaftaran,total_kunjungan,pekerjaan,klaster) VALUES ('$id_pasien','$id_kk','$nama','$alamat','$jk','$tgl_l','$umur','$nohp','$date','$kunjungan','$pekerjaan','D')");
+mysqli_query($con,"INSERT INTO pasien (id_pasien,id_kk,nama_pasien,alamat,jk,tgl_lahir,umur,no_telp,tgl_pendaftaran,total_kunjungan,pekerjaan,klaster) VALUES ('$id_pasien','$id_kk','$nama','$alamat','$jk','$tgl_l','$umur','$nohp','$date','$kunjungan','$pekerjaan','D')");
 
 exit();
 

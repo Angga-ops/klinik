@@ -4,7 +4,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>CGS</b></span>
       <!-- logo for regular state and mobile devices -->
-      <?php $iden = mysql_fetch_assoc(mysql_query("SELECT * FROM identitas")); ?>
+      <?php $iden = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM identitas")); ?>
       <span class="logo-lg"><b><?php echo $iden['nama_organisasi']; ?><b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
@@ -21,13 +21,13 @@
           <?php 
           $date = date('Y-m-d');
 
-          $qq = mysql_query("SELECT *FROM beli_k WHERE '$date' <= tgl_tempo AND bukti_bayar=''"); 
+          $qq = mysqli_query($con, "SELECT *FROM beli_k WHERE '$date' <= tgl_tempo AND bukti_bayar=''"); 
 
-          $tot = mysql_num_rows($qq);
+          $tot = mysqli_num_rows($qq);
 
-          $qp = mysql_query("SELECT *FROM pengiriman WHERE status='Lapor'");
+          $qp = mysqli_query($con, "SELECT *FROM pengiriman WHERE status='Lapor'");
 
-          $cek = mysql_num_rows($qp);
+          $cek = mysqli_num_rows($qp);
           $notif = 0;
           if ($tot>0) {
             $notif++;
@@ -82,8 +82,8 @@
           </li>
         <?php } ?>
         <?php if($_SESSION['jenis_u']=="JU-06"){ ?>
-          <?php $qq = mysql_query("SELECT *FROM pengiriman WHERE cabang='$id_kk' AND keterangan='Sedang Proses Pengiriman'"); 
-          $tot = mysql_num_rows($qq);
+          <?php $qq = mysqli_query($con, "SELECT *FROM pengiriman WHERE cabang='$id_kk' AND keterangan='Sedang Proses Pengiriman'"); 
+          $tot = mysqli_num_rows($qq);
           ?>
           
           

@@ -55,7 +55,7 @@ window.print();
 $harian = date('Y-m-d');
 $tgl = $_GET['tanggal'];
 $id_kk = $_GET['klinik'];
-	$p = mysql_fetch_array(mysql_query("SELECT *FROM history_kasir WHERE tanggal='$_GET[tanggal]' AND id_kk='$_GET[id_kk]'"));
+	$p = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM history_kasir WHERE tanggal='$_GET[tanggal]' AND id_kk='$_GET[id_kk]'"));
 ?>
 <div align="center">
 	<h3>Penjualan pada tanggal : <?php echo $tgl; ?></h3>
@@ -99,9 +99,9 @@ $id_kk = $_GET['klinik'];
                 $no++;
               } */
             ?>
-           <?php $q1 = mysql_query("SELECT *FROM history_kasir WHERE tanggal='$_GET[tanggal]' AND id_kk='$_GET[id_kk]'"); 
+           <?php $q1 = mysqli_query($con, "SELECT *FROM history_kasir WHERE tanggal='$_GET[tanggal]' AND id_kk='$_GET[id_kk]'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {
+              while ($br = mysqli_fetch_array($q1)) {
               	$subtotal= $br['harga']*$br['jumlah'];
                 ?>
             <tr>
@@ -131,8 +131,8 @@ $id_kk = $_GET['klinik'];
 	    		<td>-</td>
 	    		<td>-</td>
 	    		<?php $jumlahkan = "SELECT SUM(harga) AS total FROM history_kasir where tanggal='$_GET[tanggal]' AND id_kk='$_GET[id_kk]'"; //perintah untuk menjumlahkan
-			          $total = mysql_query($jumlahkan) or die (mysql_error());//melakukan query dengan varibel $jumlahkan
-			          $t = mysql_fetch_array($total);
+			          $total = mysqli_query($con, $jumlahkan) or die (mysqli_error($con));//melakukan query dengan varibel $jumlahkan
+			          $t = mysqli_fetch_array($total);
 			          echo '<td>-</td>
 
 						<td><b>'.rupiah($t['total']).'<b></td>';?>

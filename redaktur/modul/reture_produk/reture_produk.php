@@ -68,14 +68,14 @@ switch ($act) {
 			<hr>
 			<h4>Data Reture</h4>
 			<?php 
-			$q = mysql_query("SELECT *FROM reture WHERE asal_cabang='$_SESSION[klinik]'");
-			$k = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$_SESSION[klinik]'"));
-			$cek =mysql_num_rows($q);
+			$q = mysqli_query($con,"SELECT *FROM reture WHERE asal_cabang='$_SESSION[klinik]'");
+			$k = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$_SESSION[klinik]'"));
+			$cek =mysqli_num_rows($q);
 			if ($cek>0) {
 				$nor ="R";
 				$nor .= inisial2($k['nama_klinik']);
 				$isi = array();
-				while ($r=mysql_fetch_array($q)) {
+				while ($r=mysqli_fetch_array($q)) {
 					$isi[] = substr($r['no_retur'], 3);
 				}
 				$max = max($isi);
@@ -130,7 +130,7 @@ switch ($act) {
 			<h3 class="box-title">Detail Reture</h3>
 		</div>
 		<div class="box-body">
-			<?php $p = mysql_fetch_array(mysql_query("SELECT *FROM reture WHERE no_reture='$nor'")); ?>
+			<?php $p = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM reture WHERE no_reture='$nor'")); ?>
 		  <div class="row">
 	        <div class="col-md-2">
 	          Nomer Reture 
@@ -144,7 +144,7 @@ switch ($act) {
 	          Asal Cabang    
 	        </div>
 	        <div class="col-md-5">
-	          :&emsp; <?php $k = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$p[asal_cabang]'")); echo $k['nama_klinik']; ?>
+	          :&emsp; <?php $k = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$p[asal_cabang]'")); echo $k['nama_klinik']; ?>
 	        </div>
 	      </div>
 	      <div class="row" style="margin-top: 5px;">
@@ -184,8 +184,8 @@ switch ($act) {
 					</tr>
 				</thead>
 				<tbody>
-					<?php $q = mysql_query("SELECT *FROM produk_reture WHERE no_reture='$nor'"); 
-						 while($r = mysql_fetch_array($q)){
+					<?php $q = mysqli_query($con,"SELECT *FROM produk_reture WHERE no_reture='$nor'"); 
+						 while($r = mysqli_fetch_array($q)){
 						 	?>
 					<tr>
 						<td><?php echo $r['kode_produk']; ?></td>
@@ -246,8 +246,8 @@ switch ($act) {
 					</tr>
 				</thead>
 				<tbody>
-					<?php $q = mysql_query("SELECT *FROM reture WHERE asal_cabang='$id_kk' ORDER BY tanggal DESC"); 
-						 while($r = mysql_fetch_array($q)){
+					<?php $q = mysqli_query($con,"SELECT *FROM reture WHERE asal_cabang='$id_kk' ORDER BY tanggal DESC"); 
+						 while($r = mysqli_fetch_array($q)){
 						 	?>
 					<tr>
 						<td><?php echo $r['no_reture']; ?></td>
@@ -263,7 +263,7 @@ switch ($act) {
 						<td><?php echo $r['tanggal']; ?></td>
 						<td><?php echo $r['pengirim']; ?></td>
 						<td><?php echo $r['keterangan']; ?></td>
-						<td><a href="media.php?module=reture_produk&act=detail&nor=<?php echo $r[no_reture]; ?>" class="btn btn-xs btn-info"><i class="fa fa-list"></i> Detail</a></td>
+						<td><a href="media.php?module=reture_produk&act=detail&nor=<?php echo $r['no_reture']; ?>" class="btn btn-xs btn-info"><i class="fa fa-list"></i> Detail</a></td>
 					</tr>
 						 	<?php
 						 }

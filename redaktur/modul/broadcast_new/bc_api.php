@@ -12,7 +12,7 @@ $message = ""; */
 ///////////////////////////////////////////////////////
 
 
-$nomor = json_decode($_POST[data],true);
+$nomor = json_decode($_POST['data'],true);
 $message = "$_POST[pesan]";
 
 

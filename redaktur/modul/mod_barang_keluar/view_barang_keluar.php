@@ -12,7 +12,7 @@
 	<div style="margin-left:1%; margin-right:1%;">
 <?php
 	$id				= $_GET['id'];
-	$oexp			= mysql_query("Select nama_brg, jumlah, tgl_keluar From gudang, barang_keluar Where gudang.id_brg=barang_keluar.id_brg And no_fbk='$id'");
+	$oexp			= mysqli_query($con, "Select nama_brg, jumlah, tgl_keluar From gudang, barang_keluar Where gudang.id_brg=barang_keluar.id_brg And no_fbk='$id'");
 ?>
 	<table width="100%" style="border:solid; border-width:1px; border-color:#23333E;">
             <tr>
@@ -26,7 +26,7 @@
                 <td><div align="center" id="donker">Tgl. Keluar</div></td>
             </tr>
 		<?php
-			while($hasil	= mysql_fetch_array($oexp)){
+			while($hasil	= mysqli_fetch_array($oexp)){
 		?>
             <tr id="tdb">
                 <td id="tdku"><div align="center"><?php echo $hasil['nama_brg']; ?></div></td>
@@ -37,7 +37,7 @@
             </tr>  
 		<?php
 			}
-			$tgl	= mysql_fetch_array(mysql_query("Select tgl_bk From barang_keluar Where no_fbk='$id'"));
+			$tgl	= mysqli_fetch_array(mysqli_query($con, "Select tgl_bk From barang_keluar Where no_fbk='$id'"));
 		?>
         
         	<tr>

@@ -18,25 +18,25 @@ $sub_total  = $harga*$jumlah;
 $sub_total -= ($diskon/100)*($harga*$jumlah);
 
 
-	$q   = mysql_query("SELECT *FROM produk WHERE id_kk='$id_kk' AND nama_p='$nama'");
-	$cek = mysql_num_rows($q);
+	$q   = mysqli_query($con,"SELECT *FROM produk WHERE id_kk='$id_kk' AND nama_p='$nama'");
+	$cek = mysqli_num_rows($q);
 	if ($cek==0) {
 	 	echo "tidak";
 	 } 
 
 
-	$q1 = mysql_query("SELECT *FROM kasir_sementara WHERE nama='$nama' AND id_kk='$id_kk' AND id_pasien='$id' AND status='sementara'");
-	$jum = mysql_num_rows($q1);
+	$q1 = mysqli_query($con,"SELECT *FROM kasir_sementara WHERE nama='$nama' AND id_kk='$id_kk' AND id_pasien='$id' AND status='sementara'");
+	$jum = mysqli_num_rows($q1);
 	if($jum>0){
-		$qq = mysql_fetch_array($q1);
+		$qq = mysqli_fetch_array($q1);
 		$total = $qq['jumlah'];
 		$total += $jumlah;
 		$sub_total = ($total*$harga);
 		$sub_total -= ($diskon/100)*($total*$harga);
-		mysql_query("UPDATE kasir_sementara SET jumlah='$total',sub_total='$sub_total' WHERE nama='$nama' AND id_kk='$id_kk' AND id_pasien='$id'");
+		mysqli_query($con,"UPDATE kasir_sementara SET jumlah='$total',sub_total='$sub_total' WHERE nama='$nama' AND id_kk='$id_kk' AND id_pasien='$id'");
 
 	}else{
-		mysql_query("INSERT INTO kasir_sementara(nama,jumlah,harga,id_kk,harga_beli,kode,jenis,id_pasien,status,diskon,ket,sub_total) VALUES('$nama','$jumlah','$harga','$id_kk','$harga_b','$kode','Produk','$id','sementara','$diskon','$ket','$sub_total')");
+		mysqli_query($con,"INSERT INTO kasir_sementara(nama,jumlah,harga,id_kk,harga_beli,kode,jenis,id_pasien,status,diskon,ket,sub_total) VALUES('$nama','$jumlah','$harga','$id_kk','$harga_b','$kode','Produk','$id','sementara','$diskon','$ket','$sub_total')");
 	}
 	
 

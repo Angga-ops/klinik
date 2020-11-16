@@ -26,8 +26,8 @@
         </thead>
     	<tbody>
 		<?php
-            $menu		= mysql_query("Select * From menu, menu_sub Where menu.id_menu=menu_sub.id_menu");
-            while($data	= mysql_fetch_array($menu)){
+            $menu		= mysqli_query($con,"Select * From menu, menu_sub Where menu.id_menu=menu_sub.id_menu");
+            while($data	= mysqli_fetch_array($menu)){
         ?>
 			<tr class="gradeX">
                 <td><?php echo $data['nama_menu']; ?></td>
@@ -68,14 +68,14 @@
                 <option value="">-- Pilih Sub Menu --</option>
                 <?php
 					$now 			= date('Y-m-d');
-					$selectidmax 	= mysql_query("Select max(id_ms) as id From menu_sub Where id_ms Like '%MS-%'");
-					$hsilidmax		= mysql_fetch_array($selectidmax);
+					$selectidmax 	= mysqli_query($con,"Select max(id_ms) as id From menu_sub Where id_ms Like '%MS-%'");
+					$hsilidmax		= mysqli_fetch_array($selectidmax);
 					$idmax 			= $hsilidmax['id'];
 					$nourut 		= (int) substr($idmax, 3,2);
 					$nourut++;
 					$kode			= "MS-".sprintf("%02s", $nourut);
-                    $sql 			= mysql_query("Select * From menu");
-                    while($data		= mysql_fetch_array($sql)) {
+                    $sql 			= mysqli_query($con,"Select * From menu");
+                    while($data		= mysqli_fetch_array($sql)) {
                ?>
                 <option value=<?php echo $data['id_menu']; ?>><?php echo $data['nama_menu']; ?></option>
                 <?php
@@ -125,7 +125,7 @@
 	break;
     case "edit_ms":
 	$id		= $_GET["id"];
-    $edit 	=  mysql_fetch_array(mysql_query("Select * From menu_sub Where id_ms='$id'"));
+    $edit 	=  mysqli_fetch_array(mysqli_query($con,"Select * From menu_sub Where id_ms='$id'"));
 ?>
     <div id="main-content">
     <div class="container_12">
@@ -140,13 +140,13 @@
             <label for="field4">Menu</label>
             <select name="menu" required>
 				<?php
-                    $mn		= mysql_query("Select * From menu");
+                    $mn		= mysqli_query($con,"Select * From menu");
                     if ($edit['id_menu'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Sub Menu --</option>
                 <?php
                 }
-                    while ($edit_mn 	= mysql_fetch_array($mn)) {
+                    while ($edit_mn 	= mysqli_fetch_array($mn)) {
                     if ($edit['id_menu']	== $edit_mn['id_menu']) {
                     ?>
                         <option value="<?php echo $edit_mn['id_menu']; ?>" selected><?php echo $edit_mn['nama_menu']; ?></option>

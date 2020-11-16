@@ -75,12 +75,12 @@
     </thead>
     <tbody>
       <?php $tgl=$_GET["tgl"];  $tgl2=$_GET["tgl2"]; 
-      $q = mysql_query("SELECT *FROM pengiriman p JOIN daftar_klinik dk ON p.cabang=dk.id_kk WHERE p.tanggal>='$tgl' AND p.tanggal<='$tgl2'");  
-      while($d = mysql_fetch_array($q)){
+      $q = mysqli_query($con, "SELECT *FROM pengiriman p JOIN daftar_klinik dk ON p.cabang=dk.id_kk WHERE p.tanggal>='$tgl' AND p.tanggal<='$tgl2'");  
+      while($d = mysqli_fetch_array($q)){
         $jumlah = 0;
       ?>
-      <?php $q1 = mysql_query("SELECT *FROM produk_pengiriman WHERE no_pengiriman='$d[no_pengiriman]'");
-      while($p =  mysql_fetch_array($q1)){  ?>
+      <?php $q1 = mysqli_query($con, "SELECT *FROM produk_pengiriman WHERE no_pengiriman='$d[no_pengiriman]'");
+      while($p =  mysqli_fetch_array($q1)){  ?>
       <tr>
         <td><?php echo $d['nama_klinik']; ?></td>
         <td><?php echo tgl_indo($d["tanggal"]); ?></td>

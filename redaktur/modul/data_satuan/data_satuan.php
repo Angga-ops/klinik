@@ -33,8 +33,8 @@
         </thead>
     	<tbody>
 		<?php
-		$tampil		= mysql_query("Select * From data_satuan Where id_s");
-		while($r	= mysql_fetch_array($tampil)){
+		$tampil		= mysqli_query($con, "Select * From data_satuan Where id_s");
+		while($r	= mysqli_fetch_array($tampil)){
     ?>
 			<tr class="gradeX">
                  
@@ -131,7 +131,7 @@ $(document).ready(function(){
 	break;
 	case "edit_ds":
 	$id		= $_GET['id'];
-	$edit 	= mysql_fetch_array(mysql_query("Select * From data_satuan Where id_s='$id'"));
+	$edit 	= mysqli_fetch_array(mysqli_query($con, "Select * From data_satuan Where id_s='$id'"));
 ?>
 
 <section class="content">
@@ -199,13 +199,13 @@ $(document).ready(function(){
             <label for="field4">Kamar</label>
             <select name="kamar">
 				<?php
-                    $jr	= mysql_query("Select * From kamar");
+                    $jr	= mysqli_query($con, "Select * From kamar");
                     if ($edit['id_kamar'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Jenis --</option>
                 <?php
                 }
-                    while ($edit_jr 		= mysql_fetch_array($jr)) {
+                    while ($edit_jr 		= mysqli_fetch_array($jr)) {
                     if ($edit['id_kamar']	== $edit_jr['id_kamar']) {
                     ?>
                         <option value="<?php echo $edit_jr['id_kamar']; ?>" selected><?php echo $edit_jr['nama_kamar']; ?></option>

@@ -37,8 +37,8 @@
         </thead>
       <tbody>
         <?php 
-        $q = mysql_query("SELECT *FROM pengeluaran");
-        while ($p = mysql_fetch_array($q)) {
+        $q = mysqli_query($con, "SELECT *FROM pengeluaran");
+        while ($p = mysqli_fetch_array($q)) {
           ?>
         <tr>
          
@@ -48,8 +48,8 @@
           <td><?php echo $p['kategori_p']; ?></td>
           <td><?php echo $p['ket']; ?></td>
           <td>
-            <a class="btn btn-xs btn-info" href="media.php?module=pengeluaran&act=edit&id=<?php echo $p[id_p]; ?>"><i class="fa fa-edit"></i> Edit</a>
-            <a class="btn btn-xs btn-danger" href="modul/pengeluaran/aksi_pengeluaran.php?act=hapus&id=<?php echo $p[id_p]; ?>"><i class="fa fa-trash"></i> Hapus</a>
+            <a class="btn btn-xs btn-info" href="media.php?module=pengeluaran&act=edit&id=<?php echo $p['id_p']; ?>"><i class="fa fa-edit"></i> Edit</a>
+            <a class="btn btn-xs btn-danger" href="modul/pengeluaran/aksi_pengeluaran.php?act=hapus&id=<?php echo $p['id_p']; ?>"><i class="fa fa-trash"></i> Hapus</a>
           </td>
         </tr>
 
@@ -124,10 +124,10 @@
                 <label>Klinik</label>
                 <select class="form-control" name="id_kk" required>
                
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik"); 
-                      while($k = mysql_fetch_array($q1)){ ?>
+                <?php $q1 = mysqli_query($con,"SELECT *FROM daftar_klinik"); 
+                      while($k = mysqli_fetch_array($q1)){ ?>
 
-                      <option value="<?php echo $k[id_kk]; ?>"><?php echo $k["nama_klinik"]; ?></option>
+                      <option value="<?php echo $k['id_kk']; ?>"><?php echo $k["nama_klinik"]; ?></option>
                       <?php 
                     }
                 ?>
@@ -156,7 +156,7 @@
   break;
   case "edit":
   $id   = $_GET['id'];
-  $p   = mysql_fetch_array(mysql_query("SELECT * From pengeluaran Where id_p='$id'"));
+  $p   = mysqli_fetch_array(mysqli_query($con,"SELECT * From pengeluaran Where id_p='$id'"));
 ?>
 
 <section class="content">
@@ -217,10 +217,10 @@
                 <label>Klinik</label>
                 <select class="form-control" name="id_kk" required>
                 <option value="<?php echo $p['id_kk']?>">
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik"); 
-                      while($k = mysql_fetch_array($q1)){ ?>
+                <?php $q1 = mysqli_query($con,"SELECT *FROM daftar_klinik"); 
+                      while($k = mysqli_fetch_array($q1)){ ?>
                         <?php echo $k['nama_klinik']?></option>
-                      <option value="<?php echo $k[id_kk]; ?>"><?php echo $k["nama_klinik"]; ?></option>
+                      <option value="<?php echo $k['id_kk']; ?>"><?php echo $k["nama_klinik"]; ?></option>
                       <?php 
                     }
                 ?>

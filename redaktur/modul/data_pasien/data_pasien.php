@@ -142,27 +142,27 @@
       $offset = ($pageno-1) * $no_of_records_per_page;
       if ($_SESSION['jenis_u'] =="JU-01") {
 
-        $total_pages_sql  = mysql_query("SELECT * FROM pasien  $where1");
+        $total_pages_sql  = mysqli_query($con, "SELECT * FROM pasien  $where1");
 
       }else{
 
-        $total_pages_sql  = mysql_query("SELECT * From pasien WHERE id_kk = '$id_kk'  $where2");
+        $total_pages_sql  = mysqli_query($con, "SELECT * From pasien WHERE id_kk = '$id_kk'  $where2");
 
       }
       //$result = mysql_query($total_pages_sql);
-      $total_rows = mysql_num_rows($total_pages_sql);
+      $total_rows = mysqli_num_rows($total_pages_sql);
       $total_pages = ceil($total_rows / $no_of_records_per_page);
       if ($_SESSION['jenis_u'] =="JU-01") {
 
-        $data  = mysql_query("SELECT * FROM pasien  $where1 order by nama_pasien ASC LIMIT $offset, $no_of_records_per_page");
+        $data  = mysqli_query($con, "SELECT * FROM pasien  $where1 order by nama_pasien ASC LIMIT $offset, $no_of_records_per_page");
 
       }else{
 
-        $data  = mysql_query("SELECT * FROM pasien WHERE id_kk = '$id_kk'  $where2 order by nama_pasien ASC LIMIT $offset, $no_of_records_per_page");
+        $data  = mysqli_query($con, "SELECT * FROM pasien WHERE id_kk = '$id_kk'  $where2 order by nama_pasien ASC LIMIT $offset, $no_of_records_per_page");
 
       }
-      if(mysql_num_rows($data) > 0){
-      while($r    = mysql_fetch_array($data))
+      if(mysqli_num_rows($data) > 0){
+      while($r    = mysqli_fetch_array($data))
       {
       ?>
       <tr class="gradeX">
@@ -287,7 +287,7 @@ $(document).ready(function(){
 
   $id   = $_GET['id'];
 
-  $edit   = mysql_fetch_array(mysql_query("Select * From pasien Where id='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From pasien Where id='$id'"));
 
 ?>
 

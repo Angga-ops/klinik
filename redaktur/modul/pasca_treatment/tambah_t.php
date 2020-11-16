@@ -17,7 +17,7 @@ $ket	   = $_POST['ket'];
 $sub_total = $harga;
 $sub_total -= ($diskon/100)*$harga;
 $id_dr = $_SESSION['id_dr'];
-$kat = $_GET[kat];
+$kat = $_GET['kat'];
 /*
 $q1 = mysql_query("SELECT *FROM history_kasir WHERE nama='$nama' AND id_kk='$id_kk' AND no_faktur='$no_faktur'");
 
@@ -28,11 +28,11 @@ if ($cek>0) {
 	exit();
 }
 */
-mysql_query("INSERT INTO history_kasir
+mysqli_query($con,"INSERT INTO history_kasir
 	 (no_faktur,id_pasien,tanggal,no_urut,nama,harga,jumlah,id_kk,jenis,status,penginput,harga_beli,diskon,ket,sub_total,id_dr,kategori) 
 	 VALUES('$no_faktur','$id','$tgl','$no','$nama','$harga','1','$id_kk','Treatment','Belum Lunas','Dokter','$modal','$diskon','$ket','$sub_total','$id_dr','$kat')");
 
-mysql_query("INSERT INTO kasir_sementara
+mysqli_query($con,"INSERT INTO kasir_sementara
 	 (no_faktur,id_pasien,tanggal,no_urut,nama,harga,jumlah,id_kk,jenis,status,penginput,harga_beli,diskon,ket,sub_total,id_dr,kategori) 
 	 VALUES('$no_faktur','$id','$tgl','$no','$nama','$harga','1','$id_kk','Treatment','Belum Lunas','Dokter','$modal','$diskon','$ket','$sub_total','$id_dr','$kat')");
 

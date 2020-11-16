@@ -9,8 +9,8 @@
 					<div class="col-md-6">
 						<?php 
 						$id_kk = $_SESSION['klinik'];
-						$q = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'");
-						$p = mysql_fetch_array($q);
+						$q = mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'");
+						$p = mysqli_fetch_array($q);
 						$ini = inisial($p['nama_klinik']);
 						?>
 						<label>Rekam Medis</label>

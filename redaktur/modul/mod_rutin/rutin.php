@@ -55,7 +55,7 @@ $sql = "SELECT * FROM rutin";
 $qdata = mysqli_query($conn,$sql);
 while($hasil = mysqli_fetch_assoc($qdata)){
 
-  $item = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM item_keuangan WHERE id_item = '".$hasil[id_item]."'"));
+  $item = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM item_keuangan WHERE id_item = '".$hasil['id_item']."'"));
 
     $aksi = "<a href='#' data-toggle='modal' data-target='#modal-default'  alt='$hasil[id]' id='".(rand(1,1000000))."' onclick='edit(this.id)'><small class='label bg-blue'>Edit</small></a> <a href='modul_admin/mod_rutin/aksi_rutin.php?act=del&id=$hasil[id]' onclick='return confirm(\" Apakah Anda ingin menghapus? \");'><small class='label bg-red'>Hapus</small></a>";
 
@@ -64,8 +64,8 @@ while($hasil = mysqli_fetch_assoc($qdata)){
     echo "<td>$aksi</td>";
     echo "<td>$item[nama_item]</td>";
     echo "<td>$item[group_item]</td>";
-    echo "<td>".strftime("%d %B %Y",strtotime($hasil[tgl]))."</td>";
-    echo "<td>Rp ".number_format($hasil[nilai],0,",",".")."</td>";
+    echo "<td>".strftime("%d %B %Y",strtotime($hasil['tgl']))."</td>";
+    echo "<td>Rp ".number_format($hasil['nilai'],0,",",".")."</td>";
     echo "</tr>";
 
 
@@ -96,7 +96,7 @@ while($hasil = mysqli_fetch_assoc($qdata)){
                <select name="id_item" id="item" class="form-control">
                <?php $k = mysqli_query($conn,"SELECT * FROM item_keuangan ORDER BY group_item ASC"); 
                while($kx = mysqli_fetch_assoc($k)){
-                 echo "<option value='".$kx[id_item]."'>".$kx[nama_item]."</option>";
+                 echo "<option value='".$kx['id_item']."'>".$kx['nama_item']."</option>";
                }
                ?>
                </select>

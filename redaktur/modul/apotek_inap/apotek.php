@@ -91,24 +91,24 @@ $date_now = date("Y-m-d");
  $hari = date("N",strtotime($date_now));
                     
  //cari id_dr
- $nrs = mysql_fetch_assoc(mysql_query("SELECT id_dr FROM dr_praktek a JOIN nurse b ON a.id_drpraktek = b.drpraktek
+ $nrs = mysqli_fetch_assoc(mysqli_query($con, "SELECT id_dr FROM dr_praktek a JOIN nurse b ON a.id_drpraktek = b.drpraktek
  WHERE b.perawat = '$_SESSION[id_user]'  AND a.hari = '$hari' AND a.expired >= '$last' AND a.expired <= '$now'"));
- $id_dr = $nrs[id_dr];
+ $id_dr = $nrs['id_dr'];
 
- $nurse = ($_SESSION[jenis_u] == "JU-07")? "id_dr IS NOT NULL" : "id_dr = '$id_dr'";
+ $nurse = ($_SESSION['jenis_u'] == "JU-07")? "id_dr IS NOT NULL" : "id_dr = '$id_dr'";
 
-$tgl = isset($_GET[tgl1])? "WHERE tanggal_pendaftaran >= '$_GET[tgl1]' AND tanggal_pendaftaran <= '$_GET[tgl2]' AND $nurse" : "WHERE $nurse";
-$ob = mysql_query("SELECT * FROM perawatan_pasien $tgl ORDER BY tanggal_pendaftaran DESC");
+$tgl = isset($_GET['tgl1'])? "WHERE tanggal_pendaftaran >= '$_GET[tgl1]' AND tanggal_pendaftaran <= '$_GET[tgl2]' AND $nurse" : "WHERE $nurse";
+$ob = mysqli_query($con, "SELECT * FROM perawatan_pasien $tgl ORDER BY tanggal_pendaftaran DESC");
 
 
-while($obat = mysql_fetch_assoc($ob)){
-    $dr = mysql_fetch_assoc(mysql_query("SELECT * FROM user WHERE id_user = $obat[id_dr]"));
-    $pas = mysql_fetch_assoc(mysql_query("SELECT * FROM pasien WHERE id_pasien = '$obat[id_pasien]'"));
+while($obat = mysqli_fetch_assoc($ob)){
+    $dr = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM user WHERE id_user = $obat[id_dr]"));
+    $pas = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM pasien WHERE id_pasien = '$obat[id_pasien]'"));
     echo "<tr>";
-    if($_SESSION[jenis_u] == "JU-07"){
+    if($_SESSION['jenis_u'] == "JU-07"){
       //apotek
-      $check = mysql_query("SELECT * FROM kasir_sementara WHERE no_faktur='$obat[no_faktur]'  AND jenis = 'Produk' ");
-      if(mysql_num_rows($check) > 0){
+      $check = mysqli_query($con, "SELECT * FROM kasir_sementara WHERE no_faktur='$obat[no_faktur]'  AND jenis = 'Produk' ");
+      if(mysqli_num_rows($check) > 0){
         echo "<td><a href='?module=obat_inap_detail&pasien=$obat[id_pasien]&faktur=$obat[no_faktur]'><button class='btn btn-sm btn-info'>Ambil Obat</button></a></td>";
       }
       else{
@@ -116,8 +116,8 @@ while($obat = mysql_fetch_assoc($ob)){
       }
     } else {
       //perawat
-      $check = mysql_query("SELECT * FROM kasir_sementara WHERE no_faktur='$obat[no_faktur]'  AND jenis = 'Produk' ");
-      if(mysql_num_rows($check) > 0){
+      $check = mysqli_query($con, "SELECT * FROM kasir_sementara WHERE no_faktur='$obat[no_faktur]'  AND jenis = 'Produk' ");
+      if(mysqli_num_rows($check) > 0){
        echo "<td><a href='?module=apotek_inap_detail&pasien=$obat[id_pasien]&faktur=$obat[no_faktur]'><button class='btn btn-sm btn-info'>Print Resep</button></a></td>";
       }
       else{
@@ -141,7 +141,7 @@ while($obat = mysql_fetch_assoc($ob)){
 
 
 <style>
-.tbl {border-collpase: collapse; width: 100%}
+.tbl {border-collapse: collapse; width: 100%}
 .tbl td {padding: 1%}
 #scrollable-dropdown-menu .tt-dropdown-menu {
 max-height: 40px;

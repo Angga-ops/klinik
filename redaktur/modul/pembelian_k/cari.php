@@ -7,10 +7,10 @@ if(isset($_POST['search'])){
 
  $query = "SELECT * FROM produk_master WHERE nama_produk like'%".$search."%'";
  
- $result = mysql_query($query);
+ $result = mysqli_query($con,$query);
 
  $response = array();
- while($row = mysql_fetch_array($result) ){
+ while($row = mysqli_fetch_array($result) ){
    $response[] = array(
    	"label"=>$row['nama_produk'],
    	"kd_produk"=>$row['kd_produk'],

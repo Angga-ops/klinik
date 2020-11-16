@@ -11,9 +11,9 @@
 						<?php if(empty($_GET['id'])){    ?>
 						<option>Pilih Klinik ..</option>
 						<?php } 
-						 $q1 = mysql_query("SELECT *FROM daftar_klinik"); while ($dk = mysql_fetch_array($q1)) {
+						 $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik"); while ($dk = mysqli_fetch_array($q1)) {
 							?>
-								<option <?php if($dk['id_kk']==$id_kk){ echo 'selected'; } ?> value="<?php echo $dk[id_kk]; ?>"><?php echo $dk['nama_klinik']; ?></option>
+								<option <?php if($dk['id_kk']==$id_kk){ echo 'selected'; } ?> value="<?php echo $dk['id_kk']; ?>"><?php echo $dk['nama_klinik']; ?></option>
 							<?php
 						} ?>
 					</select>
@@ -36,14 +36,14 @@
 					<tbody>
 						<?php 
 						if(empty($_GET['id'])){
-							$q2 =  mysql_query("SELECT *FROM produk");
+							$q2 =  mysqli_query($con, "SELECT *FROM produk");
 						}else {
-							$q2 =  mysql_query("SELECT *FROM produk WHERE id_kk='$id_kk'");
+							$q2 =  mysqli_query($con, "SELECT *FROM produk WHERE id_kk='$id_kk'");
 						}
 
-						 	while ($p=mysql_fetch_array($q2)) { ?>
+						 	while ($p=mysqli_fetch_array($q2)) { ?>
 						 		<tr>
-						 			<td><?php $k =  mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$p[id_kk]'")); echo $k['nama_klinik']; ?></td>
+						 			<td><?php $k =  mysqli_fetch_array(mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$p[id_kk]'")); echo $k['nama_klinik']; ?></td>
 									<td><?php echo $p['nama_p']; ?></td>
 									<td><?php echo $p['jumlah']; ?></td>
 								</tr>

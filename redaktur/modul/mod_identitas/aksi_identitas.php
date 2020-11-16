@@ -19,12 +19,12 @@
 		$acak           = rand(1,99);
 		$nama_file_unik = $acak.$nama_file; 
 		UploadIdentitas($nama_file_unik);
-		$gambar	= mysql_fetch_array(mysql_query("Select * From identitas Where id='$id'"));		
+		$gambar	= mysqli_fetch_array(mysqli_query($con, "Select * From identitas Where id='$id'"));		
 		if(empty($lokasi_file)){
-			$update	= mysql_query("Update identitas Set nama_organisasi='$nmo', nama_web='$nmw', alamat='$almt', informasi='$info' Where id='$id'");			
+			$update	= mysqli_query($con, "Update identitas Set nama_organisasi='$nmo', nama_web='$nmw', alamat='$almt', informasi='$info' Where id='$id'");			
 			header('location:../../media.php?module=identitas');					
 		} else {
-			$update	= mysql_query("Update identitas Set nama_organisasi='$nmo', nama_web='$nmw', alamat='$almt', informasi='$info', logo='$nama_file_unik' Where id='$id'");			
+			$update	= mysqli_query($con, "Update identitas Set nama_organisasi='$nmo', nama_web='$nmw', alamat='$almt', informasi='$info', logo='$nama_file_unik' Where id='$id'");			
 			$folder	= "../../../foto_identitas/".$gambar["logo"];
 			unlink($folder);
 			header('location:../../media.php?module=identitas');

@@ -9,8 +9,8 @@
 	// Hapus data barang
 	if ($act == 'hapus'){
 		$id		= $_POST['id_brg'];
-		$del	= mysql_query("Delete From gudang Where id_brg='$id'");
-		catat($_SESSION['namauser'], 'Hapus Data Stok Barang'.' ('.$id.')');
+		$del	= mysqli_query($con, "Delete From gudang Where id_brg='$id'");
+		catat($con, $_SESSION['namauser'], 'Hapus Data Stok Barang'.' ('.$id.')');
 		header('location:../../media.php?module=stok_barang');
 	}
 
@@ -20,8 +20,8 @@
 		$nm  	    = $_POST['nama_brg'];
 		$jml		= $_POST['jumlah_brg'];
 		$hrg	    = $_POST['harga_brg'];
-		$simpan		= mysql_query("Insert Into gudang(id_brg,nama_brg,jumlah_brg,harga_brg) Values('$id','$nm','$jml','$hrg')") or die(mysql_error());
-	 	catat($_SESSION['namauser'], 'Data Stok Barang'.' ('.$nm.')');
+		$simpan		= mysqli_query($con, "Insert Into gudang(id_brg,nama_brg,jumlah_brg,harga_brg) Values('$id','$nm','$jml','$hrg')") or die(mysqli_error($con));
+	 	catat($con, $_SESSION['namauser'], 'Data Stok Barang'.' ('.$nm.')');
 		if($simpan){
 			header('location:../../media.php?module=stok_barang');
 		} else {
@@ -34,8 +34,8 @@
 		$nm		    = $_POST['nama_brg'];
 		$jml	    = $_POST['jumlah_brg'];
 		$hrg	    = $_POST['harga_brg'];
-		$update		= mysql_query("Update gudang Set nama_brg='$nm', jumlah_brg='$jml', harga_brg='$hrg' Where id_brg='$id'");
-		catat($_SESSION['namauser'], 'Edit Data Stok Barang'.' ('.$id.')');
+		$update		= mysqli_query($con, "Update gudang Set nama_brg='$nm', jumlah_brg='$jml', harga_brg='$hrg' Where id_brg='$id'");
+		catat($con, $_SESSION['namauser'], 'Edit Data Stok Barang'.' ('.$id.')');
 		if($update){
 			header('location:../../media.php?module=stok_barang');
 		} else {

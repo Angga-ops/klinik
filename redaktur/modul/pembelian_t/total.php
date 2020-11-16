@@ -3,8 +3,8 @@
 include "../../../config/koneksi.php";
 include ('../../../config/fungsi_rupiah.php');
 
-$total = mysql_query("SELECT SUM(sub_tot) AS total FROM pembelian_t");
-$k = mysql_fetch_array($total);
+$total = mysqli_query($con,"SELECT SUM(sub_tot) AS total FROM pembelian_t");
+$k = mysqli_fetch_array($total);
 $tot = array();
 
 $out =  $k['total'];

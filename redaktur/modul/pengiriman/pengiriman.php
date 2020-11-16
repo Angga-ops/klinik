@@ -33,18 +33,18 @@ switch ($act) {
             </tr>
           </thead>
           <tbody>
-            <?php $q1 = mysql_query("SELECT *FROM pengiriman WHERE status='lapor' ORDER BY tanggal DESC"); 
-                  while($pp = mysql_fetch_array($q1)){ ?>
+            <?php $q1 = mysqli_query($con,"SELECT *FROM pengiriman WHERE status='lapor' ORDER BY tanggal DESC"); 
+                  while($pp = mysqli_fetch_array($q1)){ ?>
 
             <tr>
-              <td><?php $c =  mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$pp[cabang]'")); echo $c["nama_klinik"]; ?></td>
+              <td><?php $c =  mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$pp[cabang]'")); echo $c["nama_klinik"]; ?></td>
               <td><?php echo $pp["tanggal"]; ?></td>
               <td><?php echo $pp["pengirim"]; ?></td>
               <td><?php echo $pp["penerima"]; ?></td>
               <td><?php echo $pp["keterangan"]; ?></td>
               <td>
-                <a href="media.php?module=pengiriman&act=detail&nop=<?php echo $pp[no_pengiriman]; ?>" class="btn btn-primary btn-xs"><i class="fa fa-list"></i> Detail</a>
-                <a href="modul/pengiriman/cetak_pengiriman.php?nop=<?php echo $pp[no_pengiriman]; ?>" class="btn btn-info btn-xs"><i class="fa fa-print"></i> Cetak</a>
+                <a href="media.php?module=pengiriman&act=detail&nop=<?php echo $pp['no_pengiriman']; ?>" class="btn btn-primary btn-xs"><i class="fa fa-list"></i> Detail</a>
+                <a href="modul/pengiriman/cetak_pengiriman.php?nop=<?php echo $pp['no_pengiriman']; ?>" class="btn btn-info btn-xs"><i class="fa fa-print"></i> Cetak</a>
               </td>
             </tr>
                 <?php
@@ -77,15 +77,15 @@ switch ($act) {
       <h3 class="box-title">Detail Pengiriman</h3>
     </div>
     <div class="box-body">
-      <?php $q2 = mysql_query("SELECT *FROM pengiriman WHERE no_pengiriman='$nop'");
-        $p = mysql_fetch_array($q2);
+      <?php $q2 = mysqli_query($con,"SELECT *FROM pengiriman WHERE no_pengiriman='$nop'");
+        $p = mysqli_fetch_array($q2);
       ?>
       <div class="row">
         <div class="col-md-2">
           Tanggal Pengiriman 
         </div>
         <div class="col-md-5">
-          :&emsp; <?php echo $p['tanggal'] ?>
+          :  <?php echo $p['tanggal'] ?>
         </div>
       </div>
       <div class="row" style="margin-top: 5px;">
@@ -93,7 +93,7 @@ switch ($act) {
           Nomer Pengiriman 
         </div>
         <div class="col-md-5">
-          :&emsp; <?php echo $p['no_pengiriman'] ?>
+          :  <?php echo $p['no_pengiriman'] ?>
         </div>
       </div>
       <div class="row" style="margin-top: 5px;">
@@ -101,7 +101,7 @@ switch ($act) {
           Tujuan Cabang    
         </div>
         <div class="col-md-5">
-          :&emsp; <?php $k = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$p[cabang]'")); echo $k['nama_klinik']; ?>
+          :  <?php $k = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$p[cabang]'")); echo $k['nama_klinik']; ?>
         </div>
       </div>
       <div class="row" style="margin-top: 5px;">
@@ -109,7 +109,7 @@ switch ($act) {
           Pengirim 
         </div>
         <div class="col-md-5">
-          :&emsp; <?php echo $p['pengirim']; ?>
+          :  <?php echo $p['pengirim']; ?>
         </div>
       </div>
       <div class="row" style="margin-top: 5px;">
@@ -117,7 +117,7 @@ switch ($act) {
           Penerima 
         </div>
         <div class="col-md-5">
-          :&emsp; <?php echo $p['penerima']; ?>
+          :  <?php echo $p['penerima']; ?>
         </div>
       </div>
       <div class="row" style="margin-top: 5px;">
@@ -125,16 +125,16 @@ switch ($act) {
           Keterangan 
         </div>
         <div class="col-md-5">
-          :&emsp; <?php echo $p['keterangan']; ?>
+          :  <?php echo $p['keterangan']; ?>
         </div>
       </div><br>
       <button class="btn btn-success btn-sm" onclick="window.history.back()">Kembali</button>
       <?php if($p['status']=="Lapor"){?>
-            <a href="modul/pengiriman/konfirmasi.php?nop=<?php echo $p[no_pengiriman]; ?>" class="btn btn-primary btn-sm">Konfirmasi</a>
+            <a href="modul/pengiriman/konfirmasi.php?nop=<?php echo $p['no_pengiriman']; ?>" class="btn btn-primary btn-sm">Konfirmasi</a>
         <?php
       } ?>
       <?php if($p['keterangan']!="Telah Diterima"){?>
-            <a href="modul/pengiriman/cetak_pengiriman.php?nop=<?php echo $p[no_pengiriman]; ?>" class="btn btn-info btn-sm"><i class="fa fa-print"></i> Cetak</a>
+            <a href="modul/pengiriman/cetak_pengiriman.php?nop=<?php echo $p['no_pengiriman']; ?>" class="btn btn-info btn-sm"><i class="fa fa-print"></i> Cetak</a>
         <?php
       } ?>
       <hr>
@@ -155,17 +155,17 @@ switch ($act) {
             </tr>
           </thead>
           <tbody>
-            <?php $q1 = mysql_query("SELECT *FROM produk_pengiriman WHERE no_pengiriman='$nop'"); 
+            <?php $q1 = mysqli_query($con,"SELECT *FROM produk_pengiriman WHERE no_pengiriman='$nop'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {
+              while ($br = mysqli_fetch_array($q1)) {
                 ?>
             <tr>
               <td><?php echo $no; ?></td>
               <td><?php echo $br['kode_produk']; ?></td>
               <td><?php echo $br['nama_produk']; ?></td>
-              <td><?php $sat = mysql_fetch_array(mysql_query("SELECT *FROM kategori WHERE id_kategori='$br[id_kat]'")); 
+              <td><?php $sat = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM kategori WHERE id_kategori='$br[id_kat]'")); 
               echo $sat['kategori']; ?></td>
-              <td><?php $kat = mysql_fetch_array(mysql_query("SELECT *FROM data_satuan WHERE id_s='$br[id_sat]'")); 
+              <td><?php $kat = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM data_satuan WHERE id_s='$br[id_sat]'")); 
               echo $kat['satuan']; ?></td>
               <td><?php echo $br['harga_jual']; ?></td>
               <td><?php echo $br['jumlah']; ?></td>
@@ -212,10 +212,10 @@ switch ($act) {
             <td>
               <select class="form-control" name="cabang" required id="klinik">
                 <option value="0">Pilih Klinik</option>
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik"); 
-                      while($k = mysql_fetch_array($q1)){ ?>
+                <?php $q1 = mysqli_query($con,"SELECT *FROM daftar_klinik"); 
+                      while($k = mysqli_fetch_array($q1)){ ?>
 
-                      <option value="<?php echo $k[id_kk]; ?>"><?php echo $k["nama_klinik"]; ?></option>
+                      <option value="<?php echo $k['id_kk']; ?>"><?php echo $k["nama_klinik"]; ?></option>
                       <?php 
                     }
                 ?>
@@ -256,9 +256,9 @@ switch ($act) {
             <label>Kategori</label>
             <select class="form-control" name="kat_brg" id="kat_brg">
               <option>Kategori ..</option>
-              <?php  $q1 = mysql_query("SELECT *FROM kategori"); 
-              while ($kat = mysql_fetch_array($q1)) { ?>
-                <option value="<?php echo $kat[id_kategori]; ?>"><?php echo $kat['kategori']; ?></option>
+              <?php  $q1 = mysqli_query($con,"SELECT *FROM kategori"); 
+              while ($kat = mysqli_fetch_array($q1)) { ?>
+                <option value="<?php echo $kat['id_kategori']; ?>"><?php echo $kat['kategori']; ?></option>
             <?php  }
             ?>
             </select>
@@ -267,9 +267,9 @@ switch ($act) {
             <label>Satuan</label>
             <select class="form-control" name="sat_brg" id="sat_brg">
               <option>Satuan ..</option>
-              <?php  $q1 = mysql_query("SELECT * FROM data_satuan"); 
-              while ($kat = mysql_fetch_array($q1)) { ?>
-                <option value="<?php echo $kat[id_s]; ?>"><?php echo $kat['satuan']; ?></option>
+              <?php  $q1 = mysqli_query($con,"SELECT * FROM data_satuan"); 
+              while ($kat = mysqli_fetch_array($q1)) { ?>
+                <option value="<?php echo $kat['id_s']; ?>"><?php echo $kat['satuan']; ?></option>
             <?php  }
             ?>
             </select>
@@ -354,18 +354,18 @@ switch ($act) {
             </tr>
           </thead>
           <tbody>
-            <?php $q1 = mysql_query("SELECT *FROM pengiriman ORDER BY tanggal DESC"); 
-                  while($pp = mysql_fetch_array($q1)){ ?>
+            <?php $q1 = mysqli_query($con,"SELECT *FROM pengiriman ORDER BY tanggal DESC"); 
+                  while($pp = mysqli_fetch_array($q1)){ ?>
 
             <tr>
-              <td><?php $c =  mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$pp[cabang]'")); echo $c["nama_klinik"]; ?></td>
+              <td><?php $c =  mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$pp[cabang]'")); echo $c["nama_klinik"]; ?></td>
               <td><?php echo $pp["tanggal"]; ?></td>
               <td><?php echo $pp["pengirim"]; ?></td>
               <td><?php echo $pp["penerima"]; ?></td>
               <td><?php echo $pp["keterangan"]; ?></td>
               <td>
-                <a href="media.php?module=pengiriman&act=detail&nop=<?php echo $pp[no_pengiriman]; ?>" class="btn btn-primary btn-xs"><i class="fa fa-list"></i> Detail</a>
-                <a href="modul/pengiriman/cetak_pengiriman.php?nop=<?php echo $pp[no_pengiriman]; ?>" class="btn btn-info btn-xs"><i class="fa fa-print"></i> Cetak</a>
+                <a href="media.php?module=pengiriman&act=detail&nop=<?php echo $pp['no_pengiriman']; ?>" class="btn btn-primary btn-xs"><i class="fa fa-list"></i> Detail</a>
+                <a href="modul/pengiriman/cetak_pengiriman.php?nop=<?php echo $pp['no_pengiriman']; ?>" class="btn btn-info btn-xs"><i class="fa fa-print"></i> Cetak</a>
               </td>
             </tr>
                 <?php
@@ -389,7 +389,7 @@ switch ($act) {
             <div class="modal-content" style="width: 100%;">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
+                  <span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">Edit Produk</h4>
               </div>
               <div class="modal-body">
@@ -407,9 +407,9 @@ switch ($act) {
                     <label>Kategori</label>
                     <select class="form-control" name="kat_brg" id="kat">
                       <option>Kategori ..</option>
-                      <?php  $q1 = mysql_query("SELECT *FROM kategori"); 
-                      while ($kat = mysql_fetch_array($q1)) { ?>
-                        <option value="<?php echo $kat[id_kategori]; ?>"><?php echo $kat['kategori']; ?></option>
+                      <?php  $q1 = mysqli_query($con,"SELECT *FROM kategori"); 
+                      while ($kat = mysqli_fetch_array($q1)) { ?>
+                        <option value="<?php echo $kat['id_kategori']; ?>"><?php echo $kat['kategori']; ?></option>
                     <?php  }
                     ?>
                     </select>
@@ -418,9 +418,9 @@ switch ($act) {
                     <label>Satuan</label>
                     <select class="form-control" name="sat_brg" id="sat">
                       <option>Satuan ..</option>
-                      <?php  $q1 = mysql_query("SELECT *FROM data_satuan"); 
-                      while ($kat = mysql_fetch_array($q1)) { ?>
-                        <option value="<?php echo $kat[id_s]; ?>"><?php echo $kat['satuan']; ?></option>
+                      <?php  $q1 = mysqli_query($con,"SELECT *FROM data_satuan"); 
+                      while ($kat = mysqli_fetch_array($q1)) { ?>
+                        <option value="<?php echo $kat['id_s']; ?>"><?php echo $kat['satuan']; ?></option>
                     <?php  }
                     ?>
                     </select>

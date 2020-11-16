@@ -7,16 +7,16 @@
     
 <?php 
     
-$bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
+$bc = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
     
     ?> 
 
     <h1>
-        <?php echo $bc[crumb]; ?>
+        <?php echo $bc['crumb']; ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="?module=home"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"> <?php echo $bc[crumb]; ?></li>
+        <li class="active"> <?php echo $bc['crumb']; ?></li>
       </ol>
     </section>
 
@@ -56,8 +56,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From gudang");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con, "Select * From gudang");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
                  
@@ -176,7 +176,7 @@ $(document).ready(function(){
   break;
   case "edit_brg":
   $id   = $_GET['id'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From gudang Where id_brg='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From gudang Where id_brg='$id'"));
 ?>
 
 <section class="content">

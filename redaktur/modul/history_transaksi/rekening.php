@@ -5,11 +5,11 @@ include "../../../config/koneksi.php";
 if(isset($_POST['search'])){
  $search = $_POST['search'];
 
- $query = mysql_query("SELECT * FROM rekening WHERE no_rek like'%".$search."%'");
+ $query = mysqli_query($con, "SELECT * FROM rekening WHERE no_rek like'%".$search."%'");
 
  $response = array();
 
- while($row = mysql_fetch_array($query)){
+ while($row = mysqli_fetch_array($query)){
    $response[] = array(
    	"label"=>$row['no_rek']
    );

@@ -75,13 +75,13 @@ window.print();
       </tr>
     </thead>
     <tbody>
-      <?php $tgl=$_GET["tgl"]; $q = mysql_query("SELECT *FROM reture r JOIN daftar_klinik dk ON r.asal_cabang=dk.id_kk WHERE r.tanggal='$tgl'");  
+      <?php $tgl=$_GET["tgl"]; $q = mysqli_query($con, "SELECT *FROM reture r JOIN daftar_klinik dk ON r.asal_cabang=dk.id_kk WHERE r.tanggal='$tgl'");  
       $grand_total=0;
-      while($d = mysql_fetch_array($q)){
+      while($d = mysqli_fetch_array($q)){
         $jumlah = 0;
       ?>
-      <?php $q1 = mysql_query("SELECT *FROM produk_reture WHERE no_reture='$d[no_reture]'");
-      while($p =  mysql_fetch_array($q1)){  ?>
+      <?php $q1 = mysqli_query($con, "SELECT *FROM produk_reture WHERE no_reture='$d[no_reture]'");
+      while($p =  mysqli_fetch_array($q1)){  ?>
       <tr>
         <td><?php echo $d['nama_klinik']; ?></td>
         <td><?php echo tgl_indo($d["tanggal"]); ?></td>

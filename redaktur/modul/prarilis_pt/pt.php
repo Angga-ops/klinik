@@ -36,8 +36,8 @@
 							 <select class="form-control" id="cab" name="klinik" required>
 							 <?php 
 							 
-							 $c = mysql_query("SELECT * FROM daftar_klinik");
-							 while($cab = mysql_fetch_assoc($c)){
+							 $c = mysqli_query($con,"SELECT * FROM daftar_klinik");
+							 while($cab = mysqli_fetch_assoc($c)){
 								 echo "<option value='$cab[id_kk]'>$cab[nama_klinik]</option>";
 							 }
 							 

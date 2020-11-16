@@ -91,23 +91,23 @@ if (empty($_GET['cbg'])) {
 	    <tbody>
 	    	<?php 
 	    	if ($cabang=='semua') {
-	    		$q = mysql_query("SELECT *FROM daftar_klinik");
+	    		$q = mysqli_query($con, "SELECT *FROM daftar_klinik");
 	    	}else{
-	    		$q = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$cabang'");
+	    		$q = mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$cabang'");
 	    	}
 	    	 
 	    	$totall = 0;
-	    		while($d= mysql_fetch_array($q)){ $total = 0;
-	    			$q2 = mysql_query("SELECT *FROM pembayaran p 
+	    		while($d= mysqli_fetch_array($q)){ $total = 0;
+	    			$q2 = mysqli_query($con, "SELECT *FROM pembayaran p 
 	    				JOIN history_kasir pp ON p.no_faktur=pp.no_faktur
 	    				JOIN user u ON p.id_kasir=u.id_user  
 	    				JOIN pasien pas ON p.id_pasien=pas.id_pasien
 	    				WHERE p.id_kk='$d[id_kk]' AND p.tgl>='$tgl' AND p.tgl<='$tgl2' AND pp.jenis='Produk'");
-	    			$cek = mysql_num_rows($q2);
+	    			$cek = mysqli_num_rows($q2);
 	    			if ($cek==0) {
 	    				continue;
 	    			}
-	    			while ($p=mysql_fetch_array($q2)) { ?>
+	    			while ($p=mysqli_fetch_array($q2)) { ?>
 	    	<tr>
 	    		<td><?php echo $p['nama_lengkap']; ?></td>
 	    		<td><?php echo $p['kode']; ?></td>

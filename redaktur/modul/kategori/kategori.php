@@ -13,9 +13,9 @@
                   <option value="a">Pilih Klinik...</option>
                       <?php 
 
-                      $query = mysql_query("SELECT *FROM daftar_klinik");
+                      $query = mysqli_query($con, "SELECT *FROM daftar_klinik");
 
-                      while ($cb = mysql_fetch_array($query)) { 
+                      while ($cb = mysqli_fetch_array($query)) { 
 
                         ?>
                       <option value="<?php echo $cb['id_kk']?>"><?php echo $cb['nama_klinik']; ?></option>
@@ -48,13 +48,13 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From kategori");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con, "Select * From kategori");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
                 <td><?php echo $r["kategori"]; ?></td>
-                <!--<?php $q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <!--<?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k['nama_klinik']; ?></td>-->
             <td>
                      
@@ -134,7 +134,7 @@ $(document).ready(function(){
   break;
   case "edit_kategori":
   $id   = $_GET['id'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From kategori Where id_kategori='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From kategori Where id_kategori='$id'"));
 ?>
 
 <section class="content">

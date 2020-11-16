@@ -153,7 +153,7 @@ $id_kk = $_SESSION['klinik']; ?>
 									<!------------------------------------------> 
 
 						<form style="margin-bottom: 20px;" id="form_z">
-						<input class="form-control" type="hidden" name="id_kasir" value="<?php echo $_SESSION[id_user]; ?>">
+						<input class="form-control" type="hidden" name="id_kasir" value="<?php echo $_SESSION['id_user']; ?>">
 					 		<input class="form-control id_pasien" type="hidden" name="id_pasien" id="id_pasien">
 					 	
 							 <input type="hidden" name="nofak" value="<?php echo $nofak; ?>">
@@ -175,8 +175,8 @@ $id_kk = $_SESSION['klinik']; ?>
 											<option value="">--abaikan--</option>
 											<?php 
 											
-											$asur = mysql_query("SELECT * FROM asuransi");
-											while($asuri = mysql_fetch_assoc($asur)){
+											$asur = mysqli_query($con,"SELECT * FROM asuransi");
+											while($asuri = mysqli_fetch_assoc($asur)){
 												echo "<option value='$asuri[id]'>$asuri[nama]</option>";
 											}
 											

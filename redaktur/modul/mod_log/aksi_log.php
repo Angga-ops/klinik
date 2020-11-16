@@ -2,14 +2,13 @@
 	date_default_timezone_set('Asia/Jakarta');
 	error_reporting('0');
 	function sambung($db='rumah_sakit', $host='localhost', $user='root', $pass=''){
-    @mysql_connect($host,$user,$pass) or die('<strong style="color: red;">Gagal Terhubung ke database '.mysql_error().'</strong>');
-    @mysql_select_db($db) or die('<strong style="color: red;">Gagal Memilih database</strong>');;
+    @$koneksi= mysqli_connect($host,$user,$pass,$db) or die('<strong style="color: red;">Gagal Terhubung ke database '.mysqli_error($koneksi).'</strong>');;
 	};
-	function catat($us,$text){
+	function catat($con, $us,$text){
 		$now=date('Y-m-d H:i:s');
-		$peng=mysql_real_escape_string($us);
-		$aksi=mysql_real_escape_string($text);
-			$insert=mysql_query("INSERT INTO log SET username = '$peng', aksi = '$aksi', tanggal = '$now'");
+		$peng=mysqli_real_escape_string($con, $us);
+		$aksi=mysqli_real_escape_string($con, $text);
+			$insert=mysqli_query($con, "INSERT INTO log SET username = '$peng', aksi = '$aksi', tanggal = '$now'");
 			if($insert){
 	
 			}else{
@@ -27,30 +26,29 @@
 			$this->d=$db;
 		}
 		public function sambungDB(){
-			@mysql_connect($this->h,$this->u,$this->p);
-			@mysql_selectdb($this->d);
+			@mysqli_connect($this->h,$this->u,$this->p,$this->d);
 		}
 		public function sql($query){
 			//$this::sambungDB();
 	
-			$this->query=mysql_query($query);
+			$this->query=mysqli_query($query);
 		}
 		public function hasil(){
-			$this->hasil=mysql_fetch_array($this->query);
+			$this->hasil=mysqli_fetch_array($this->query);
 			return $this->hasil;
 		}
 		public function getJml(){
 			//$this::sambungDB();
-			return mysql_num_rows($this->query);
+			return mysqli_num_rows($this->query);
 		}
 		public function baris($sql){
 			//$this::sambungDB();
-			$this->baris=mysql_query($sql);
-			return mysql_num_rows($this->baris);
+			$this->baris=mysqli_query($sql);
+			return mysqli_num_rows($this->baris);
 		}
 		public function single($sql){
-			$query=mysql_query($sql);
-			return @mysql_result($query,0);
+			$query=mysqli_query($sql);
+			return @mysqli_result($query,0);
 		}
 	}
 	

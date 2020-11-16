@@ -13,7 +13,7 @@
 	<table width="100%" style="border:solid; border-width:1px; border-color:#23333E;">
 		<?php
 			$id		= $_GET['id'];
-			$pt		= mysql_fetch_array(mysql_query("Select nama_pt From supplier, barang_masuk Where supplier.id_supplier=barang_masuk.id_supplier And no_faktur='$id'"));
+			$pt		= mysqli_fetch_array(mysqli_query($con, "Select nama_pt From supplier, barang_masuk Where supplier.id_supplier=barang_masuk.id_supplier And no_faktur='$id'"));
 		?>
             <tr>
               <td colspan="5"><div align="center" id="pem2"><?php echo $pt['nama_pt']; ?></div></td>
@@ -25,9 +25,9 @@
                 <td><div align="center" id="donker">Total Harga</div></td>
             </tr>
 		<?php
-			$om		= mysql_query("Select id_bm, nama_pt, nama_brg, jumlah, harga_beli, total_harga From supplier, gudang, barang_masuk Where supplier.id_supplier=barang_masuk.id_supplier And gudang.id_brg=barang_masuk.id_brg And no_faktur='$id'");
-			$tot	= mysql_fetch_array(mysql_query("Select sum(total_harga) as total From barang_masuk Where no_faktur='$id'"));
-			while($hasil	= mysql_fetch_array($bm)){
+			$om		= mysqli_query($con, "Select id_bm, nama_pt, nama_brg, jumlah, harga_beli, total_harga From supplier, gudang, barang_masuk Where supplier.id_supplier=barang_masuk.id_supplier And gudang.id_brg=barang_masuk.id_brg And no_faktur='$id'");
+			$tot	= mysqli_fetch_array(mysqli_query($con, "Select sum(total_harga) as total From barang_masuk Where no_faktur='$id'"));
+			while($hasil	= mysqli_fetch_array($bm)){
 		?>
             <tr id="tdb">
                 <td id="tdku"><div align="center"><?php echo $hasil['nama_brg']; ?></div></td>

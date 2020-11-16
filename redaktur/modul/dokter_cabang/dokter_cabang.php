@@ -35,8 +35,8 @@
         </thead>
       <tbody>
     <?php
-    $tampil   = mysql_query("Select * From user Where id_ju='JU-02' AND id_kk='$id_kk'");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con, "Select * From user Where id_ju='JU-02' AND id_kk='$id_kk'");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
                 <td><center><?php
@@ -45,8 +45,8 @@
                         }else{
                             echo '<center><a href="'.$url.'/file_user/foto_user/'.$r['foto'].'"><img src="'.$url.'/file_user/foto_user/'.$r['foto'].'" width="50px" height="50px"></a></center>';
                         }?></center></td>
-                <?php $q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$r[id_kk]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k["nama_klinik"]; ?></td>
                 <td><?php echo $r["nama_lengkap"]; ?></td>
                 
@@ -136,7 +136,7 @@ $(document).ready(function(){
   break;
   case "edit_kategori":
   $id   = $_GET['id'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From kategori Where id_kategori='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con, "Select * From kategori Where id_kategori='$id'"));
 ?>
 
 <section class="content">

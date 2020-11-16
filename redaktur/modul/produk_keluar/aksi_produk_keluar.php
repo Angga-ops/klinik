@@ -9,8 +9,8 @@
 	// Hapus Kamar
 	if ($module == 'produk_keluar' AND $act == 'hapus'){
 		$id		= $_GET['id'];
-		$del	= mysql_query("Delete From pengiriman Where id_pengiriman='$id'");
-		catat($_SESSION['namauser'], 'Hapus Data Suplier'.' ('.$id.')');
+		$del	= mysqli_query($con,"Delete From pengiriman Where id_pengiriman='$id'");
+		catat($con,$_SESSION['namauser'], 'Hapus Data Suplier'.' ('.$id.')');
 		header('location:../../media.php?module=produk_keluar');
 	}
 	// Input Kamar Baru
@@ -25,8 +25,8 @@
 		$tgl                = $_POST['tgl'];
 		$id_kk              = $_POST['id_kk'];
 		$pengiriman         = $_POST['pengiriman'];
-		$simpan		= mysql_query("Insert Into pengiriman(nomer,kode_barang,nama_p,id_kategori,id_s,harga_jual,jumlah,tgl,id_kk,pengiriman) Values('$nomer','$kode_barang','$nama_p','$id_kategori','$id_s','$harga_jual','$jumlah','$tgl','$id_kk','$pengiriman')") or die(mysql_error());
-	 	catat($_SESSION['namauser'], 'Data Suplier Baru'.' ('.$nmrgn.')');
+		$simpan		= mysqli_query($con,"Insert Into pengiriman(nomer,kode_barang,nama_p,id_kategori,id_s,harga_jual,jumlah,tgl,id_kk,pengiriman) Values('$nomer','$kode_barang','$nama_p','$id_kategori','$id_s','$harga_jual','$jumlah','$tgl','$id_kk','$pengiriman')") or die(mysqli_error($con));
+	 	catat($con,$_SESSION['namauser'], 'Data Suplier Baru'.' ('.$nmrgn.')');
 		if($simpan){
 			header('location:../../media.php?module=produk_keluar');
 		} else {
@@ -46,8 +46,8 @@
 		$tgl                = $_POST['tgl'];
 		$id_kk              = $_POST['id_kk'];
 		$pengiriman         = $_POST['pengiriman'];
-		$update		    = mysql_query("Update pengiriman Set nomer='$nomer', kode_barang='$kode_barang', nama_p='$nama_p', id_kategori='$id_kategori', id_s='$id_s', harga_jual='$harga_jual', jumlah='$jumlah', tgl='$tgl', id_kk='$id_kk', pengiriman='$pengiriman' Where id_pengiriman='$id'");
-		catat($_SESSION['namauser'], 'Edit Data Ruangan'.' ('.$id.')');
+		$update		    = mysqli_query($con,"Update pengiriman Set nomer='$nomer', kode_barang='$kode_barang', nama_p='$nama_p', id_kategori='$id_kategori', id_s='$id_s', harga_jual='$harga_jual', jumlah='$jumlah', tgl='$tgl', id_kk='$id_kk', pengiriman='$pengiriman' Where id_pengiriman='$id'");
+		catat($con, $_SESSION['namauser'], 'Edit Data Ruangan'.' ('.$id.')');
 		if($update){
 			header('location:../../media.php?module=produk_keluar');
 		} else {

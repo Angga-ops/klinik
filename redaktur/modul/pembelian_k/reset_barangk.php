@@ -3,7 +3,7 @@ include "../../../config/koneksi.php";
 
 session_start();
 
-mysql_query("DELETE FROM pembelian_k WHERE id_t='$id'");
+mysqli_query($con,"DELETE FROM pembelian_k WHERE id_t='$id'");
 
 exit();
 ?>

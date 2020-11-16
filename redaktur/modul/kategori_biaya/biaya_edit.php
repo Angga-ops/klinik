@@ -8,7 +8,7 @@
           <h3 class="box-title">Edit Data Kategori Biaya</h3>
 <?php
 
-$edit = mysql_fetch_assoc(mysql_query("SELECT * FROM kategori_biaya WHERE id = '$_GET[id]'"));
+$edit = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM kategori_biaya WHERE id = '$_GET[id]'"));
 
 ?>
         </div>
@@ -17,8 +17,8 @@ $edit = mysql_fetch_assoc(mysql_query("SELECT * FROM kategori_biaya WHERE id = '
           <form method="post" enctype="multipart/form-data" action="modul/kategori_biaya/aksi.php?act=edit">
               <div class="form-group">
                 <label>Kategori</label>
-                <input type='hidden' name="id" value="<?php echo $_GET[id]; ?>" />
-               <input type="text" class="form-control" name="nama" value='<?php echo $edit[kategori]; ?>' required/>
+                <input type='hidden' name="id" value="<?php echo $_GET['id']; ?>" />
+               <input type="text" class="form-control" name="nama" value='<?php echo $edit['kategori']; ?>' required/>
               </div>
               
               <div class="form-group">

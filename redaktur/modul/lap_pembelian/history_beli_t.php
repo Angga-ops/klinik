@@ -65,8 +65,8 @@
 					</tr>	
 				</thead>
 				<tbody>';
-						$p = mysql_query("SELECT *FROM history_beli_t WHERE tgl_beli between '$_POST[tgl1]' AND '$_POST[tgl2]'"); 
-						while($dat=mysql_fetch_array($p)){
+						$p = mysqli_query($con, "SELECT *FROM history_beli_t WHERE tgl_beli between '$_POST[tgl1]' AND '$_POST[tgl2]'"); 
+						while($dat=mysqli_fetch_array($p)){
 							echo '
 									<tr>
 										<td>'.$dat['kd_brg'].'</td>
@@ -83,8 +83,8 @@
 					<tr>
 						<td><b>TOTAL</b></td>';
 			          $jumlahkan = "SELECT SUM(sub_tot) AS total FROM history_beli_t where tgl_beli between '$_POST[tgl1]' AND '$_POST[tgl2]'"; //perintah untuk menjumlahkan
-			          $total =@mysql_query($jumlahkan) or die (mysql_error());//melakukan query dengan varibel $jumlahkan
-			          $t = mysql_fetch_array($total); //menyimpan hasil query ke variabel $t
+			          $total =@mysqli_query($con, $jumlahkan) or die (mysqli_error($con));//melakukan query dengan varibel $jumlahkan
+			          $t = mysqli_fetch_array($total); //menyimpan hasil query ke variabel $t
 			          echo '
 						<td><b>'.rupiah($t['total']).'<b></td>
 					</tr>

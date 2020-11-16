@@ -46,16 +46,16 @@
 	$now = date("Y-m",strtotime("+1 month"))."-24";
  }
         
-        $d = mysql_query("SELECT * FROM nurse WHERE drpraktek IN (SELECT id_drpraktek FROM dr_praktek WHERE expired >= '$last' AND expired <= '$now')");
-        while($du = mysql_fetch_assoc($d)){
+        $d = mysqli_query($con,"SELECT * FROM nurse WHERE drpraktek IN (SELECT id_drpraktek FROM dr_praktek WHERE expired >= '$last' AND expired <= '$now')");
+        while($du = mysqli_fetch_assoc($d)){
 
-          $dr = mysql_fetch_assoc(mysql_query("SELECT a.nama_lengkap,b.* FROM user a JOIN dr_praktek b ON a.id_user = b.id_dr WHERE b.id_drpraktek = '$du[drpraktek]'"));
+          $dr = mysqli_fetch_assoc(mysqli_query($con,"SELECT a.nama_lengkap,b.* FROM user a JOIN dr_praktek b ON a.id_user = b.id_dr WHERE b.id_drpraktek = '$du[drpraktek]'"));
 
-          $nurse = mysql_fetch_assoc(mysql_query("SELECT * FROM karyawan WHERE id_karyawan = '$du[perawat]'"));
+          $nurse = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM karyawan WHERE id_karyawan = '$du[perawat]'"));
 
-          $poli = mysql_fetch_assoc(mysql_query("SELECT * FROM poliklinik WHERE id_poli = '$dr[id_poli]'"));
+          $poli = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM poliklinik WHERE id_poli = '$dr[id_poli]'"));
 
-          switch($dr[hari]){
+          switch($dr['hari']){
             case "1": $day = "Senin"; break;
             case "2": $day = "Selasa"; break;
             case "3": $day = "Rabu"; break;
@@ -99,9 +99,9 @@
 <option value="">--silakan pilih--</option>
 <?php 
 $today = DATE('Y-m-d');
-$do = mysql_query("SELECT * FROM user a JOIN dr_praktek b ON a.id_user = b.id_dr JOIN poliklinik c ON b.id_poli=c.id_poli WHERE a.id_ju = 'JU-02' AND b.expired>='$today'");
-while($dok = mysql_fetch_assoc($do)){
-  switch($dok[hari]){
+$do = mysqli_query($con,"SELECT * FROM user a JOIN dr_praktek b ON a.id_user = b.id_dr JOIN poliklinik c ON b.id_poli=c.id_poli WHERE a.id_ju = 'JU-02' AND b.expired>='$today'");
+while($dok = mysqli_fetch_assoc($do)){
+  switch($dok['hari']){
     case "1": $hari = "Senin"; break;
     case "2": $hari = "Selasa"; break;
     case "3": $hari = "Rabu"; break;
@@ -125,8 +125,8 @@ while($dok = mysql_fetch_assoc($do)){
 <option value="">--silakan pilih--</option>
 <?php 
 
-$do = mysql_query("SELECT * FROM karyawan WHERE id_ju = 'JU-10'");
-while($dok = mysql_fetch_assoc($do)){
+$do = mysqli_query($con,"SELECT * FROM karyawan WHERE id_ju = 'JU-10'");
+while($dok = mysqli_fetch_assoc($do)){
     echo "<option value='$dok[id_karyawan]'>$dok[nama_karyawan]</option>";
 }
 
@@ -166,9 +166,9 @@ while($dok = mysql_fetch_assoc($do)){
 <option value="">--silakan pilih--</option>
 <?php 
 $today = DATE('Y-m-d');
-$u = mysql_query("SELECT * FROM nurse n JOIN karyawan k ON(n.perawat=k.id_karyawan) JOIN dr_praktek d ON(n.drpraktek=d.id_drpraktek) JOIN poliklinik p ON(d.id_poli=p.id_poli) WHERE d.expired>='$today'");
-while($ux = mysql_fetch_assoc($u)){
-  switch($ux[hari]){
+$u = mysqli_query($con,"SELECT * FROM nurse n JOIN karyawan k ON(n.perawat=k.id_karyawan) JOIN dr_praktek d ON(n.drpraktek=d.id_drpraktek) JOIN poliklinik p ON(d.id_poli=p.id_poli) WHERE d.expired>='$today'");
+while($ux = mysqli_fetch_assoc($u)){
+  switch($ux['hari']){
     case "1": $hari = "Senin"; break;
     case "2": $hari = "Selasa"; break;
     case "3": $hari = "Rabu"; break;
@@ -190,9 +190,9 @@ while($ux = mysql_fetch_assoc($u)){
 <option value="">--silakan pilih--</option>
 <?php 
 
-$u = mysql_query("SELECT * FROM nurse n JOIN karyawan k ON(n.perawat=k.id_karyawan) JOIN dr_praktek d ON(n.drpraktek=d.id_drpraktek) JOIN poliklinik p ON(d.id_poli=p.id_poli) WHERE d.expired>='$today'");
-while($ux = mysql_fetch_assoc($u)){
-  switch($ux[hari]){
+$u = mysqli_query($con,"SELECT * FROM nurse n JOIN karyawan k ON(n.perawat=k.id_karyawan) JOIN dr_praktek d ON(n.drpraktek=d.id_drpraktek) JOIN poliklinik p ON(d.id_poli=p.id_poli) WHERE d.expired>='$today'");
+while($ux = mysqli_fetch_assoc($u)){
+  switch($ux['hari']){
     case "1": $hari = "Senin"; break;
     case "2": $hari = "Selasa"; break;
     case "3": $hari = "Rabu"; break;

@@ -8,8 +8,8 @@ if($_POST['id']) {
         ?>
         <form style="margin-bottom: 20px;" role="form" method="POSt" action="modul/pembelian_k/edit_transaksi.php">
             <?php
-         $tampil     = mysql_query("SELECT * FROM beli_k WHERE id = $id");
-        while($data = mysql_fetch_array($tampil)){
+         $tampil     = mysqli_query($con,"SELECT * FROM beli_k WHERE id = $id");
+        while($data = mysqli_fetch_array($tampil)){
          ?>
             
               <div class="form-group">
@@ -32,8 +32,8 @@ if($_POST['id']) {
                 <label>Suplier</label>
                 <select type="text" name="id_sup" class="form-control" >
                  <option value="<?php echo $data['id_sup'];?>">
-                  <?php $query = mysql_query("SELECT *FROM suplier");
-                     while ($cb = mysql_fetch_array($query)) { ?>
+                  <?php $query = mysqli_query($con,"SELECT *FROM suplier");
+                     while ($cb = mysqli_fetch_array($query)) { ?>
                         <?php echo $cb['nama_sup'];?></option>
                        <option value="<?php echo $cb['id_sup']; ?>"><?php echo $cb['nama_sup']; ?></option>
                     <?php  } ?> 

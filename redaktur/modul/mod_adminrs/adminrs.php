@@ -51,17 +51,17 @@
       <tbody>
       <?php 
       
-      $j = mysql_query("SELECT * FROM biaya_administrasi");
-      while($jo = mysql_fetch_assoc($j)){
+      $j = mysqli_query($con, "SELECT * FROM biaya_administrasi");
+      while($jo = mysqli_fetch_assoc($j)){
         echo "<tr>";
         echo "<td>$jo[nama]</td>";
         echo "<td>Rp $jo[biaya]</td>";
         if ($_SESSION['jenis_u']=="JU-01") {
           echo "<td>"; ?>
           
-          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default" onclick="setdata(this.id)" id="<?php echo $jo[id]; ?>">
+          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default" onclick="setdata(this.id)" id="<?php echo $jo['id']; ?>">
                   Edit
-                </button>&nbsp; <button type="button" class="btn btn-danger" onclick="deldata(this.id)" id="<?php echo $jo[id]; ?>">
+                </button>&nbsp; <button type="button" class="btn btn-danger" onclick="deldata(this.id)" id="<?php echo $jo['id']; ?>">
                  Hapus
                 </button>
 

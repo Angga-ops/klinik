@@ -8,13 +8,14 @@
 
 		include "../../../config/koneksi.php";
 		include "../mod_log/aksi_log.php";
-		$module=$_GET[module];
+		$module=$_GET['module'];
 
 		function backup_tables($tables = '*') {
+			global $con;
 			if ($tables == '*') {
 				$tables = array();
-				$result = mysql_query('SHOW TABLES');
-				while ($row = mysql_fetch_row($result)) {
+				$result = mysqli_query($con, 'SHOW TABLES');
+				while ($row = mysqli_fetch_row($result)) {
 					$tables[] = $row[0];
 				}
 			}
@@ -25,16 +26,16 @@
 			//melalui siklus
 			foreach($tables as $table)
 			{
-				$result = mysql_query('SELECT * FROM '.$table);
-				$num_fields = mysql_num_fields($result);
+				$result = mysqli_query($con, 'SELECT * FROM '.$table);
+				$num_fields = mysqli_num_fields($result);
 				
 				$return.= 'DROP TABLE IF EXISTS '.$table.';';
-				$row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE '.$table));
+				$row2 = mysqli_fetch_row(mysqli_query($con, 'SHOW CREATE TABLE '.$table));
 				$return.= "\n".$row2[1].";\n";
 				
 				for ($i = 0; $i < $num_fields; $i++) 
 				{
-					while($row = mysql_fetch_row($result))
+					while($row = mysqli_fetch_row($result))
 					{
 						$return.= 'INSERT INTO '.$table.' VALUES(';
 						for($j=0; $j<$num_fields; $j++) 
@@ -50,7 +51,7 @@
 				//$return.="\n\n\n";
 			}
 
-			catat($_SESSION['namauser'], "Berhasil Backup database");
+			catat($con, $_SESSION['namauser'], "Berhasil Backup database");
 			$file = "Backup-klinik-DB(".date('d-m-y').").sql";
 			header("Content-type: text/plain");
 			header("Content-Disposition: attachment; filename=$file");
@@ -64,7 +65,7 @@
 
 		function restore($filename){
 
-		 
+			global $con;
 			///////////////////////////////////////////////////////////
 		
 			// Temporary variable, used to store current query
@@ -86,7 +87,7 @@
 				if (substr(trim($line), -1, 1) == ';')
 				{
 					// Perform the query
-					if(mysql_query($templine)){
+					if(mysqli_query($con, $templine)){
 						$berhasil++;
 					}else{
 						$gagal++;
@@ -100,7 +101,7 @@
 	        if(file_exists($letak)){
 	            unlink($letak);
 	        }
-	        catat($_SESSION['namauser'], "Restore Database");
+	        catat($con, $_SESSION['namauser'], "Restore Database");
 			echo "<script type=\"text/javascript\">alert('Hasil Restore Berhasil: $berhasil Gagal $gagal');
 				location='../../media.php?module=database';
 			</script>";

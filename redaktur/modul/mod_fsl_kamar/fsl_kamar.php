@@ -7,16 +7,16 @@
     
 <?php 
     
-$bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
+$bc = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
     
     ?>    
     
       <h1>
-        <?php echo $bc[crumb]; ?>
+        <?php echo $bc['crumb']; ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="?module=home"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"> <?php echo $bc[crumb]; ?></li>
+        <li class="active"> <?php echo $bc['crumb']; ?></li>
       </ol>
     </section>
 
@@ -53,8 +53,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
         </thead>
     	<tbody>
 		<?php
-		$tampil		= mysql_query("Select * From kamar, detail_kamar Where detail_kamar.id_kamar=kamar.id_kamar");
-		while($r	= mysql_fetch_array($tampil)){
+		$tampil		= mysqli_query($con, "Select * From kamar, detail_kamar Where detail_kamar.id_kamar=kamar.id_kamar");
+		while($r	= mysqli_fetch_array($tampil)){
     ?>
 			<tr class="gradeX">
                  <td>
@@ -112,8 +112,8 @@ $(document).ready(function(){
                 <label>Kamar</label>
                 <select name="kamar" class="form-control" required>
                   <option value="">-- Pilih --</option>
-                 <?php $nama_kamar = mysql_query("Select * From kamar");
-                while ($r = mysql_fetch_array($nama_kamar)) {
+                 <?php $nama_kamar = mysqli_query($con, "Select * From kamar");
+                while ($r = mysqli_fetch_array($nama_kamar)) {
                 ?>
                 <option value="<?php echo $r["id_kamar"]; ?>"><?php echo $r["nama_kamar"]; ?></option>
                 <?php
@@ -159,7 +159,7 @@ $(document).ready(function(){
 	break;
 	case "edit_dk":
 	$id		= $_GET['id'];
-	$edit 	= mysql_fetch_array(mysql_query("Select * From detail_kamar Where id_dk='$id'"));
+	$edit 	= mysqli_fetch_array(mysqli_query($con, "Select * From detail_kamar Where id_dk='$id'"));
 ?>
 
 <section class="content">
@@ -180,13 +180,13 @@ $(document).ready(function(){
                 <label>Kamar</label>
                 <select name="kamar" class="form-control" required>
                  <?php
-                    $jr	= mysql_query("Select * From kamar");
+                    $jr	= mysqli_query($con, "Select * From kamar");
                     if ($edit['id_kamar'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Jenis --</option>
                 <?php
                 }
-                    while ($edit_jr 		= mysql_fetch_array($jr)) {
+                    while ($edit_jr 		= mysqli_fetch_array($jr)) {
                     if ($edit['id_kamar']	== $edit_jr['id_kamar']) {
                     ?>
                         <option value="<?php echo $edit_jr['id_kamar']; ?>" selected><?php echo $edit_jr['nama_kamar']; ?></option>
@@ -247,13 +247,13 @@ $(document).ready(function(){
             <label for="field4">Kamar</label>
             <select name="kamar">
 				<?php
-                    $jr	= mysql_query("Select * From kamar");
+                    $jr	= mysqli_query($con, "Select * From kamar");
                     if ($edit['id_kamar'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Jenis --</option>
                 <?php
                 }
-                    while ($edit_jr 		= mysql_fetch_array($jr)) {
+                    while ($edit_jr 		= mysqli_fetch_array($jr)) {
                     if ($edit['id_kamar']	== $edit_jr['id_kamar']) {
                     ?>
                         <option value="<?php echo $edit_jr['id_kamar']; ?>" selected><?php echo $edit_jr['nama_kamar']; ?></option>

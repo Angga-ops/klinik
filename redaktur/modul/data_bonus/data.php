@@ -22,8 +22,8 @@
 <option value="all">Semua Karyawan</option>
 <?php 
 
-$kar = mysql_query("SELECT username,nama_karyawan,(SELECT nama_klinik FROM daftar_klinik WHERE id_kk = karyawan.id_kk) klinik FROM karyawan ORDER BY id_kk");
-while($kary = mysql_fetch_assoc($kar)){
+$kar = mysqli_query($con, "SELECT username,nama_karyawan,(SELECT nama_klinik FROM daftar_klinik WHERE id_kk = karyawan.id_kk) klinik FROM karyawan ORDER BY id_kk");
+while($kary = mysqli_fetch_assoc($kar)){
   echo "<option value='$kary[username]'>$kary[nama_karyawan] $kary[klinik]</option>";
 }
 
@@ -80,7 +80,7 @@ while($kary = mysql_fetch_assoc($kar)){
 $tgl = date("Y-m");
 $where = "WHERE tgl LIKE '%$tgl%'";
 
-switch($_GET[act]){
+switch($_GET['act']){
   case "items":
 
 $where = "WHERE username = '$_GET[username]' AND tgl >= '$_GET[tgl1]-01' AND tgl <= '$_GET[tgl2]-31'";
@@ -111,24 +111,24 @@ $where = "WHERE username = '$_GET[username]' AND tgl >= '$_GET[tgl1]-01' AND tgl
 
       <tbody>
 
-<?php $bn = mysql_query("SELECT * FROM bonus $where");
+<?php $bn = mysqli_query($con, "SELECT * FROM bonus $where");
 
-while($bnx = mysql_fetch_assoc($bn)){
+while($bnx = mysqli_fetch_assoc($bn)){
 
-$h = mysql_fetch_assoc(mysql_query("SELECT aksi FROM log WHERE username = '$bnx[username]' AND aksi LIKE '%bonus%' AND tanggal >= '$bnx[tgl]'"));
+$h = mysqli_fetch_assoc(mysqli_query($con, "SELECT aksi FROM log WHERE username = '$bnx[username]' AND aksi LIKE '%bonus%' AND tanggal >= '$bnx[tgl]'"));
 
-$j = mysql_fetch_assoc(mysql_query("SELECT a.nama_produk,a.harga_jual,b.kategori,c.satuan FROM produk_master a JOIN kategori b ON a.id_kategori = b.id_kategori JOIN data_satuan c ON a.id_satuan = c.id_s WHERE a.kd_produk = '$bnx[produk]'"));
+$j = mysqli_fetch_assoc(mysqli_query($con, "SELECT a.nama_produk,a.harga_jual,b.kategori,c.satuan FROM produk_master a JOIN kategori b ON a.id_kategori = b.id_kategori JOIN data_satuan c ON a.id_satuan = c.id_s WHERE a.kd_produk = '$bnx[produk]'"));
 
-$k = mysql_fetch_assoc(mysql_query("SELECT id_pasien,nama_pasien FROM pasien WHERE id = $bnx[pasien]"));
+$k = mysqli_fetch_assoc(mysqli_query($con, "SELECT id_pasien,nama_pasien FROM pasien WHERE id = $bnx[pasien]"));
 
 
-$u = mysql_fetch_assoc(mysql_query("SELECT nama_karyawan FROM karyawan WHERE username = '$bnx[username]'"));
+$u = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_karyawan FROM karyawan WHERE username = '$bnx[username]'"));
 
 echo "<tr>";
 echo "<td>$u[nama_karyawan]</td>";
 echo "<td>$k[nama_pasien] $k[id_pasien]</td>";
 echo "<td>$j[nama_produk]</td>";
-echo "<td>Rp ".number_format($j[harga_jual],0,",",".")."</td>";
+echo "<td>Rp ".number_format($j['harga_jual'],0,",",".")."</td>";
 echo "<td>$j[satuan]</td>";
 echo "<td>$j[kategori]</td>";
 echo "<td>$bnx[jml]</td>";
@@ -161,22 +161,22 @@ echo "</tr>";
 
 <?php 
 
-if(isset($_GET[act])){
+if(isset($_GET['act'])){
 $where = "WHERE tgl >= '$_GET[tgl1]-01' AND tgl <= '$_GET[tgl2]-31'";
 } else {}
 
-$ex = mysql_query("SELECT COUNT(jml) AS tot, bonus.* FROM bonus $where GROUP BY username,produk");
+$ex = mysqli_query($con, "SELECT COUNT(jml) AS tot, bonus.* FROM bonus $where GROUP BY username,produk");
 
-while($exo = mysql_fetch_assoc($ex)){
+while($exo = mysqli_fetch_assoc($ex)){
 
 
-  $j = mysql_fetch_assoc(mysql_query("SELECT a.nama_produk,a.harga_jual,b.kategori,c.satuan FROM produk_master a JOIN kategori b ON a.id_kategori = b.id_kategori JOIN data_satuan c ON a.id_satuan = c.id_s WHERE a.kd_produk = '$exo[produk]'"));
+  $j = mysqli_fetch_assoc(mysqli_query($con, "SELECT a.nama_produk,a.harga_jual,b.kategori,c.satuan FROM produk_master a JOIN kategori b ON a.id_kategori = b.id_kategori JOIN data_satuan c ON a.id_satuan = c.id_s WHERE a.kd_produk = '$exo[produk]'"));
 
-  $u = mysql_fetch_assoc(mysql_query("SELECT nama_karyawan FROM karyawan WHERE username = '$exo[username]'"));
+  $u = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_karyawan FROM karyawan WHERE username = '$exo[username]'"));
 
 echo "<tr>";
 echo "<td>$u[nama_karyawan]</td>";echo "<td>$j[nama_produk]</td>";
-echo "<td>Rp ".number_format($j[harga_jual],0,",",".")."</td>";
+echo "<td>Rp ".number_format($j['harga_jual'],0,",",".")."</td>";
 echo "<td>$j[satuan]</td>";
 echo "<td>$j[kategori]</td>";
 echo "<td>$exo[tot]</td>";
@@ -195,7 +195,7 @@ echo "</tr>";
 
 
 <style>
-.tbl {border-collpase: collapse; width: 100%}
+.tbl {border-collapse: collapse; width: 100%}
 .tbl td {padding: 1%}
 .ui-datepicker-calendar {
     display: none;

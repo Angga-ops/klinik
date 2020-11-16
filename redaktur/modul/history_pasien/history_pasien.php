@@ -9,15 +9,15 @@
 				<?php 
 					$tgl = $_GET['tgl'];
 					$nu = $_GET['nu'];
-					$p = mysql_query("SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE no_urut='$nu' AND history_ap.tanggal_pendaftaran='$tgl'");
- 					$pas = mysql_fetch_array($p);
+					$p = mysqli_query($con, "SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE no_urut='$nu' AND history_ap.tanggal_pendaftaran='$tgl'");
+ 					$pas = mysqli_fetch_array($p);
  					// Total
- 					$query = mysql_query("SELECT SUM(harga_p) AS jumlah FROM perawatan_pasien WHERE no_urut='$nu' AND tanggal='$tgl'");
- 					$total = mysql_fetch_array($query);
+ 					$query = mysqli_query($con, "SELECT SUM(harga_p) AS jumlah FROM perawatan_pasien WHERE no_urut='$nu' AND tanggal='$tgl'");
+ 					$total = mysqli_fetch_array($query);
  					$total = $total['jumlah'];
  					// End
- 					$kk = mysql_query("SELECT *FROM pembayaran WHERE no_urut='$nu' AND tgl='$tgl'");
- 					$k = mysql_fetch_array($kk);
+ 					$kk = mysqli_query($con, "SELECT *FROM pembayaran WHERE no_urut='$nu' AND tgl='$tgl'");
+ 					$k = mysqli_fetch_array($kk);
 				 ?>
 				<div class="row">
 				<div class="col-md-6">
@@ -84,8 +84,8 @@
 					</tr>	
 				</thead>
 				<tbody>
-					<?php $p = mysql_query("SELECT *FROM perawatan_pasien WHERE no_urut='$nu' AND tanggal='$tgl'"); 
-						while($dat=mysql_fetch_array($p)){ ?>
+					<?php $p = mysqli_query($con, "SELECT *FROM perawatan_pasien WHERE no_urut='$nu' AND tanggal='$tgl'"); 
+						while($dat=mysqli_fetch_array($p)){ ?>
 							<tr>
 								<td><?php echo $dat['nama_p']; ?></td>
 								<td><?php echo $dat['harga_p']; ?></td>
@@ -108,7 +108,7 @@
 	default: ?>
 		<?php $id=$_GET['pp']; 
 
-$pas = mysql_fetch_array(mysql_query("SELECT *FROM pasien WHERE id_pasien='$id'"));
+$pas = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM pasien WHERE id_pasien='$id'"));
 
 ?>
 <section class="content">
@@ -182,8 +182,8 @@ $pas = mysql_fetch_array(mysql_query("SELECT *FROM pasien WHERE id_pasien='$id'"
 					</tr>	
 				</thead>
 				<tbody>
-					<?php $p = mysql_query("SELECT *FROM history_ap WHERE id_pasien='$id' ORDER BY tanggal_pendaftaran DESC"); 
-						while($dat=mysql_fetch_array($p)){ ?>
+					<?php $p = mysqli_query($con, "SELECT *FROM history_ap WHERE id_pasien='$id' ORDER BY tanggal_pendaftaran DESC"); 
+						while($dat=mysqli_fetch_array($p)){ ?>
 							<tr>
 								<td><?php echo $dat['kunjungan_ke']; ?></td>
 								<td><?php echo $dat['tanggal_pendaftaran']; ?></td>

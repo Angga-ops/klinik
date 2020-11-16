@@ -55,8 +55,8 @@ window.print();
 </style>
 <?php
 
-$q = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$_GET[id]'");
-$d = mysql_fetch_array($q);
+$q = mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$_GET[id]'");
+$d = mysqli_fetch_array($q);
 
 ?>
 <div align="center">
@@ -94,12 +94,12 @@ $d = mysql_fetch_array($q);
 	    <tbody>
 	    <?php 
 	    			
-	    			$q2 = mysql_query("SELECT *FROM pembayaran p 
+	    			$q2 = mysqli_query($con,"SELECT *FROM pembayaran p 
 	    				JOIN history_kasir pp ON p.no_faktur=pp.no_faktur
 	    				JOIN user u ON p.id_kasir=u.id_user  
 	    				JOIN pasien pas ON p.id_pasien=pas.id_pasien
 	    				WHERE p.id_kk='$d[id_kk]' AND p.tgl='$_GET[tgl]' AND pp.jenis='Treatment'");
-	    			while ($p=mysql_fetch_array($q2)) { $total = 0; ?>
+	    			while ($p=mysqli_fetch_array($q2)) { $total = 0; ?>
 	    				
 	    	<tr>
 	    		<td><?php echo $p['nama_lengkap']; ?></td>

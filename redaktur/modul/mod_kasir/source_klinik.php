@@ -10,10 +10,10 @@ if(isset($_POST['search'])){
 
  $query = "SELECT * FROM biaya_administrasi WHERE nama like'%".$search."%'";
  
- $result = mysql_query($query);
+ $result = mysqli_query($con,$query);
 
  $response = array();
- while($row = mysql_fetch_array($result) ){
+ while($row = mysqli_fetch_array($result) ){
    $response[] = array(
    	"harga"=>$row['biaya'],
    	"label"=>$row['nama'],

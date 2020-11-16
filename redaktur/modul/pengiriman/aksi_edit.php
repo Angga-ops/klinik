@@ -10,7 +10,7 @@ $sat	= $_POST['sat_brg'];
 $jumlah	= $_POST['j'];
 $harga 	= $_POST['hj'];
 
-mysql_query("UPDATE produk_ps SET 
+mysqli_query($con,"UPDATE produk_ps SET 
 	kode_produk='$kd_brg',
 	nama_produk='$nama',
 	id_kat='$kat',

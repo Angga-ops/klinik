@@ -51,11 +51,11 @@ window.print();
 
 </style>
 <?php
-	$p = mysql_fetch_array(mysql_query("SELECT *FROM produk WHERE id_kk='$_GET[id_kk]'"));
+	$p = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM produk WHERE id_kk='$_GET[id_kk]'"));
 ?>
 <div align="center">
-	<h3>Stok Produk Pada <?php $q1 = mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$p[id_kk]'"); 
-                 $k = mysql_fetch_array($q1); ?><?php echo $k['nama_klinik'] ?></h3>
+	<h3>Stok Produk Pada <?php $q1 = mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$p[id_kk]'"); 
+                 $k = mysqli_fetch_array($q1); ?><?php echo $k['nama_klinik'] ?></h3>
 </div>
 <div align="center">
 	<div align="left"><h4>Stok Produk</h4></div>    
@@ -68,9 +68,9 @@ window.print();
 	        </tr>
 	    </thead>
 	    <tbody>
-		<?php $q1 = mysql_query("SELECT *FROM produk WHERE id_kk='$_GET[id_kk]'"); 
+		<?php $q1 = mysqli_query($con, "SELECT *FROM produk WHERE id_kk='$_GET[id_kk]'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {
+              while ($br = mysqli_fetch_array($q1)) {
                 ?>
             <tr>
               <td><?php echo $no; ?></td>

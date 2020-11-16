@@ -55,7 +55,7 @@ window.print();
 $tgl1 = $_GET['tanggal1'];
 $tgl2 = $_GET['tanggal2'];
 $id_kk = $_GET['id_kk'];
-	$p = mysql_fetch_array(mysql_query("SELECT *FROM krisar WHERE tanggal='$_GET[tanggal]' AND id_kk='$_GET[id_kk]'"));
+	$p = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM krisar WHERE tanggal='$_GET[tanggal]' AND id_kk='$_GET[id_kk]'"));
 ?>
 <div align="center">
 	<h4>Kritik dan Saran dari Tanggal : <?php echo $_GET['tanggal1'] ?> Sampai Tanggal : <?php echo $_GET['tanggal1'] ?> </h4>
@@ -78,9 +78,9 @@ $id_kk = $_GET['id_kk'];
 		<?php 
              $tgls = "";
 			if ($id_kk == 0) {
-				$q1 = mysql_query("SELECT *FROM krisar WHERE tanggal between '$_GET[tanggal1]' AND '$_GET[tanggal2]'"); 
+				$q1 = mysqli_query($con, "SELECT *FROM krisar WHERE tanggal between '$_GET[tanggal1]' AND '$_GET[tanggal2]'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {?>
+              while ($br = mysqli_fetch_array($q1)) {?>
 	            <tr>
 	              <td><?php echo $no; ?></td>
 				  <td><?php echo $br['id_kk']; ?></td>
@@ -106,13 +106,13 @@ $id_kk = $_GET['id_kk'];
 	              }?>
 			<?php }else{
 			     $tgls = "";
-				$q1 = mysql_query("SELECT *FROM krisar WHERE tanggal between '$_GET[tanggal1]' AND '$_GET[tanggal2]' AND id_kk='$_GET[id_kk]'"); 
+				$q1 = mysqli_query($con, "SELECT *FROM krisar WHERE tanggal between '$_GET[tanggal1]' AND '$_GET[tanggal2]' AND id_kk='$_GET[id_kk]'"); 
               $no =1;
-              while ($br = mysql_fetch_array($q1)) {?>
+              while ($br = mysqli_fetch_array($q1)) {?>
 	            <tr>
 	              <td><?php echo $no; ?></td>
-	              <?php $q2 = mysql_query("SELECT * daftar_klinik where id_kk='$_GET[id_kk]'");
-	              		$k = mysql_fetch_array($q2);?>
+	              <?php $q2 = mysqli_query($con, "SELECT * daftar_klinik where id_kk='$_GET[id_kk]'");
+	              		$k = mysqli_fetch_array($q2);?>
 				  <td><?php echo $k['nama_klinik']; ?></td>
 	              <td><?php echo $br['tanggal']; ?></td>
 	              <td><?php echo $br['nama']; ?></td>

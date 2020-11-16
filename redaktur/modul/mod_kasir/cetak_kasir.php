@@ -19,11 +19,11 @@ if ($_GET['nofak']){
 
 	$no_faktur = $_GET["nofak"];
 
-	$idd = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'"));
+	$idd = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'"));
 
-	$nota=mysql_fetch_array(mysql_query("SELECT * FROM pembayaran where no_faktur='$no_faktur'"));
+	$nota=mysqli_fetch_array(mysqli_query($con, "SELECT * FROM pembayaran where no_faktur='$no_faktur'"));
 
-	$ky=mysql_query("SELECT * FROM pembayaran p JOIN history_kasir h ON p.no_faktur=h.no_faktur  WHERE p.no_faktur='$no_faktur'");
+	$ky=mysqli_query($con, "SELECT * FROM pembayaran p JOIN history_kasir h ON p.no_faktur=h.no_faktur  WHERE p.no_faktur='$no_faktur'");
 
 
 	//formating data text:
@@ -39,7 +39,7 @@ if ($_GET['nofak']){
 	$tbl .= "#Nama #Qty #Harga #Sub total";
 	$tbl .= "=============================\n";
 
-	while ($item=mysql_query($kt)) {
+	while ($item=mysqli_query($con, $kt)) {
 		$tbl .= "".$ky['nama']." ".$ky['jumlah']." ".$ky['harga']." ".$ky['harga']*$ky['jumlah']."\n";
 	}
 

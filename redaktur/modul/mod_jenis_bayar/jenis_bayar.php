@@ -24,8 +24,8 @@
         </thead>
     	<tbody>
 		<?php
-            $tampil		= mysql_query("Select * From jenis_pembayaran");
-            while($data	= mysql_fetch_array($tampil)){
+            $tampil		= mysqli_query($con, "Select * From jenis_pembayaran");
+            while($data	= mysqli_fetch_array($tampil)){
         ?>
 			<tr class="gradeX">
                 <td><?php echo $data['id_jenispem']; ?></td>
@@ -91,7 +91,7 @@
 	break;
     case "edit":
 	$id		= $_GET["id"];
-    $edit 	=  mysql_fetch_array(mysql_query("Select * From jenis_pembayaran Where id_jenispem='$id'"));
+    $edit 	=  mysqli_fetch_array(mysqli_query($con, "Select * From jenis_pembayaran Where id_jenispem='$id'"));
 ?>
     <div id="main-content">
     <div class="container_12">

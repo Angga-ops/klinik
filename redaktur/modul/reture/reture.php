@@ -20,7 +20,7 @@ switch ($act) {
 			<h3 class="box-title">Detail Reture</h3>
 		</div>
 		<div class="box-body">
-			<?php $p = mysql_fetch_array(mysql_query("SELECT *FROM reture WHERE no_reture='$nor'")); ?>
+			<?php $p = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM reture WHERE no_reture='$nor'")); ?>
 		  <div class="row">
 	        <div class="col-md-2">
 	          Nomer Reture 
@@ -34,7 +34,7 @@ switch ($act) {
 	          Asal Cabang    
 	        </div>
 	        <div class="col-md-5">
-	          :&emsp; <?php $k = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$p[asal_cabang]'")); echo $k['nama_klinik']; ?>
+	          :&emsp; <?php $k = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$p[asal_cabang]'")); echo $k['nama_klinik']; ?>
 	        </div>
 	      </div>
 	      <div class="row" style="margin-top: 5px;">
@@ -79,8 +79,8 @@ switch ($act) {
 					</tr>
 				</thead>
 				<tbody>
-					<?php $q = mysql_query("SELECT *FROM produk_reture WHERE no_reture='$nor'"); 
-						 while($r = mysql_fetch_array($q)){
+					<?php $q = mysqli_query($con,"SELECT *FROM produk_reture WHERE no_reture='$nor'"); 
+						 while($r = mysqli_fetch_array($q)){
 						 	?>
 					<tr>
 						<td><?php echo $r['kode_produk']; ?></td>
@@ -131,17 +131,17 @@ switch ($act) {
 					</tr>
 				</thead>
 				<tbody>
-					<?php $q = mysql_query("SELECT *FROM reture ORDER BY tanggal DESC"); 
-						 while($r = mysql_fetch_array($q)){
+					<?php $q = mysqli_query($con,"SELECT *FROM reture ORDER BY tanggal DESC"); 
+						 while($r = mysqli_fetch_array($q)){
 						 	?>
 					<tr>
 						<td><?php echo $r['no_reture']; ?></td>
 						<td><?php echo $r['no_pengiriman']; ?></td>
 						<td><?php echo $r['tanggal']; ?></td>
 						<td><?php echo $r['pengirim']; ?></td>
-						<td><?php $k = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$r[asal_cabang];'")); echo $k['nama_klinik']; ?></td>
+						<td><?php $k = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$r[asal_cabang];'")); echo $k['nama_klinik']; ?></td>
 						<td><?php echo $r['keterangan']; ?></td>
-						<td><a href="media.php?module=reture&act=detail&nor=<?php echo $r[no_reture]; ?>" class="btn btn-xs btn-info"><i class="fa fa-list"></i> Detail</a></td>
+						<td><a href="media.php?module=reture&act=detail&nor=<?php echo $r['no_reture']; ?>" class="btn btn-xs btn-info"><i class="fa fa-list"></i> Detail</a></td>
 					</tr>
 						 	<?php
 						 }

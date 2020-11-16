@@ -27,11 +27,11 @@
           </tr>
         </thead>
         <tbody>
-          <?php $q = mysql_query("SELECT *FROM produk_rusak p 
+          <?php $q = mysqli_query($con,"SELECT *FROM produk_rusak p 
           JOIN kategori k ON p.id_kat=k.id_kategori
           JOIN data_satuan s ON p.id_sat=s.id_s
           "); 
-          while ($pr = mysql_fetch_array($q)) {
+          while ($pr = mysqli_fetch_array($q)) {
             ?>
           <tr>
             <td><?php echo $pr['kode_produk'] ?></td>

@@ -6,8 +6,8 @@ $sql = "SELECT * FROM noticelab a JOIN treatment b ON a.jasa = b.id WHERE b.kate
 
 ?>
 
-<h4>No Billing : <?php echo $_GET[faktur]; ?></h4>
-<h4>ID Pasien : <?php echo $_GET[pasien]; ?></h4>
+<h4>No Billing : <?php echo $_GET['faktur']; ?></h4>
+<h4>ID Pasien : <?php echo $_GET['pasien']; ?></h4>
 
 <table>
 
@@ -22,8 +22,8 @@ $sql = "SELECT * FROM noticelab a JOIN treatment b ON a.jasa = b.id WHERE b.kate
 <tbody>
 <?php 
 
-$q = mysql_query($sql);
-while($qu = mysql_fetch_assoc($q)){
+$q = mysqli_query($con, $sql);
+while($qu = mysqli_fetch_assoc($q)){
 echo "<tr>";
 echo "<td>$qu[nama_t]</td>";
 echo "</tr>";

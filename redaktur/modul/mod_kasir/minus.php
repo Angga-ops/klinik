@@ -8,15 +8,15 @@ $id  = $_POST['id'];
 
 
 	
-	$q1 = mysql_query("SELECT *FROM kasir_sementara WHERE id ='$id' AND id_kk='$id_kk'");
-	$data = mysql_fetch_array($q1);
+	$q1 = mysqli_query($con, "SELECT *FROM kasir_sementara WHERE id ='$id' AND id_kk='$id_kk'");
+	$data = mysqli_fetch_array($q1);
 
 	$jumlah = $data['jumlah'];
 	$jumlah--;
 	if($jumlah==0){
-		mysql_query("DELETE FROM kasir_sementara WHERE id='$id' AND id_kk='$id_kk'");
+		mysqli_query($con, "DELETE FROM kasir_sementara WHERE id='$id' AND id_kk='$id_kk'");
 	}else{
-		mysql_query("UPDATE kasir_sementara SET jumlah='$jumlah' WHERE id='$id' AND id_kk='$id_kk'");
+		mysqli_query($con, "UPDATE kasir_sementara SET jumlah='$jumlah' WHERE id='$id' AND id_kk='$id_kk'");
 	}
 
 

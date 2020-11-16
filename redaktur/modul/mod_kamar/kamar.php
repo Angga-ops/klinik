@@ -28,8 +28,8 @@
     </thead>
     <tbody>
 	<?php
-		$tampil		= mysql_query("Select id_kamar, kelas, nama_kamar, biaya_kamar From kamar, kamar_jenis Where kamar_jenis.id_jenkamar=kamar.id_jenkamar Order by kelas");
-		while($r	= mysql_fetch_array($tampil)){
+		$tampil		= mysqli_query($con, "Select id_kamar, kelas, nama_kamar, biaya_kamar From kamar, kamar_jenis Where kamar_jenis.id_jenkamar=kamar.id_jenkamar Order by kelas");
+		while($r	= mysqli_fetch_array($con, $tampil)){
     ?>
         <tr class="gradeX">
             <td><?php echo $r["kelas"]; ?></td>
@@ -68,8 +68,8 @@
             <label for="field4">Jenis Ruangan</label>
             <select name="kelas" required>
                 <option value="">-- Pilih Jenis --</option>
-                <?php $kelas = mysql_query("Select * From kamar_jenis");
-                while ($r = mysql_fetch_array($kelas)) {
+                <?php $kelas = mysqli_query($con, "Select * From kamar_jenis");
+                while ($r = mysqli_fetch_array($kelas)) {
                 ?>
                 <option value="<?php echo $r["id_jenkamar"]; ?>"><?php echo $r["kelas"]; ?></option>
                 <?php
@@ -107,7 +107,7 @@
 	break;
 	case "edit_kamar":
 	$id		= $_GET['id'];
-	$edit 	= mysql_fetch_array(mysql_query("Select * From kamar Where id_kamar='$id'"));
+	$edit 	= mysqli_fetch_array(mysqli_query($con, "Select * From kamar Where id_kamar='$id'"));
 ?>
     <div id="main-content">
     <div class="container_12">
@@ -123,13 +123,13 @@
             <label for="field4">Jenis Ruangan</label>
             <select name="kelas">
 				<?php
-                    $jr	= mysql_query("Select * From kamar_jenis");
+                    $jr	= mysqli_query($con, "Select * From kamar_jenis");
                     if ($edit['id_jenkamar'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Jenis --</option>
                 <?php
                 }
-                    while ($edit_jr 		= mysql_fetch_array($jr)) {
+                    while ($edit_jr 		= mysqli_fetch_array($jr)) {
                     if ($edit['id_jenkamar']	== $edit_jr['id_jenkamar']) {
                     ?>
                         <option value="<?php echo $edit_jr['id_jenkamar']; ?>" selected><?php echo $edit_jr['kelas']; ?></option>

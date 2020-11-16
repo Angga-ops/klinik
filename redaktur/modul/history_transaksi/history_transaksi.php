@@ -16,25 +16,25 @@ $id_kk = $_SESSION['klinik'];
 					$tgl = $_GET['tgl'];
 					$nu = $_GET['nu'];
 					$no_faktur = $_GET['nofak'];
-					$p = mysql_query("SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE history_ap.no_faktur='$no_faktur'");
-					if(mysql_num_rows($p) > 0){
-						$pas = mysql_fetch_array($p);
+					$p = mysqli_query($con, "SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE history_ap.no_faktur='$no_faktur'");
+					if(mysqli_num_rows($p) > 0){
+						$pas = mysqli_fetch_array($p);
 					} else {
-						$pas = mysql_fetch_array(mysql_query("SELECT * FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien WHERE perawatan_pasien.no_faktur='$no_faktur'"));
+						$pas = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien WHERE perawatan_pasien.no_faktur='$no_faktur'"));
 						
 					}
  					
  					// Total
-					 $qhk = mysql_query("SELECT SUM(harga*jumlah) AS total FROM history_kasir WHERE no_faktur='$no_faktur'");
+					 $qhk = mysqli_query($con, "SELECT SUM(harga*jumlah) AS total FROM history_kasir WHERE no_faktur='$no_faktur'");
 					 
 					
- 					while($hk  = mysql_fetch_array($qhk)){
+ 					while($hk  = mysqli_fetch_array($qhk)){
  							$total += $hk['total'];
  					}
  					
  					// End
- 					$kk = mysql_query("SELECT *FROM pembayaran WHERE no_faktur='$pas[no_faktur]'");
- 					$k = mysql_fetch_array($kk);
+ 					$kk = mysqli_query($con, "SELECT *FROM pembayaran WHERE no_faktur='$pas[no_faktur]'");
+ 					$k = mysqli_fetch_array($kk);
  					$no_faktur = $k['no_faktur'];
 				 ?>
 				<div class="row">
@@ -132,8 +132,8 @@ $id_kk = $_SESSION['klinik'];
 						</tr>
 					</thead>
 					<tbody>
-						<?php $qhk =  mysql_query("SELECT *FROM history_kasir WHERE no_faktur='$no_faktur'"); 
-						while($hk=mysql_fetch_array($qhk)){ ?>
+						<?php $qhk =  mysqli_query($con, "SELECT *FROM history_kasir WHERE no_faktur='$no_faktur'"); 
+						while($hk=mysqli_fetch_array($qhk)){ ?>
 						<tr>
 							<td><?php echo $hk['nama']; ?></td>
 							<td><?php echo $hk['jenis']; ?></td>
@@ -167,22 +167,22 @@ $id_kk = $_SESSION['klinik'];
 					$tgl = $_GET['tgl'];
 					$nu = $_GET['nu'];
 					$no_faktur = $_GET['nofak'];
-					$p = mysql_query("SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE no_faktur='$no_faktur'");
+					$p = mysqli_query($con, "SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE no_faktur='$no_faktur'");
 					 
 					 
-					if(mysql_num_rows($p) > 0){
-						$pas = mysql_fetch_array($p);
+					if(mysqli_num_rows($p) > 0){
+						$pas = mysqli_fetch_array($p);
 					} else {
-						$pas = mysql_fetch_array(mysql_query("SELECT * FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien WHERE perawatan_pasien.no_faktur='$no_faktur'"));
+						$pas = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien WHERE perawatan_pasien.no_faktur='$no_faktur'"));
 						
 					}
  					// Total
- 					$qt = mysql_query("SELECT *,SUM(jumlah*harga) AS total FROM history_kasir WHERE no_faktur='$no_faktur' AND status='Belum Lunas'");
- 					while($tot = mysql_fetch_array($qt)){
+ 					$qt = mysqli_query($con, "SELECT *,SUM(jumlah*harga) AS total FROM history_kasir WHERE no_faktur='$no_faktur' AND status='Belum Lunas'");
+ 					while($tot = mysqli_fetch_array($qt)){
  						$totalp += $tot['total'];
  					}
- 					$qp = mysql_query("SELECT *FROM pembayaran WHERE no_faktur='$no_faktur'");
- 					$pem = mysql_fetch_array($qp);
+ 					$qp = mysqli_query($con, "SELECT *FROM pembayaran WHERE no_faktur='$no_faktur'");
+ 					$pem = mysqli_fetch_array($qp);
  					$total = $totalp; 
  					$id_kk = $_SESSION['klinik']; 
  					// End 
@@ -195,7 +195,7 @@ $id_kk = $_SESSION['klinik'];
 								<tbody>
 										<tr>
 											<td><label>No.Faktur</label></td>
-											<td><input class="form-control" type="number" id="id_nofak" name="nofak" value="<?php echo $_GET[nofak]; ?>" readonly></td>
+											<td><input class="form-control" type="number" id="id_nofak" name="nofak" value="<?php echo $_GET['nofak']; ?>" readonly></td>
 										</tr>
 										<tr>
 											<td><label>Nama</label></td>
@@ -217,9 +217,9 @@ $id_kk = $_SESSION['klinik'];
 										<td><label>No.Rek</label></td>
 										<td>
 											<select class="form-control" name="no_rek">
-												<?php $qr = mysql_query("SELECT *FROM rekening"); 
-													while ($r=mysql_fetch_array($qr)) { ?>
-														<option value="<?php echo $r[id_rekening]; ?>"><?php echo $r["nama_bank"]." | ".$r["no_rek"]; ?></option>
+												<?php $qr = mysqli_query($con, "SELECT *FROM rekening"); 
+													while ($r=mysqli_fetch_array($qr)) { ?>
+														<option value="<?php echo $r['id_rekening']; ?>"><?php echo $r["nama_bank"]." | ".$r["no_rek"]; ?></option>
 												<?php
 													}
 												?>
@@ -302,8 +302,8 @@ $id_kk = $_SESSION['klinik'];
 						<option value="">--silakan pilih--</option>
 							<?php 
 							
-							$u = mysql_query("SELECT * FROM kategori_biaya WHERE id NOT IN (1,2)");
-							while($ux = mysql_fetch_assoc($u)){
+							$u = mysqli_query($con, "SELECT * FROM kategori_biaya WHERE id NOT IN (1,2)");
+							while($ux = mysqli_fetch_assoc($u)){
 								echo "<option value='$ux[id]'>$ux[kategori]</option>";
 							}
 							
@@ -318,7 +318,7 @@ $id_kk = $_SESSION['klinik'];
 					 		<input class="form-control id_pasien" type="hidden" name="id_pasien" value="<?php echo $pas['id_pasien']; ?>">
 					 		<input type="hidden" class="form-control" name="id_dr" value="<?php echo $_SESSION['id_dr']; ?>">
 					 		<input type="hidden" name="modal" id="modal">
-					 		<input type="hidden" name="nofak" value="<?php echo $_GET[nofak]; ?>">
+					 		<input type="hidden" name="nofak" value="<?php echo $_GET['nofak']; ?>">
 							 <input type="hidden" name="jasa" value="1">
 					 		<table border='0' cellpadding='0' cellspacing='0' width='100%'>
 					 			<tr>
@@ -362,8 +362,8 @@ $id_kk = $_SESSION['klinik'];
 					 				<td>
 					 					<select class="form-control" name="dr_visit">
 										 <option value="">--silakan pilih--</option>
-										 <?php $do = mysql_query("SELECT * FROM user WHERE id_ju = 'JU-02'");
-											while($doc = mysql_fetch_assoc($do)){
+										 <?php $do = mysqli_query($con, "SELECT * FROM user WHERE id_ju = 'JU-02'");
+											while($doc = mysqli_fetch_assoc($do)){
 												echo "<option value='$doc[id_user]'>$doc[nama_lengkap]</option>";
 											}
 											?>
@@ -385,7 +385,7 @@ $id_kk = $_SESSION['klinik'];
 					 		<input class="form-control" type="hidden" id="nou" name="no_urut" value="<?php echo $pas['no_urut']; ?>">
 					 		<input type="hidden" name="kode_p" id="kode_p">
 				 			<input type="hidden" name="harga_b" id="harga_b">
-				 			<input type="hidden" name="nofak" value="<?php echo $_GET[nofak]; ?>">
+				 			<input type="hidden" name="nofak" value="<?php echo $_GET['nofak']; ?>">
 					 		<table border='0' cellpadding='0' cellspacing='0' width='100%'>
 					 			<tr>
 					 			<td>
@@ -496,10 +496,10 @@ $id_kk = $_SESSION['klinik'];
 					</tr>
 				</thead>
 				<tbody>
-					<?php $kuery =  mysql_query("SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE history_ap.tanggal_pendaftaran='$date'");
+					<?php $kuery =  mysqli_query($con, "SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE history_ap.tanggal_pendaftaran='$date'");
 					
 				
-						while($data=mysql_fetch_array($kuery)){ ?>
+						while($data=mysqli_fetch_array($kuery)){ ?>
 					<tr>
 						<td><?php echo $data['nama_pasien']; ?></td>
 						<td><?php echo $data['jenis_layanan']; ?></td>
@@ -511,17 +511,17 @@ $id_kk = $_SESSION['klinik'];
 						<?php }else { ?>
 							<a href="media.php?module=history_transaksi&act=detail&nofak=<?php echo $data['no_faktur']; ?>" class="btn btn-info btn-xs"><i class="fa fa-bars"></i> Detail</a>
 						<?php } ?>
-						<a href="modul/history_transaksi/wa.php?faktur=<?php echo $data[no_faktur]; ?>" target="_BLANK" class="btn btn-success btn-xs"><i class="fa fa-whatsapp"> Kirim Nota</i></a>
+						<a href="modul/history_transaksi/wa.php?faktur=<?php echo $data['no_faktur']; ?>" target="_BLANK" class="btn btn-success btn-xs"><i class="fa fa-whatsapp"> Kirim Nota</i></a>
 						</td>
 					</tr>
 					<?php	}
 					 ?>
-					<?php $kuery =  mysql_query("SELECT * FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien WHERE perawatan_pasien.tanggal_pendaftaran='$date'");
+					<?php $kuery =  mysqli_query($con, "SELECT * FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien WHERE perawatan_pasien.tanggal_pendaftaran='$date'");
 					
 				
-					while($data=mysql_fetch_array($kuery)){ 
+					while($data=mysqli_fetch_array($kuery)){ 
 						
-						$lu = mysql_fetch_assoc(mysql_query("SELECT status AS nas FROM pembayaran WHERE no_faktur = '$data[no_faktur]'"));
+						$lu = mysqli_fetch_assoc(mysqli_query($con, "SELECT status AS nas FROM pembayaran WHERE no_faktur = '$data[no_faktur]'"));
 						
 						?>
 				<tr>
@@ -533,7 +533,7 @@ $id_kk = $_SESSION['klinik'];
 						<?php if($lu["nas"] == "Lunas"){ ?>
 						<a href="media.php?module=history_transaksi&act=detail&nofak=<?php echo $data['no_faktur']; ?>" class="btn btn-info btn-xs"><i class="fa fa-bars"></i> Detail</a>
 
-					<a href="modul/history_transaksi/wa.php?faktur=<?php echo $data[no_faktur]; ?>" target="_BLANK" class="btn btn-success btn-xs"><i class="fa fa-whatsapp"> Kirim Nota</i></a>
+					<a href="modul/history_transaksi/wa.php?faktur=<?php echo $data['no_faktur']; ?>" target="_BLANK" class="btn btn-success btn-xs"><i class="fa fa-whatsapp"> Kirim Nota</i></a>
 						<?php } else { ?>
 						<?php  } ?>
 					</td>
@@ -559,8 +559,8 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
   });
-  var nofak = "<?php echo $_GET[nofak]; ?>";
-  var layan = "<?php echo $_GET[layan]; ?>";
+  var nofak = "<?php echo $_GET['nofak']; ?>";
+  var layan = "<?php echo $_GET['layan']; ?>";
   // datatable
   $('#tabel_tp').dataTable( {
 	"bPaginate": false,
@@ -661,7 +661,7 @@ $(document).ready(function(){
      function total(){
      	var nofak 	 = $("#id_nofak").val();
      	var ongkir 	 = $("#ongkir").val();
-		 var layan 	 = "<?php echo $_GET[layan]; ?>";
+		 var layan 	 = "<?php echo $_GET['layan']; ?>";
      	$.ajax({
      		type: "POST",
      		url:"modul/history_transaksi/total.php",

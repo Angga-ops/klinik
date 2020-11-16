@@ -31,16 +31,16 @@ if(empty($_GET["tgl"])){
 		 				</tr>
 		 			</thead>
 		 			<tbody>
-		 				<?php $q = mysql_query("SELECT *FROM reture r JOIN daftar_klinik dk ON r.asal_cabang=dk.id_kk  WHERE r.tanggal='$tgl'"); 
-		 					while($d = mysql_fetch_array($q)){ ?>
+		 				<?php $q = mysqli_query($con, "SELECT *FROM reture r JOIN daftar_klinik dk ON r.asal_cabang=dk.id_kk  WHERE r.tanggal='$tgl'"); 
+		 					while($d = mysqli_fetch_array($q)){ ?>
 		 				<tr>
 		 					<td><?php echo $d["pengirim"]; ?></td>
 		 					<td><?php echo $d["nama_klinik"]; ?></td>
-		 					<?php $pp = mysql_fetch_array(mysql_query("SELECT COUNT(kode_produk) AS jenis,SUM(jumlah) AS total FROM produk_reture WHERE no_reture='$d[no_reture]'")); ?>
+		 					<?php $pp = mysqli_fetch_array(mysqli_query($con, "SELECT COUNT(kode_produk) AS jenis,SUM(jumlah) AS total FROM produk_reture WHERE no_reture='$d[no_reture]'")); ?>
 		 					<td><?php echo $pp["jenis"]; ?></td>
 		 					<td><?php echo $pp["total"]; ?></td>
 
-		 					<td><a href="media.php?module=reture&act=detail&nor=<?php echo $d[no_reture]; ?>" class="btn btn-info btn-xs"><i class="fa fa-list"></i> Detail</a></td>
+		 					<td><a href="media.php?module=reture&act=detail&nor=<?php echo $d['no_reture']; ?>" class="btn btn-info btn-xs"><i class="fa fa-list"></i> Detail</a></td>
 		 				</tr>
 		 				<?php
 		 					}

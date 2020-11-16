@@ -6,7 +6,7 @@ include "../../../config/koneksi.php";
 
     $sql = "SELECT * FROM kliniktrf WHERE kd_trf = '$_GET[kdtrf]'";
 
-$cb = mysql_fetch_assoc(mysql_query("SELECT * FROM daftar_klinik WHERE id_kk = '$_SESSION[klinik]'"));
+$cb = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM daftar_klinik WHERE id_kk = '$_SESSION[klinik]'"));
 ?>
 
 <html><head><style>
@@ -19,8 +19,8 @@ $cb = mysql_fetch_assoc(mysql_query("SELECT * FROM daftar_klinik WHERE id_kk = '
 <h1>KS Beauty</h1>
 <small>
 <strong>
-Cabang <?php echo $cb[nama_klinik]; ?><br/>
-<?php echo $cb[alamat]." ".$cb[telepon]; ?>
+Cabang <?php echo $cb['nama_klinik']; ?><br/>
+<?php echo $cb['alamat']." ".$cb['telepon']; ?>
 </strong>
 </small>
 <hr/>
@@ -42,12 +42,12 @@ Cabang <?php echo $cb[nama_klinik]; ?><br/>
 
 <?php 
 
-$s = mysql_query($sql);
-while($sx = mysql_fetch_assoc($s)){
-    $prd = mysql_fetch_assoc(mysql_query("SELECT nama_p FROM produk WHERE kode_barang = '$sx[kode_produk]'"));
-    $loc = mysql_fetch_assoc(mysql_query("SELECT * FROM daftar_klinik WHERE id_kk = '$sx[tujuan]'"));
+$s = mysqli_query($con, $sql);
+while($sx = mysqli_fetch_assoc($s)){
+    $prd = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_p FROM produk WHERE kode_barang = '$sx[kode_produk]'"));
+    $loc = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM daftar_klinik WHERE id_kk = '$sx[tujuan]'"));
     echo "<tr>";
-    echo "<td>".strftime("%d %B %Y",strtotime($sx[tgl]))."</td>";
+    echo "<td>".strftime("%d %B %Y",strtotime($sx['tgl']))."</td>";
     echo "<td>$prd[nama_p]</td>";
     echo "<td>$sx[jml]</td>";
     echo "<td>$loc[nama_klinik]</td>";

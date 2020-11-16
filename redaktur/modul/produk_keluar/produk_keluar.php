@@ -7,16 +7,16 @@
     
 <?php 
     
-$bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
+$bc = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
     
     ?>    
     
       <h1>
-        <?php echo $bc[crumb]; ?>
+        <?php echo $bc['crumb']; ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="?module=home"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"> <?php echo $bc[crumb]; ?></li>
+        <li class="active"> <?php echo $bc['crumb']; ?></li>
       </ol>
     </section>
 
@@ -56,25 +56,25 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
             </tr>
         </thead>
     <?php
-    $tampil   = mysql_query("Select * From pengiriman Where id_pengiriman");
-    while($r  = mysql_fetch_array($tampil)){
+    $tampil   = mysqli_query($con,"Select * From pengiriman Where id_pengiriman");
+    while($r  = mysqli_fetch_array($tampil)){
     ?>
       <tr class="gradeX">
                  
                 <td><?php echo $r["nomer"]; ?></td>
                 <td><?php echo $r["kode_barang"]; ?></td>
                 <td><?php echo $r["nama_p"]; ?></td>
-                <?php $q1 = mysql_query("SELECT *FROM data_satuan WHERE id_s='$r[id_s]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <?php $q1 = mysqli_query($con,"SELECT *FROM data_satuan WHERE id_s='$r[id_s]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k['satuan']; ?></td>
-                <?php $q1 = mysql_query("SELECT *FROM kategori WHERE id_kategori='$r[id_kategori]'"); 
-                 $k = mysql_fetch_array($q1); ?>
+                <?php $q1 = mysqli_query($con,"SELECT *FROM kategori WHERE id_kategori='$r[id_kategori]'"); 
+                 $k = mysqli_fetch_array($q1); ?>
                 <td><?php echo $k['kategori']; ?></td>
                 <td><?php echo $r["jumlah"] ?></td>
                 <td><?php echo rupiah ($r['harga_jual']);?></td>
             <td>
                      
-                     <a href="?module=produk_keluar&act=edit_pk&id=<?php echo $r["id_pengiriman"]; ?>" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> Edit</a>&nbsp;<a target="_blank" href="report/rpt_produk_keluar.php"> <button type="button" class="btn btn-xs btn-primary"><i class="fa fa-print"></i> Cetak</button></a>&nbsp;<a onclick="return confirm('Yakin Ingin Menghapus Data?')" href="modul/produk_keluar/aksi_produk_keluar.php?module=produk_keluar&act=hapus&id=<?php echo $r['id_pengiriman']; ?>" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Hapus</a>
+                     <a href="?module=produk_keluar&act=edit_pk&id=<?php echo $r["id_pengiriman"]; ?>" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> Edit</a> <a target="_blank" href="report/rpt_produk_keluar.php"> <button type="button" class="btn btn-xs btn-primary"><i class="fa fa-print"></i> Cetak</button></a> <a onclick="return confirm('Yakin Ingin Menghapus Data?')" href="modul/produk_keluar/aksi_produk_keluar.php?module=produk_keluar&act=hapus&id=<?php echo $r['id_pengiriman']; ?>" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Hapus</a>
                      
                   
                 </td>
@@ -148,8 +148,8 @@ $(document).ready(function(){
                 <label>Satuan</label>
                 <select type="text" name="id_s" class="form-control" required/ >
                    <option value="">Pilih Satuan...</option>
-                       <?php $query = mysql_query("SELECT *FROM data_satuan");
-                          while ($cb = mysql_fetch_array($query)) { ?>
+                       <?php $query = mysqli_query($con,"SELECT *FROM data_satuan");
+                          while ($cb = mysqli_fetch_array($query)) { ?>
                    <option value="<?php echo $cb['id_s']; ?>"><?php echo $cb['satuan']; ?></option>
                        <?php  } ?> 
                </select>
@@ -162,8 +162,8 @@ $(document).ready(function(){
                 <label>Kategori</label>
                 <select type="text" name="id_kategori" class="form-control" required/ >
                    <option value="">Pilih Kategori...</option>
-                       <?php $query = mysql_query("SELECT *FROM kategori");
-                          while ($cb = mysql_fetch_array($query)) { ?>
+                       <?php $query = mysqli_query($con,"SELECT *FROM kategori");
+                          while ($cb = mysqli_fetch_array($query)) { ?>
                    <option value="<?php echo $cb['id_kategori']; ?>"><?php echo $cb['kategori']; ?></option>
                        <?php  } ?> 
                </select>
@@ -192,8 +192,8 @@ $(document).ready(function(){
                 <label>Cabang Klinik</label>
                 <select type="text" name="id_kk" class="form-control" required/ >
                    <option value="">Pilih Cabang...</option>
-                       <?php $query = mysql_query("SELECT *FROM daftar_klinik");
-                          while ($cb = mysql_fetch_array($query)) { ?>
+                       <?php $query = mysqli_query($con,"SELECT *FROM daftar_klinik");
+                          while ($cb = mysqli_fetch_array($query)) { ?>
                    <option value="<?php echo $cb['id_kk']; ?>"><?php echo $cb['nama_klinik']; ?></option>
                        <?php  } ?> 
                </select>
@@ -233,7 +233,7 @@ $(document).ready(function(){
   break;
   case "edit_pk":
   $id   = $_GET['id'];
-  $edit   = mysql_fetch_array(mysql_query("Select * From pengiriman Where id_pengiriman='$id'"));
+  $edit   = mysqli_fetch_array(mysqli_query($con,"Select * From pengiriman Where id_pengiriman='$id'"));
 ?>
 
 <section class="content">
@@ -278,8 +278,8 @@ $(document).ready(function(){
                 <label>Satuan</label>
                 <select type="text" name="id_s" required class="form-control"><?php echo $edit['satuan']; ?>
                    <option value="">Pilih Satuan...</option>
-                       <?php $query = mysql_query("SELECT *FROM data_satuan");
-                          while ($cb = mysql_fetch_array($query)) { ?>
+                       <?php $query = mysqli_query($con,"SELECT *FROM data_satuan");
+                          while ($cb = mysqli_fetch_array($query)) { ?>
                    <option value="<?php echo $cb['id_s']; ?>"><?php echo $cb['satuan']; ?></option>
                        <?php  } ?> 
                </select>
@@ -292,8 +292,8 @@ $(document).ready(function(){
                 <label>Kategori</label>
                 <select type="text" name="id_kategori" required class="form-control"><?php echo $edit['kategori']; ?>
                    <option value="">Pilih Kategori...</option>
-                       <?php $query = mysql_query("SELECT *FROM kategori");
-                          while ($cb = mysql_fetch_array($query)) { ?>
+                       <?php $query = mysqli_query($con,"SELECT *FROM kategori");
+                          while ($cb = mysqli_fetch_array($query)) { ?>
                    <option value="<?php echo $cb['id_kategori']; ?>"><?php echo $cb['kategori']; ?></option>
                        <?php  } ?> 
                </select>
@@ -361,13 +361,13 @@ $(document).ready(function(){
             <label for="field4">Kamar</label>
             <select name="kamar">
         <?php
-                    $jr = mysql_query("Select * From kamar");
+                    $jr = mysqli_query($con,"Select * From kamar");
                     if ($edit['id_kamar'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Jenis --</option>
                 <?php
                 }
-                    while ($edit_jr     = mysql_fetch_array($jr)) {
+                    while ($edit_jr     = mysqli_fetch_array($jr)) {
                     if ($edit['id_kamar'] == $edit_jr['id_kamar']) {
                     ?>
                         <option value="<?php echo $edit_jr['id_kamar']; ?>" selected><?php echo $edit_jr['nama_kamar']; ?></option>

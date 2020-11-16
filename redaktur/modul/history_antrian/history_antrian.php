@@ -21,8 +21,8 @@ $id_kk = $_SESSION['klinik'];
 									<select class="form-control" name="klinik">
 										<option value="All">All</option>
 										<?php
-											$query1 = mysql_query("SELECT * FROM poliklinik");
-											while($result = mysql_fetch_assoc($query1)){
+											$query1 = mysqli_query($con, "SELECT * FROM poliklinik");
+											while($result = mysqli_fetch_assoc($query1)){
 										?>
 										<option value="<?php echo $result['id_poli']; ?>"><?php echo $result['poli']; ?></option>
 									<?php } ?>
@@ -54,21 +54,21 @@ $id_kk = $_SESSION['klinik'];
 							$poli = $_POST['klinik'];
 							switch ($poli) {
 								case 'All':
-									$kuery =  mysql_query("SELECT * FROM antrian_pasien a JOIN pasien b ON a.id_pasien=b.id_pasien JOIN poliklinik c ON a.poliklinik=c.id_poli WHERE a.tanggal_pendaftaran='$date'");
+									$kuery =  mysqli_query($con, "SELECT * FROM antrian_pasien a JOIN pasien b ON a.id_pasien=b.id_pasien JOIN poliklinik c ON a.poliklinik=c.id_poli WHERE a.tanggal_pendaftaran='$date'");
 									break;
 								
 								default:
-									$kuery =  mysql_query("SELECT * FROM antrian_pasien a JOIN pasien b ON a.id_pasien=b.id_pasien JOIN poliklinik c ON a.poliklinik=c.id_poli WHERE a.tanggal_pendaftaran='$date' AND a.poliklinik='$poli'");
+									$kuery =  mysqli_query($con, "SELECT * FROM antrian_pasien a JOIN pasien b ON a.id_pasien=b.id_pasien JOIN poliklinik c ON a.poliklinik=c.id_poli WHERE a.tanggal_pendaftaran='$date' AND a.poliklinik='$poli'");
 									break;
 							}
 							break;
 						
 						default:
-							$kuery =  mysql_query("SELECT * FROM antrian_pasien a JOIN pasien b ON a.id_pasien=b.id_pasien JOIN poliklinik c ON a.poliklinik=c.id_poli");
+							$kuery =  mysqli_query($con, "SELECT * FROM antrian_pasien a JOIN pasien b ON a.id_pasien=b.id_pasien JOIN poliklinik c ON a.poliklinik=c.id_poli");
 							break;
 					}
 				
-						while($data=mysql_fetch_array($kuery)){ ?>
+						while($data=mysqli_fetch_array($kuery)){ ?>
 					<tr>
 						<td><?php echo $data['no_faktur']; ?></td>
 						<td><?php echo $data['no_urut']; ?></td>
@@ -92,8 +92,8 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
   });
-  var nofak = "<?php echo $_GET[nofak]; ?>";
-  var layan = "<?php echo $_GET[layan]; ?>";
+  var nofak = "<?php echo $_GET['nofak']; ?>";
+  var layan = "<?php echo $_GET['layan']; ?>";
   // datatable
   $('#tabel_tp').dataTable( {
 	"bPaginate": false,
@@ -194,7 +194,7 @@ $(document).ready(function(){
      function total(){
      	var nofak 	 = $("#id_nofak").val();
      	var ongkir 	 = $("#ongkir").val();
-		 var layan 	 = "<?php echo $_GET[layan]; ?>";
+		 var layan 	 = "<?php echo $_GET['layan']; ?>";
      	$.ajax({
      		type: "POST",
      		url:"modul/history_transaksi/total.php",

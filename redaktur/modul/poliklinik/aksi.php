@@ -2,15 +2,15 @@
 
 include "../../../config/koneksi.php";
 
-switch($_GET[act]){
+switch($_GET['act']){
     case "add":
-    mysql_query("INSERT INTO poliklinik VALUES (NULL,'$_POST[poli]')");
+    mysqli_query($con,"INSERT INTO poliklinik VALUES (NULL,'$_POST[poli]')");
     break;
     case "edit": 
-    mysql_query("UPDATE poliklinik SET poli = '$_POST[poli]' WHERE id_poli = '$_GET[id]'");
+    mysqli_query($con,"UPDATE poliklinik SET poli = '$_POST[poli]' WHERE id_poli = '$_GET[id]'");
     break;
     case "del": 
-    mysql_query("DELETE FROM poliklinik WHERE id_poli = '$_GET[id]'");
+    mysqli_query($con,"DELETE FROM poliklinik WHERE id_poli = '$_GET[id]'");
     break;
 }
 

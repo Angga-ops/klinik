@@ -20,8 +20,8 @@
 								</td>
 								<td><button type="submit" name="submit" class="btn btn-info">Cari</button>
 									<?php $id_kk = $_SESSION['klinik']; ?>
-			<?php $t = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'")); ?>
-									<a class="btn btn-sm btn-success pull-right" target="_blank"  href="modul/pendapatan_treatment/cetak_harian.php?tgl=<?php echo $_POST[tgl]; ?>&id=<?php echo $t[id_kk] ?>"><i class="fa fa-print"></i> Cetak</a></td>
+			<?php $t = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'")); ?>
+									<a class="btn btn-sm btn-success pull-right" target="_blank"  href="modul/pendapatan_treatment/cetak_harian.php?tgl=<?php echo $_POST['tgl']; ?>&id=<?php echo $t['id_kk'] ?>"><i class="fa fa-print"></i> Cetak</a></td>
 
 							</tr>
 						</tbody>
@@ -39,10 +39,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php $q1 = mysql_query("SELECT *FROM treatment"); $tot=0;
-							while ($pr = mysql_fetch_array($q1)) {
-						$q = mysql_query("SELECT *,SUM(jumlah) AS tot_produk FROM history_kasir WHERE id_kk='$id_kk' AND tanggal='$_POST[tgl]' AND nama='$pr[nama_t]' AND jenis='Treatment'");  
-							while ($p = mysql_fetch_array($q)) {
+						<?php $q1 = mysqli_query($con,"SELECT *FROM treatment"); $tot=0;
+							while ($pr = mysqli_fetch_array($q1)) {
+						$q = mysqli_query($con,"SELECT *,SUM(jumlah) AS tot_produk FROM history_kasir WHERE id_kk='$id_kk' AND tanggal='$_POST[tgl]' AND nama='$pr[nama_t]' AND jenis='Treatment'");  
+							while ($p = mysqli_fetch_array($q)) {
 								if($pr['nama_t']!=$p['nama']){
 									continue;
 								}

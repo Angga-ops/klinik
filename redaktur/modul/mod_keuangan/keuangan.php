@@ -15,7 +15,7 @@
         </tr>
         <?php
 			$idpr		= $_GET['id'];
-			$sel_pr		= mysql_fetch_array(mysql_query("Select id_antrian, rontgen, hasil, diskon_ron, keterangan, tgl_rontgen From uji_rontgen, pemeriksaan_rontgen Where uji_rontgen.id_rontgen=pemeriksaan_rontgen.id_rontgen And id_prontgen='$idpr'"));
+			$sel_pr		= mysqli_fetch_array(mysqli_query($con,"Select id_antrian, rontgen, hasil, diskon_ron, keterangan, tgl_rontgen From uji_rontgen, pemeriksaan_rontgen Where uji_rontgen.id_rontgen=pemeriksaan_rontgen.id_rontgen And id_prontgen='$idpr'"));
 			$ida		= $sel_pr['id_antrian'];
 		?>
     	<tr>
@@ -37,9 +37,9 @@
         	<td>&nbsp;</td>
         </tr>
         <?php
-			$sel_pas	= mysql_fetch_array(mysql_query("Select * From perawatan_pasien Where id_antrian='$ida'"));
+			$sel_pas	= mysqli_fetch_array(mysqli_query($con,"Select * From perawatan_pasien Where id_antrian='$ida'"));
 			$pas		= $sel_pas["id_pasien"];
-			$sel_pas	= mysql_fetch_array(mysql_query("Select * From pasien Where id_pasien='$pas'"));
+			$sel_pas	= mysqli_fetch_array(mysqli_query($con,"Select * From pasien Where id_pasien='$pas'"));
 			$rwyt_pas	= $sel_pas["riwayat_penyakit"];
 			$rwyt_obt	= $sel_pas["alergi_obat"];
 			$nm_pas		= $sel_pas["nama_pasien"];

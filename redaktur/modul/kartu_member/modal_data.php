@@ -6,8 +6,8 @@ $data = array();
 
 $id = $_POST['id'];
 
-$q = mysql_query("SELECT *FROM pasien WHERE id_pasien='$id'");
-$p = mysql_fetch_array($q);
+$q = mysqli_query($con, "SELECT *FROM pasien WHERE id_pasien='$id'");
+$p = mysqli_fetch_array($q);
 
 $data = array(
 	"id"=>$p['id_pasien'],

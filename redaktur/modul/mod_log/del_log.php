@@ -5,8 +5,8 @@
 	$module	= $_GET['module'];
 	// Hapus Log Aktivitas
 	if ($module=='hapus'){
-			$del		= mysql_query("Delete From log");
-			catat($_SESSION['namauser'], 'Hapus Data Log');
+			$del		= mysqli_query($con,"Delete From log");
+			catat($con, $_SESSION['namauser'], 'Hapus Data Log');
 			header('location:../../media.php?module=log');        
 	}
 ?>

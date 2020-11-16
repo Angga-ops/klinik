@@ -9,8 +9,8 @@
 	// Hapus Produk
 	if ($act == 'hapus'){
 		$id		= $_GET['id'];
-		$del	= mysql_query("Delete From pengeluaran Where id_p='$id'");
-		catat($_SESSION['namauser'], 'Hapus Data pengeluaran'.' ('.$id.')');
+		$del	= mysqli_query($con,"Delete From pengeluaran Where id_p='$id'");
+		catat($con, $_SESSION['namauser'], 'Hapus Data pengeluaran'.' ('.$id.')');
 		header('location:../../media.php?module=pengeluaran');
 	}
 	// Input Produk Baru
@@ -22,9 +22,9 @@
 		$kategori	= $_POST['kategori'];
 		$ket		= $_POST['keterangan'];
 
-		$simpan = mysql_query("INSERT Into pengeluaran(tanggal,kasir,biaya_p,kategori_p,ket,id_kk) Values('$tanggal','$kasir','$biaya','$kategori','$ket','$id_kk')") or die(mysql_error());
+		$simpan = mysqli_query($con,"INSERT Into pengeluaran(tanggal,kasir,biaya_p,kategori_p,ket,id_kk) Values('$tanggal','$kasir','$biaya','$kategori','$ket','$id_kk')") or die(mysqli_error($con));
 
-	 	catat($_SESSION['namauser'], 'Data pengeluaran Baru'.' ('.$nmrgn.')');
+	 	catat($con, $_SESSION['namauser'], 'Data pengeluaran Baru'.' ('.$nmrgn.')');
 
 		if($simpan){
 			header('location:../../media.php?module=pengeluaran');
@@ -44,9 +44,9 @@
 		$id_kk		= $_POST['id_kk'];
 		
 
-		$update		= mysql_query("UPDATE pengeluaran Set tanggal='$tanggal',kasir='$kasir',biaya_p='$biaya',kategori_p='$kategori',ket='$ket', id_kk='$id_kk' Where id_p='$id'");
+		$update		= mysqli_query($con, "UPDATE pengeluaran Set tanggal='$tanggal',kasir='$kasir',biaya_p='$biaya',kategori_p='$kategori',ket='$ket', id_kk='$id_kk' Where id_p='$id'");
 
-		catat($_SESSION['namauser'], 'Edit Data pengeluaran'.' ('.$id.')');
+		catat($con, $_SESSION['namauser'], 'Edit Data pengeluaran'.' ('.$id.')');
 		if($update){
 			header('location:../../media.php?module=pengeluaran');
 		} else {

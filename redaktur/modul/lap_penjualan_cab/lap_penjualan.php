@@ -9,9 +9,9 @@ if (empty($_GET['tgl'])) {
 <section class="content">
 	<div class="box box-success">
 		<?php $id_kk = $_SESSION['klinik']; ?>
-			<?php $t = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'")); ?>
+			<?php $t = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$id_kk'")); ?>
 		<div class="box-header">
-			<h3 class="box-title pull-left">Penjualan Produk Klinik <?php echo $t['nama_klinik']; ?></h3><a class="btn btn-sm btn-success pull-right" target="_blank"  href="modul/lap_penjualan_cab/cetak.php?tgl=<?php echo $tgl; ?>&id=<?php echo $t[id_kk] ?>"><i class="fa fa-print"></i> Cetak</a>
+			<h3 class="box-title pull-left">Penjualan Produk Klinik <?php echo $t['nama_klinik']; ?></h3><a class="btn btn-sm btn-success pull-right" target="_blank"  href="modul/lap_penjualan_cab/cetak.php?tgl=<?php echo $tgl; ?>&id=<?php echo $t['id_kk'] ?>"><i class="fa fa-print"></i> Cetak</a>
 		</div>
 		<div class="box-body">
 			<label>Tanggal</label>
@@ -34,10 +34,10 @@ if (empty($_GET['tgl'])) {
 						</tr>
 					</thead>
 					<tbody>
-						<?php $q1 = mysql_query("SELECT * FROM produk WHERE id_kk='$id_kk'"); $tot=0;
-							while ($pr = mysql_fetch_array($q1)) {
-						$q = mysql_query("SELECT *,SUM(jumlah) AS tot_produk FROM history_kasir WHERE id_kk='$id_kk' AND tanggal='$tgl' AND nama='$pr[nama_p]' AND jenis='Produk'");  
-							while ($p = mysql_fetch_array($q)) {
+						<?php $q1 = mysqli_query($con, "SELECT * FROM produk WHERE id_kk='$id_kk'"); $tot=0;
+							while ($pr = mysqli_fetch_array($q1)) {
+						$q = mysqli_query($con, "SELECT *,SUM(jumlah) AS tot_produk FROM history_kasir WHERE id_kk='$id_kk' AND tanggal='$tgl' AND nama='$pr[nama_p]' AND jenis='Produk'");  
+							while ($p = mysqli_fetch_array($q)) {
 								if($pr['nama_p']!=$p['nama']){
 									continue;
 								}

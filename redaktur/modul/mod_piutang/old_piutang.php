@@ -101,7 +101,7 @@ span.select2 { width: 100% !important }
 
             $cb = mysqli_fetch_assoc(mysqli_query($conn,"SELECT nama_cb FROM cabang WHERE id_cb = '$_POST[cb]'"));
 
-            $namacb = is_null($cb[nama_cb])? "Semua Cabang" : $cb[nama_cb];
+            $namacb = is_null($cb['nama_cb'])? "Semua Cabang" : $cb['nama_cb'];
 
              $qlau = mysqli_fetch_array(mysqli_query($conn,"SELECT a.*,b.*,c.*, sum(b.hrg_sub) AS total FROM nota a, nota_detail b, mode c
 													WHERE a.id_nota=b.id_nota
@@ -109,8 +109,8 @@ span.select2 { width: 100% !important }
 													AND a.stts_pss !='Share Pelunasan'
                           $cab1 AND a.id_cb = b.id_cb $tgl ")); 
                          
-             echo "<tr><td>".(strftime("%d %B %Y",strtotime($_POST[tgl1])))." s/d ".(strftime("%d %B %Y",strtotime($_POST[tgl2])))."</td>";
-             echo "<td>Rp ".(number_format($qlau[total],0,",","."))."</td>";
+             echo "<tr><td>".(strftime("%d %B %Y",strtotime($_POST['tgl1'])))." s/d ".(strftime("%d %B %Y",strtotime($_POST['tgl2'])))."</td>";
+             echo "<td>Rp ".(number_format($qlau['total'],0,",","."))."</td>";
              echo "<td>$namacb</td></tr>";
             }
            

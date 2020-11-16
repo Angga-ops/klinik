@@ -29,10 +29,10 @@ switch ($act) {
 				</tr>
 				<tr>
 					<td>Cabang Klinik&emsp;</td>
-					<td>:&emsp;<?php $t = mysql_fetch_array(mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$_GET[id_kk]'")); echo $t['nama_klinik']; ?></td>
+					<td>:&emsp;<?php $t = mysqli_fetch_array(mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$_GET[id_kk]'")); echo $t['nama_klinik']; ?></td>
 				</tr>
 				<tr>
-					<td><button style="margin-top: 10px;" class="btn btn-info btn-sm" onclick="window.history.back()">Kembali</button> <a class="btn btn-sm btn-success" target="_blank" style="margin-top: 10px;" href="modul/lap_penjualan/cetak_perklinik.php?tgl=<?php echo $tgl; ?>&tgl2=<?php echo $tgl2; ?>&id=<?php echo $t[id_kk] ?>"><i class="fa fa-print"></i> Cetak</a></td>
+					<td><button style="margin-top: 10px;" class="btn btn-info btn-sm" onclick="window.history.back()">Kembali</button> <a class="btn btn-sm btn-success" target="_blank" style="margin-top: 10px;" href="modul/lap_penjualan/cetak_perklinik.php?tgl=<?php echo $tgl; ?>&tgl2=<?php echo $tgl2; ?>&id=<?php echo $t['id_kk'] ?>"><i class="fa fa-print"></i> Cetak</a></td>
 				</tr>
 			</table>
 			<h5>Produk Yang Terjual</h5>
@@ -47,11 +47,11 @@ switch ($act) {
 						</tr>
 					</thead>
 					<tbody>
-						<?php $q1 = mysql_query("SELECT *FROM produk WHERE id_kk='$_GET[id_kk]'"); $tot=0;
-							while ($pr = mysql_fetch_array($q1)) {
-						$q = mysql_query("SELECT *,SUM(jumlah) AS tot_produk FROM history_kasir WHERE id_kk='$_GET[id_kk]' 
+						<?php $q1 = mysqli_query($con, "SELECT *FROM produk WHERE id_kk='$_GET[id_kk]'"); $tot=0;
+							while ($pr = mysqli_fetch_array($q1)) {
+						$q = mysqli_query($con, "SELECT *,SUM(jumlah) AS tot_produk FROM history_kasir WHERE id_kk='$_GET[id_kk]' 
 							AND tanggal>='$_GET[tgl]' AND tanggal<='$_GET[tgl2]' AND nama='$pr[nama_p]' AND jenis='Produk'");  
-							while ($p = mysql_fetch_array($q)) {
+							while ($p = mysqli_fetch_array($q)) {
 								if($pr['nama_p']!=$p['nama']){
 									continue;
 								}
@@ -97,11 +97,11 @@ switch ($act) {
 					<select class="form-control" id="cabang">
 						<option value="semua">Semua</option>
 						<?php 
-							$q1 = mysql_query("SELECT *FROM daftar_klinik"); 
-							while($kl = mysql_fetch_array($q1)){ ?>
+							$q1 = mysqli_query($con, "SELECT *FROM daftar_klinik"); 
+							while($kl = mysqli_fetch_array($q1)){ ?>
 						<option <?php if ($kl['id_kk']==$cabang): ?>
 							selected
-						<?php endif ?> value="<?php echo $kl[id_kk]; ?>"><?php echo $kl['nama_klinik']; ?></option>
+						<?php endif ?> value="<?php echo $kl['id_kk']; ?>"><?php echo $kl['nama_klinik']; ?></option>
 						<?php	}
 						?>
 					</select>
@@ -138,15 +138,15 @@ switch ($act) {
 		 			<tbody>
 		 				<?php 
 		 				if ($cabang=='semua') {
-		 					$q =  mysql_query("SELECT *FROM daftar_klinik"); 
+		 					$q =  mysqli_query($con, "SELECT *FROM daftar_klinik"); 
 		 				}else{
-		 					$q =  mysql_query("SELECT *FROM daftar_klinik WHERE id_kk='$cabang'"); 
+		 					$q =  mysqli_query($con, "SELECT *FROM daftar_klinik WHERE id_kk='$cabang'"); 
 		 				}
 		 				
 		 				$no = 1;
-		 					while ($k = mysql_fetch_array($q)) { 
-		 						$q2 = mysql_query("SELECT *,SUM(jumlah) AS total , COUNT(nama) AS jenis_p,SUM(jumlah*harga) AS pen FROM history_kasir WHERE id_kk='$k[id_kk]' AND tanggal>='$tgl' AND tanggal<='$tgl2' AND jenis='Produk'");
-		 						$p = mysql_fetch_array($q2);
+		 					while ($k = mysqli_fetch_array($q)) { 
+		 						$q2 = mysqli_query($con, "SELECT *,SUM(jumlah) AS total , COUNT(nama) AS jenis_p,SUM(jumlah*harga) AS pen FROM history_kasir WHERE id_kk='$k[id_kk]' AND tanggal>='$tgl' AND tanggal<='$tgl2' AND jenis='Produk'");
+		 						$p = mysqli_fetch_array($q2);
 		 							if ($p['jenis_p']==0) {
 		 								continue;
 		 							}
@@ -154,10 +154,10 @@ switch ($act) {
 		 				<tr>
 		 					<td><?php echo $no; ?></td>
 		 					<td><?php echo $k["nama_klinik"]; ?></td>
-		 					<td><?php echo mysql_num_rows(mysql_query("SELECT *FROM pembayaran WHERE id_kk='$k[id_kk]' AND tgl>='$tgl' AND tgl<='$tgl2'")); ?></td>
+		 					<td><?php echo mysqli_num_rows(mysqli_query($con, "SELECT *FROM pembayaran WHERE id_kk='$k[id_kk]' AND tgl>='$tgl' AND tgl<='$tgl2'")); ?></td>
 		 					<td><?php echo $p["total"]; ?></td>
 		 					<td><?php echo rupiah($p["pen"]); ?></td>
-		 					<td><a href="media.php?module=lap_penjualan_pro&act=detail&id_kk=<?php echo $k[id_kk]; ?>&tgl=<?php echo $tgl; ?>&tgl2=<?php echo $tgl2; ?>" class="btn btn-xs btn-info"><i class="fa fa-list"></i> Detail</a></td>
+		 					<td><a href="media.php?module=lap_penjualan_pro&act=detail&id_kk=<?php echo $k['id_kk']; ?>&tgl=<?php echo $tgl; ?>&tgl2=<?php echo $tgl2; ?>" class="btn btn-xs btn-info"><i class="fa fa-list"></i> Detail</a></td>
 		 				</tr>
 		 					<?php
 		 					$no++;

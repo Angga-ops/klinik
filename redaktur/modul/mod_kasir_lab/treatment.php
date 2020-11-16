@@ -27,18 +27,18 @@
 				<h4>Data Pasien</h4>
 				<?php
 				
-					$pem = mysql_fetch_array(mysql_query("SELECT *FROM antrian_pasien JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.no_faktur='$no_faktur'"));
-					$check = mysql_query("SELECT *FROM antrian_pasien JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.no_faktur='$no_faktur'");
-					if(mysql_num_rows($check) > 0){
+					$pem = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM antrian_pasien JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.no_faktur='$no_faktur'"));
+					$check = mysqli_query($con,"SELECT *FROM antrian_pasien JOIN pasien ON antrian_pasien.id_pasien=pasien.id_pasien WHERE antrian_pasien.no_faktur='$no_faktur'");
+					if(mysqli_num_rows($check) > 0){
 						$pem = $pem;
 					}
 					else{
-						$pem = mysql_fetch_array(mysql_query("SELECT *FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien WHERE perawatan_pasien.no_faktur='$no_faktur'"));
+						$pem = mysqli_fetch_array(mysqli_query($con,"SELECT *FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien WHERE perawatan_pasien.no_faktur='$no_faktur'"));
 					}
 				
 				
 				//$id_pasien = $pem['id_pasien'];
-				$mem = mysql_fetch_assoc(mysql_query("SELECT a.* FROM kategori_pelanggan a JOIN pasien b ON a.kategori = b.klaster WHERE b.id_pasien = '$pasien'"));
+				$mem = mysqli_fetch_assoc(mysqli_query($con,"SELECT a.* FROM kategori_pelanggan a JOIN pasien b ON a.kategori = b.klaster WHERE b.id_pasien = '$pasien'"));
 				?>
 
 
@@ -166,9 +166,9 @@
 								<div class="col-md-6" id="data_a">
 								:&emsp;<?php 
 								
-								$r = mysql_fetch_assoc(mysql_query("SELECT a.nama_t FROM treatment a JOIN noticelab b ON a.id = b.jasa WHERE b.no_faktur = '$pem[no_faktur]'"));
+								$r = mysqli_fetch_assoc(mysqli_query($con,"SELECT a.nama_t FROM treatment a JOIN noticelab b ON a.id = b.jasa WHERE b.no_faktur = '$pem[no_faktur]'"));
 
-								echo $r[nama_t];
+								echo $r['nama_t'];
 								
 								?> 
 								</div>
@@ -188,8 +188,8 @@
 						<option value="">--silakan pilih--</option>
 							<?php 
 							
-							$u = mysql_query("SELECT * FROM kategori_biaya WHERE id = 2");
-							while($ux = mysql_fetch_assoc($u)){
+							$u = mysqli_query($con,"SELECT * FROM kategori_biaya WHERE id = 2");
+							while($ux = mysqli_fetch_assoc($u)){
 								echo "<option value='$ux[id]'>$ux[kategori]</option>";
 							}
 							
@@ -246,15 +246,15 @@
 					 				<td>
 					 					<select class="form-control" name="dr_visit">
 										 <option value="">--silakan pilih--</option>
-										 <?php $do = mysql_query("SELECT * FROM user WHERE id_ju = 'JU-02'");
-											while($doc = mysql_fetch_assoc($do)){
+										 <?php $do = mysqli_query($con,"SELECT * FROM user WHERE id_ju = 'JU-02'");
+											while($doc = mysqli_fetch_assoc($do)){
 												echo "<option value='$doc[id_user]'>$doc[nama_lengkap]</option>";
 											}
 											?>
 										 <?php
-while($ko = mysql_fetch_assoc($c)){
+while($ko = mysqli_fetch_assoc($c)){
    
-   $dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_user = $ko[id_dr]"));
+   $dr = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_lengkap FROM user WHERE id_user = $ko[id_dr]"));
 
 echo "<option value='$ko[id_dr]'>$dr[nama_lengkap]</option>";
 
@@ -288,7 +288,7 @@ echo "<option value='$ko[id_dr]'>$dr[nama_lengkap]</option>";
 				</table>
 			</div>
 <br/><br/>
-<a href="modul/mod_kasir_lab/aksi_treatment.php?faktur=<?php echo $_GET[nofak]; ?>&pasien=<?php echo $_GET[id]; ?>"><button class="btn btn-success">Selesai</button></a>
+<a href="modul/mod_kasir_lab/aksi_treatment.php?faktur=<?php echo $_GET['nofak']; ?>&pasien=<?php echo $_GET['id']; ?>"><button class="btn btn-success">Selesai</button></a>
 		
 			
 			</div>
@@ -308,7 +308,7 @@ echo "<option value='$ko[id_dr]'>$dr[nama_lengkap]</option>";
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
   });
-  var nofak = "<?php echo $_GET[nofak]; ?>";
+  var nofak = "<?php echo $_GET['nofak']; ?>";
   // datatable
   $('#tabel_tp').dataTable( {
 	"bPaginate": false,

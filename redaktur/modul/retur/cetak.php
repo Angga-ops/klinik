@@ -4,11 +4,11 @@ setlocale(LC_TIME,"id_ID");
 include "../../../config/koneksi.php";
 //cek apakah faktur yg dicari ada id retur
 
-$f = mysql_query("SELECT a.id,a.id_kk FROM history_kasir a JOIN retur_jual b ON a.id = b.history WHERE no_faktur = '$_GET[faktur]'");
+$f = mysqli_query($con,"SELECT a.id,a.id_kk FROM history_kasir a JOIN retur_jual b ON a.id = b.history WHERE no_faktur = '$_GET[faktur]'");
 
-while($fa = mysql_fetch_assoc($f)){
-    $d .= $fa[id].",";
-    $cab = $fa[id_kk];
+while($fa = mysqli_fetch_assoc($f)){
+    $d .= $fa['id'].",";
+    $cab = $fa['id_kk'];
 }
 
 $d = substr($d,0,strlen($d) - 1);
@@ -18,7 +18,7 @@ if(strlen($d) == 0){
 } else {
     $sql = "SELECT * FROM retur_jual a JOIN history_kasir b ON a.history = b.id WHERE a.history IN ($d)";
 
-$cb = mysql_fetch_assoc(mysql_query("SELECT * FROM daftar_klinik WHERE id_kk = '$cab'"));
+$cb = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM daftar_klinik WHERE id_kk = '$cab'"));
 ?>
 
 <html><head><style>
@@ -31,7 +31,7 @@ $cb = mysql_fetch_assoc(mysql_query("SELECT * FROM daftar_klinik WHERE id_kk = '
 <h1>Klinik Surya Medika Satui</h1>
 <small>
 <strong>
-<?php echo $cb[alamat]." ".$cb[telepon]; ?>
+<?php echo $cb['alamat']." ".$cb['telepon']; ?>
 </strong>
 </small>
 <hr/>
@@ -56,20 +56,20 @@ $cb = mysql_fetch_assoc(mysql_query("SELECT * FROM daftar_klinik WHERE id_kk = '
 
 <?php 
 
-$s = mysql_query($sql);
-while($sx = mysql_fetch_assoc($s)){
-    $ket = mysql_fetch_assoc(mysql_query("SELECT * FROM master_retur_jual WHERE id = $sx[retur]"));
+$s = mysqli_query($con,$sql);
+while($sx = mysqli_fetch_assoc($s)){
+    $ket = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM master_retur_jual WHERE id = $sx[retur]"));
     //$prd = mysql_fetch_assoc(mysql_query("SELECT nama_p FROM produk WHERE kode_barang = '$sx[replaces]'"));
-    $k = mysql_fetch_assoc(mysql_query("SELECT id_pasien FROM history_kasir WHERE id = '$sx[history]'"));
-    $cust = mysql_fetch_assoc(mysql_query("SELECT * FROM pasien WHERE id_pasien = '$k[id_pasien]'"));
+    $k = mysqli_fetch_assoc(mysqli_query($con,"SELECT id_pasien FROM history_kasir WHERE id = '$sx[history]'"));
+    $cust = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM pasien WHERE id_pasien = '$k[id_pasien]'"));
     echo "<tr>";
     echo "<td>$sx[no_faktur] <br/> $cust[nama_pasien] ($cust[id_pasien])</td>";
-    echo "<td>".strftime("%d %B %Y",strtotime($sx[tgl]))."</td>";
+    echo "<td>".strftime("%d %B %Y",strtotime($sx['tgl']))."</td>";
     echo "<td>$sx[nama]</td>";
     echo "<td>$sx[jml]</td>";
-    echo "<td style='text-align:right'>Rp ".number_format($sx[harga],0,",",".")."</td>";
-    if($sx[retur] == "2"){
-        echo "<td style='text-align:right'>Rp ".number_format($sx[harga]*$sx[jml],0,",",".")."</td>";
+    echo "<td style='text-align:right'>Rp ".number_format($sx['harga'],0,",",".")."</td>";
+    if($sx['retur'] == "2"){
+        echo "<td style='text-align:right'>Rp ".number_format($sx['harga']*$sx['jml'],0,",",".")."</td>";
     } else {
         echo "<td style='text-align:right'>0</td>";
     }

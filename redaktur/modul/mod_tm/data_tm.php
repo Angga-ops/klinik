@@ -8,16 +8,16 @@
     
 <?php 
     
-$bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
+$bc = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
     
     ?>    
     
       <h1>
-        <?php echo $bc[crumb]; ?>
+        <?php echo $bc['crumb']; ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="?module=home"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"> <?php echo $bc[crumb]; ?></li>
+        <li class="active"> <?php echo $bc['crumb']; ?></li>
       </ol>
     </section>
 
@@ -56,8 +56,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
         </thead>
     	<tbody>
 		<?php
-	$tampil		= mysql_query("Select nama_goltm, no_idk, nama_tm, alamat, kontak, biaya_praktik From medis, gol_tm Where gol_tm.id_goltm=medis.id_goltm");
-    while($edit	= mysql_fetch_array($tampil)){
+	$tampil		= mysqli_query($con,"Select nama_goltm, no_idk, nama_tm, alamat, kontak, biaya_praktik From medis, gol_tm Where gol_tm.id_goltm=medis.id_goltm");
+    while($edit	= mysqli_fetch_array($tampil)){
     ?>
 			<tr class="gradeX">
                  <td>
@@ -125,8 +125,8 @@ $(document).ready(function(){
                 <select name="gol_tm" class="form-control" required>
                    <option value="">-- Pilih Golongan --</option>
                 <?php 
-                 $kategor 	= mysql_query("SELECT * FROM gol_tm");
-                 while	($k	= mysql_fetch_array($kategor)) {
+                 $kategor 	= mysqli_query($con,"SELECT * FROM gol_tm");
+                 while	($k	= mysqli_fetch_array($kategor)) {
                 ?>
                 <option value="<?php echo $k["id_goltm"] ?>"><?php echo $k["nama_goltm"] ?></option>
                 <?php
@@ -189,7 +189,7 @@ $(document).ready(function(){
 	break;
 	case "edit_tm":
 	$idk	= $_GET["id"];
-	$edit	= mysql_fetch_array(mysql_query("Select * From medis Where no_idk='$idk'"));
+	$edit	= mysqli_fetch_array(mysqli_query($con,"Select * From medis Where no_idk='$idk'"));
 ?>
 
 <section class="content">
@@ -217,13 +217,13 @@ $(document).ready(function(){
                 <label>Gol T.M.</label>
                 <select name="gol_tm" class="form-control" required>
                 <?php
-                    $goltm	= mysql_query("Select * From gol_tm");
+                    $goltm	= mysqli_query($con,"Select * From gol_tm");
                     if ($edit['id_goltm'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Golongan --</option>
                 <?php
                 }
-                    while ($edit_goltm 		= mysql_fetch_array($goltm)) {
+                    while ($edit_goltm 		= mysqli_fetch_array($goltm)) {
                     if ($edit['id_goltm']	== $edit_goltm['id_goltm']) {
                     ?>
                         <option value="<?php echo $edit_goltm['id_goltm']; ?>" selected><?php echo $edit_goltm['nama_goltm']; ?></option>
@@ -304,13 +304,13 @@ $(document).ready(function(){
             <label for="field4">Golongan T.M.</label>
             <select name="gol_tm" required>
 				<?php
-                    $goltm	= mysql_query("Select * From gol_tm");
+                    $goltm	= mysqli_query($con,"Select * From gol_tm");
                     if ($edit['id_goltm'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Golongan --</option>
                 <?php
                 }
-                    while ($edit_goltm 		= mysql_fetch_array($goltm)) {
+                    while ($edit_goltm 		= mysqli_fetch_array($goltm)) {
                     if ($edit['id_goltm']	== $edit_goltm['id_goltm']) {
                     ?>
                         <option value="<?php echo $edit_goltm['id_goltm']; ?>" selected><?php echo $edit_goltm['nama_goltm']; ?></option>

@@ -54,9 +54,9 @@ Silakan pilih obat yang akan diprint dan klik tombol print
   <tbody>
   <?php 
   
-  $q = mysql_query($sql);
-  while($qu = mysql_fetch_assoc($q)){
-    $dr = mysql_fetch_assoc(mysql_query("SELECT nama_lengkap FROM user WHERE id_ju = 'JU-02' AND id_user = '$qu[id_dr]'"));
+  $q = mysqli_query($con, $sql);
+  while($qu = mysqli_fetch_assoc($q)){
+    $dr = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_lengkap FROM user WHERE id_ju = 'JU-02' AND id_user = '$qu[id_dr]'"));
       echo "<tr>";
       echo "<td><input type='checkbox' class='chk' data-id='$qu[id]'/></td>";
       echo "<td>$qu[nama]</td>";
@@ -109,7 +109,7 @@ function printresep(){
 if(k == ""){
   alert("tidak ada data yang dipilih");
 } else {
-  window.open("modul/apotek_inap/resep.php?data=" + k + "&pasien=<?php echo $_GET[pasien]; ?>&faktur=<?php echo $_GET[faktur]; ?>","_BLANK");
+  window.open("modul/apotek_inap/resep.php?data=" + k + "&pasien=<?php echo $_GET['pasien']; ?>&faktur=<?php echo $_GET['faktur']; ?>","_BLANK");
 }
 
 }

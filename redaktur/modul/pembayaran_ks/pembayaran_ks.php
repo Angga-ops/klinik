@@ -20,16 +20,16 @@ $tgl = $_GET['tgl'];
 						<?php
 						$tgl = $_GET['tgl'];
 								$nu = $_GET['nu'];
-								$p = mysql_query("SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE no_urut='$nu' AND history_ap.tanggal_pendaftaran='$tgl'");
-			 					$pas = mysql_fetch_array($p);
+								$p = mysqli_query($con,"SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE no_urut='$nu' AND history_ap.tanggal_pendaftaran='$tgl'");
+			 					$pas = mysqli_fetch_array($p);
 			 					// Total
-			 					$query = mysql_query("SELECT SUM(harga_p) AS jumlah FROM perawatan_pasien WHERE no_urut='$nu' AND tanggal='$tgl'");
-			 					$query2 = mysql_query("SELECT *FROM produk_pasien WHERE no_urut='$nu' AND tanggal='$tgl'");
-			 					while ($tot1 = mysql_fetch_array($query2)) {
+			 					$query = mysqli_query($con,"SELECT SUM(harga_p) AS jumlah FROM perawatan_pasien WHERE no_urut='$nu' AND tanggal='$tgl'");
+			 					$query2 = mysqli_query($con,"SELECT *FROM produk_pasien WHERE no_urut='$nu' AND tanggal='$tgl'");
+			 					while ($tot1 = mysqli_fetch_array($query2)) {
 			 						$totalpr += $tot1['harga_pr']*$tot1['jumlah'];
 			 					}
 			 					
-			 					$tot = mysql_fetch_array($query);
+			 					$tot = mysqli_fetch_array($query);
 			 					$totalp  = $tot['jumlah'];
 			 					
 			 					$total = $totalp + $totalpr; 
@@ -129,8 +129,8 @@ $tgl = $_GET['tgl'];
 										</tr>	
 									</thead>
 									<tbody>
-										<?php $p = mysql_query("SELECT *FROM perawatan_pasien WHERE no_urut='$nu' AND tanggal='$tgl' AND id_kk='$id_kk'"); 
-											while($dat=mysql_fetch_array($p)){ ?>
+										<?php $p = mysqli_query($con,"SELECT *FROM perawatan_pasien WHERE no_urut='$nu' AND tanggal='$tgl' AND id_kk='$id_kk'"); 
+											while($dat=mysqli_fetch_array($p)){ ?>
 												<tr>
 													<td><?php echo $dat['nama_p']; ?></td>
 													<td><?php echo $dat['harga_p']; ?></td>
@@ -160,8 +160,8 @@ $tgl = $_GET['tgl'];
 										</tr>	
 									</thead>
 									<tbody>
-										<?php $p = mysql_query("SELECT *FROM produk_pasien WHERE no_urut='$nu' AND tanggal='$tgl' AND id_kk='$id_kk'"); 
-											while($dat=mysql_fetch_array($p)){ ?>
+										<?php $p = mysqli_query($con,"SELECT *FROM produk_pasien WHERE no_urut='$nu' AND tanggal='$tgl' AND id_kk='$id_kk'"); 
+											while($dat=mysqli_fetch_array($p)){ ?>
 												<tr>
 													<td><?php echo $dat['nama_pr']; ?></td>
 													<td><?php echo $dat['harga_pr']; ?></td>
@@ -208,8 +208,8 @@ $tgl = $_GET['tgl'];
 							      </thead>
 							      <tbody>
 								  <?php 
-			              $appp = mysql_query("SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE pembayaran = 'Belum Lunas' AND jenis_layanan IN ('lab','apotek') AND tanggal_pendaftaran='$daten' ORDER BY history_ap.no_urut ASC");
-			              while($iii = mysql_fetch_array($appp)){ ?>
+			              $appp = mysqli_query($con,"SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE pembayaran = 'Belum Lunas' AND jenis_layanan IN ('lab','apotek') AND tanggal_pendaftaran='$daten' ORDER BY history_ap.no_urut ASC");
+			              while($iii = mysqli_fetch_array($appp)){ ?>
 			               
 			              <tr>
 			                <td><?php echo $iii['nama_pasien']; ?></td>
@@ -245,12 +245,12 @@ $tgl = $_GET['tgl'];
 							      <tbody>
 								  <?php 
 			              //$appp = mysql_query("SELECT * FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien JOIN pembayaran ON pembayaran.no_faktur=perawatan_pasien.no_faktur WHERE perawatan_pasien.tgl_out='$daten' AND pembayaran.status is NULL ORDER BY perawatan_pasien.id ASC");
-			               $appp = mysql_query("SELECT * FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien WHERE tgl_out='$daten' ORDER BY perawatan_pasien.id ASC");
-			              while($iii = mysql_fetch_array($appp)){ 
-							 $bang = mysql_fetch_assoc(mysql_query("SELECT nama_ruangan AS sal FROM ruangan WHERE id = $iii[id_ruang]")); 
-							 $check = mysql_query("SELECT *FROM history_kasir WHERE no_faktur='$iii[no_faktur]' AND status='Belum Lunas'");
+			               $appp = mysqli_query($con,"SELECT * FROM perawatan_pasien JOIN pasien ON perawatan_pasien.id_pasien=pasien.id_pasien WHERE tgl_out='$daten' ORDER BY perawatan_pasien.id ASC");
+			              while($iii = mysqli_fetch_array($appp)){ 
+							 $bang = mysqli_fetch_assoc(mysqli_query($con,"SELECT nama_ruangan AS sal FROM ruangan WHERE id = $iii[id_ruang]")); 
+							 $check = mysqli_query($con,"SELECT *FROM history_kasir WHERE no_faktur='$iii[no_faktur]' AND status='Belum Lunas'");
 							 $total1 =0;
-								while ($ks1=mysql_fetch_array($check)) {
+								while ($ks1=mysqli_fetch_array($check)) {
 									$total1 += $ks1['sub_total'];
 								}
 								if($total1 != 0){
@@ -291,8 +291,8 @@ $tgl = $_GET['tgl'];
 			            </thead>
 			            <tbody>
 			              <?php 
-			              $appp = mysql_query("SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE pembayaran = 'Belum Lunas' AND jenis_layanan IN ('poliklinik','igd') AND tanggal_pendaftaran='$daten' ORDER BY history_ap.no_urut ASC");
-			              while($iii = mysql_fetch_array($appp)){ ?>
+			              $appp = mysqli_query($con,"SELECT *FROM history_ap JOIN pasien ON history_ap.id_pasien=pasien.id_pasien WHERE pembayaran = 'Belum Lunas' AND jenis_layanan IN ('poliklinik','igd') AND tanggal_pendaftaran='$daten' ORDER BY history_ap.no_urut ASC");
+			              while($iii = mysqli_fetch_array($appp)){ ?>
 			               
 			              <tr>
 			                <td><?php echo $iii['nama_pasien']; ?></td>

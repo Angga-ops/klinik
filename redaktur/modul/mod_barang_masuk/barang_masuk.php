@@ -7,16 +7,16 @@
     
 <?php 
     
-$bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
+$bc = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
     
     ?> 
 
     <h1>
-        <?php echo $bc[crumb]; ?>
+        <?php echo $bc['crumb']; ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="?module=home"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"> <?php echo $bc[crumb]; ?></li>
+        <li class="active"> <?php echo $bc['crumb']; ?></li>
       </ol>
     </section>
 
@@ -59,9 +59,9 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
   $p          = new Paging;
   $batas      = 15;
   $posisi     = $p->cariPosisi($batas);
-  $data       = mysql_query("Select no_faktur, nama_pt, nama_brg, jumlah, harga_beli,total_harga, jam_datang, tgl_datang From barang_masuk, supplier Where barang_masuk.id_supplier=supplier.id_supplier Group by no_faktur");
-  $tampil   = mysql_query("Select * From barang_masuk");
-    while($r  = mysql_fetch_array($tampil)){
+  $data       = mysqli_query($con, "Select no_faktur, nama_pt, nama_brg, jumlah, harga_beli,total_harga, jam_datang, tgl_datang From barang_masuk, supplier Where barang_masuk.id_supplier=supplier.id_supplier Group by no_faktur");
+  $tampil   = mysqli_query($con, "Select * From barang_masuk");
+    while($r  = mysqli_fetch_array($tampil)){
   $tgl_datang   = tgl_indo($hasil['tgl_datang']);
     ?>
 
@@ -86,9 +86,9 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
   </div>
   </div>
 <?php
-  $jmldata  = mysql_num_rows(mysql_query("Select * From barang_masuk"));
+  $jmldata  = mysqli_num_rows(mysqli_query($con, "Select * From barang_masuk"));
   $jmlhalaman  = $p->jumlahHalaman($jmldata, $batas);
-  $linkHalaman = $p->navHalaman($_GET[halaman], $jmlhalaman);
+  $linkHalaman = $p->navHalaman($_GET['halaman'], $jmlhalaman);
   break;
   case "tambah_bm":
 ?>
@@ -128,8 +128,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
   <form name="autoSumForm" id="data" method="post" action="modul/mod_barang_masuk/aksi_barang_masuk.php?module=barang_masuk&act=tambah_bm" enctype="multipart/form-data">
   <?php
     $now          = date('Y-m-d');
-    $selectidmax  = mysql_query("SELECT max(no_faktur) as nofak From barang_masuk Where tgl_datang='$now'");
-    $hsilidmax    = mysql_fetch_array($selectidmax);
+    $selectidmax  = mysqli_query($con, "SELECT max(no_faktur) as nofak From barang_masuk Where tgl_datang='$now'");
+    $hsilidmax    = mysqli_fetch_array($selectidmax);
     $idmax        = $hsilidmax['nofak'];
     $nourut       = (int) substr($idmax, 10,3);
     $nourut++;
@@ -161,8 +161,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
               <select name="id_supplier" class="form-control" required>
                 <option value="">-- Pilih Supplier --</option>
                 <?php 
-                    $sel_sp   = mysql_query("Select * From supplier");
-                    while ($sp  = mysql_fetch_array($sel_sp)){
+                    $sel_sp   = mysqli_query($con, "Select * From supplier");
+                    while ($sp  = mysqli_fetch_array($sel_sp)){
                 ?>
                 <option value="<?php echo $sp['id_supplier']; ?>"><?php echo $sp['nama_pt']; ?></option>
                 <?php
@@ -176,8 +176,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
             <select name="id_brg" class="form-control" required>
                 <option value="">-- Pilih Barang --</option>
                 <?php 
-                    $sel_sp   = mysql_query("Select * From gudang");
-                    while ($sp  = mysql_fetch_array($sel_sp)){
+                    $sel_sp   = mysqli_query($con, "Select * From gudang");
+                    while ($sp  = mysqli_fetch_array($sel_sp)){
                 ?>
                 <option value="<?php echo $sp['id_brg']; ?>"><?php echo $sp['nama_brg']; ?></option>
                 <?php

@@ -7,16 +7,16 @@
     
 <?php 
     
-$bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
+$bc = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_menu AS crumb FROM menu WHERE page_menu = '$_GET[module]'"));
     
     ?>    
     
       <h1>
-        <?php echo $bc[crumb]; ?>
+        <?php echo $bc['crumb']; ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="?module=home"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"> <?php echo $bc[crumb]; ?></li>
+        <li class="active"> <?php echo $bc['crumb']; ?></li>
       </ol>
     </section>
 
@@ -51,8 +51,8 @@ $bc = mysql_fetch_assoc(mysql_query("SELECT nama_menu AS crumb FROM menu WHERE p
         </thead>
     	<tbody>
 		<?php
-            $tampil		= mysql_query("Select nama_poli, id_jenkamar, kelas From tujuan, kamar_jenis Where tujuan.id_poli=kamar_jenis.id_poli");
-            while($r	= mysql_fetch_array($tampil)){
+            $tampil		= mysqli_query($con, "Select nama_poli, id_jenkamar, kelas From tujuan, kamar_jenis Where tujuan.id_poli=kamar_jenis.id_poli");
+            while($r	= mysqli_fetch_array($tampil)){
         ?>
 			<tr class="gradeX">
                  <td>
@@ -109,9 +109,9 @@ $(document).ready(function(){
                 <select name="tujuan" class="form-control" required>
                   <option value="">--Pilih Poli--</option>
                 <?php
-                    $sql 		= mysql_query("Select * From tujuan Where aktif='Y' Order by id_poli");
+                    $sql 		= mysqli_query($con, "Select * From tujuan Where aktif='Y' Order by id_poli");
                     $idbaru 	= sprintf("%03s", $nourut);
-                    while ($w	= mysql_fetch_array($sql)) {
+                    while ($w	= mysqli_fetch_array($sql)) {
                 ?>
                 <option value=<?php echo $w['id_poli']; ?>><?php echo $w['nama_poli']; ?></option>
                 <?php
@@ -151,7 +151,7 @@ $(document).ready(function(){
 	break;
     case "edit_jr":
 	$id		= $_GET["id"];
-    $edit 	=  mysql_fetch_array(mysql_query("Select * From kamar_jenis Where id_jenkamar='$id'"));
+    $edit 	=  mysqli_fetch_array(mysqli_query($con, "Select * From kamar_jenis Where id_jenkamar='$id'"));
 ?>
 
 
@@ -173,13 +173,13 @@ $(document).ready(function(){
                 <label>Poli</label>
                 <select name="tujuan" class="form-control" required>
                 <?php
-                    $poli	= mysql_query("Select * From tujuan");
+                    $poli	= mysqli_query($con, "Select * From tujuan");
                     if ($edit['id_poli'] == '') {
                 ?>
                     <option value="" selected>-- Pilih Poli --</option>
                 <?php
                 }
-                    while ($edit_poli 		= mysql_fetch_array($poli)) {
+                    while ($edit_poli 		= mysqli_fetch_array($poli)) {
                     if ($edit['id_poli']	== $edit_poli['id_poli']) {
                     ?>
                         <option value="<?php echo $edit_poli['id_poli']; ?>" selected><?php echo $edit_poli['nama_poli']; ?></option>

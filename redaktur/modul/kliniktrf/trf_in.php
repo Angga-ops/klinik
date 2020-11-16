@@ -73,13 +73,13 @@ setlocale(LC_TIME,"id_ID");
 
 <?php 
 
-$data = mysql_query("SELECT * FROM kliniktrf WHERE tujuan = '$_SESSION[klinik]' GROUP BY kd_trf");
-while($datax = mysql_fetch_assoc($data)){
-  $loc = mysql_fetch_assoc(mysql_query("SELECT nama_klinik FROM daftar_klinik WHERE id_kk = '$datax[asal]'"));
+$data = mysqli_query($con, "SELECT * FROM kliniktrf WHERE tujuan = '$_SESSION[klinik]' GROUP BY kd_trf");
+while($datax = mysqli_fetch_assoc($data)){
+  $loc = mysqli_fetch_assoc(mysqli_query($con, "SELECT nama_klinik FROM daftar_klinik WHERE id_kk = '$datax[asal]'"));
   echo "<tr>";
   echo "<td><button type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#modal-default2' onclick='details(this.id)' id='$datax[kd_trf]'>Detail</button></td>";
   echo "<td>$datax[kd_trf]</td>";
-  echo "<td>".strftime("%d %B %Y",strtotime($datax[tgl]))."</td>";
+  echo "<td>".strftime("%d %B %Y",strtotime($datax['tgl']))."</td>";
   echo "<td>$loc[nama_klinik]</td>";
   echo "<td>$datax[username]</td>";
   echo "</tr>";
@@ -93,7 +93,7 @@ while($datax = mysql_fetch_assoc($data)){
 
 
 <style>
-.tbl {border-collpase: collapse; width: 100%}
+.tbl {border-collapse: collapse; width: 100%}
 .tbl td {padding: 1%}
 </style>
 

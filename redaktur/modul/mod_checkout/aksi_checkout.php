@@ -15,16 +15,16 @@
 		$ket		= $_POST['keterangan'];
 		$jam		= date("H:i:s");
 		$tgl		= date("Y-m-d");
-		$simpan		= mysql_query("Insert Into checkout(id_antrian,id_tagihan,id_checkout,kondisi_pas,keterangan,jam_checkout,tgl_checkout) 
-						Values('$ida','$idt','$idcko','$ket','$kon','$jam','$tgl')") or die(mysql_error());
+		$simpan		= mysqli_query($con, "Insert Into checkout(id_antrian,id_tagihan,id_checkout,kondisi_pas,keterangan,jam_checkout,tgl_checkout) 
+						Values('$ida','$idt','$idcko','$ket','$kon','$jam','$tgl')") or die(mysqli_error($con));
 		//Update Data Antrian
-		$updt_antrn	= mysql_query("Update perawatan_pasien Set keterangan='Keluar' Where id_antrian='$ida'") or die(mysql_error());
+		$updt_antrn	= mysqli_query($con, "Update perawatan_pasien Set keterangan='Keluar' Where id_antrian='$ida'") or die(mysqli_error($con));
 		//Update Data Tagihan
-		$updt_tghn	= mysql_query("Update tagihan Set keterangan='Keluar' Where id_antrian='$ida'") or die(mysql_error());
+		$updt_tghn	= mysqli_query($con, "Update tagihan Set keterangan='Keluar' Where id_antrian='$ida'") or die(mysqli_error($con));
 		//Update Data Kamar
-		$updt_kmr	= mysql_query("Update kamar Set id_antrian='' Where id_antrian='$ida'") or die(mysql_error());
+		$updt_kmr	= mysqli_query($con, "Update kamar Set id_antrian='' Where id_antrian='$ida'") or die(mysqli_error($con));
 		//Catat Log Aktivitas				
-		catat($_SESSION['namauser'], 'Proses Checkout'.' ('.$ida.')');
+		catat($con, $_SESSION['namauser'], 'Proses Checkout'.' ('.$ida.')');
 	} if($simpan){
 		header('location:../../media.php?module=checkout');
 	} else {

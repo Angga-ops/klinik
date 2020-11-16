@@ -32,8 +32,8 @@ if(empty($_GET["tgl"])){
 		 				</tr>
 		 			</thead>
 		 			<tbody>
-		 				<?php $q = mysql_query("SELECT *FROM kehadiran_dr k JOIN user u ON k.id_dr=u.id_user JOIN daftar_klinik dk ON k.id_kk=dk.id_kk WHERE k.tanggal='$tgl'"); 
-		 					while($d = mysql_fetch_array($q)){ ?>
+		 				<?php $q = mysqli_query($con, "SELECT *FROM kehadiran_dr k JOIN user u ON k.id_dr=u.id_user JOIN daftar_klinik dk ON k.id_kk=dk.id_kk WHERE k.tanggal='$tgl'"); 
+		 					while($d = mysqli_fetch_array($q)){ ?>
 		 				<tr>
 		 					<td><?php echo $d["nama_lengkap"]; ?></td>
 		 					<td><?php echo $d["nama_klinik"]; ?></td>
